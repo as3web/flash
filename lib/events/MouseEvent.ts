@@ -1,0 +1,1 @@
+export {MouseEvent} from "@awayjs/scene";

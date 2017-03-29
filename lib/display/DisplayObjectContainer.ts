@@ -1,0 +1,1 @@
+export {DisplayObjectContainer} from "@awayjs/scene";

@@ -1,0 +1,1 @@
+export {Billboard as Bitmap} from "@awayjs/scene";

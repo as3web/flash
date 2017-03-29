@@ -1,0 +1,1 @@
+export {LoaderContainer as Loader} from "@awayjs/scene";

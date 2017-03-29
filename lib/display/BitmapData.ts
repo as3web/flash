@@ -1,0 +1,1 @@
+export {BitmapImage2D as BitmapData} from "@awayjs/graphics";

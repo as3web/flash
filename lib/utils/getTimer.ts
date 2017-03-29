@@ -1,0 +1,1 @@
+export {getTimer} from "@awayjs/core";

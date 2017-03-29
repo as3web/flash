@@ -1,0 +1,1 @@
+export {Sprite as Shape} from "@awayjs/scene";

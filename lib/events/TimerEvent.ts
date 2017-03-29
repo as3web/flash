@@ -1,0 +1,1 @@
+export {TimerEvent} from "@awayjs/core";

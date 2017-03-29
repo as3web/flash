@@ -1,0 +1,1 @@
+export {MovieClip} from "@awayjs/scene";

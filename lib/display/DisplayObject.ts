@@ -1,0 +1,1 @@
+export {DisplayObject} from "@awayjs/scene";

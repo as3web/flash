@@ -1,0 +1,55 @@
+{
+  "name": "@as3web/flash",
+  "version": "0.1.0",
+  "description": "Typescript classes mimicing the functionality of the flash package in AS3",
+  "main": "bundle/as3web-flash.umd.js",
+  "types": "dist/index.d.ts",
+  "url": "http://www.as3web.com",
+  "author": "Rob Bateman",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/as3web/flash.git"
+  },
+  "scripts": {
+    "rimraf": "rimraf",
+    "rollup": "rollup -c",
+    "uglifyjs": "uglifyjs ./bundle/as3web-flash.umd.js -o ./bundle/as3web-flash.umd.min.js --in-source-map ./bundle/as3web-flash.umd.js.map --source-map ./bundle/as3web-flash.umd.min.js.map --mangle",
+    "tsc": "tsc",
+    "clean": "npm cache clean && npm run rimraf -- node_modules dist bundle",
+    "clean:dist": "npm run rimraf -- dist bundle",
+    "watch": "npm run tsc -- --w",
+    "prebuild": "npm run clean:dist",
+    "build": "npm run tsc && npm run rollup && npm run uglifyjs",
+    "version": "npm run build",
+    "postversion": "git push && git push --tags && npm publish"
+  },
+  "keywords": [
+    "AwayJS",
+    "WebGL",
+    "2D",
+    "3D",
+    "graphics"
+  ],
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/as3web/flash/issues"
+  },
+  "homepage": "https://github.com/as3web/flash#readme",
+  "dependencies": {
+    "@awayjs/core": "^0.6.0",
+    "@awayjs/graphics": "^0.1.0",
+    "@awayjs/scene": "^0.8.0",
+    "@awayjs/materials": "^0.3.0",
+    "@awayjs/view": "^0.2.0",
+    "tslib": "github:microsoft/tslib"
+  },
+  "devDependencies": {
+    "@awayjs/renderer": "^0.8.0",
+    "@awayjs/stage": "^0.8.0",
+    "rimraf": "^2.5.2",
+    "rollup": "^0.36.4",
+    "rollup-plugin-includepaths": "^0.2.1",
+    "typescript": "2.2.0-dev.20161123",
+    "uglifyjs": "^2.4.10"
+  }
+}
