@@ -19,10 +19,11 @@ export {LoaderInfo} from "./lib/display/LoaderInfo";
 export {MovieClip} from "./lib/display/MovieClip";
 export {PixelSnapping} from "./lib/display/PixelSnapping";
 export {Shape} from "./lib/display/Shape";
-export {StageScaleMode} from "./lib/display/StageScaleMode";
-export {StageAlign} from "./lib/display/StageAlign";
 export {SpreadMethod} from "./lib/display/SpreadMethod";
 export {Sprite} from "./lib/display/Sprite";
+export {Stage} from "./lib/display/Stage";
+export {StageAlign} from "./lib/display/StageAlign";
+export {StageScaleMode} from "./lib/display/StageScaleMode";
 export {TriangleCulling} from "./lib/display/TriangleCulling";
 
 export {Event} from "./lib/events/Event";
@@ -42,6 +43,7 @@ export {Transform} from "./lib/geom/Transform";
 export {Utils3D} from "./lib/geom/Utils3D";
 export {Vector3D} from "./lib/geom/Vector3D";
 
+export {navigateToURL} from "./lib/net/navigateToURL";
 export {URLLoader} from "./lib/net/URLLoader";
 export {URLLoaderDataFormat} from "./lib/net/URLLoaderDataFormat";
 export {URLRequest} from "./lib/net/URLRequest";
