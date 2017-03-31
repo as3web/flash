@@ -19,6 +19,8 @@ export {LoaderInfo} from "./lib/display/LoaderInfo";
 export {MovieClip} from "./lib/display/MovieClip";
 export {PixelSnapping} from "./lib/display/PixelSnapping";
 export {Shape} from "./lib/display/Shape";
+export {StageScaleMode} from "./lib/display/StageScaleMode";
+export {StageAlign} from "./lib/display/StageAlign";
 export {SpreadMethod} from "./lib/display/SpreadMethod";
 export {Sprite} from "./lib/display/Sprite";
 export {TriangleCulling} from "./lib/display/TriangleCulling";
