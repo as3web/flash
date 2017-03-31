@@ -1,5 +1,5 @@
 import * as awayscene from "@awayjs/scene";
-import {Stage} from "Stage"
+import {Stage} from "./Stage"
 
 export class Sprite extends awayscene.Sprite{
 

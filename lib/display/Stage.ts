@@ -1,6 +1,6 @@
 import * as awaystage from "@awayjs/stage";
-import {StageAlign} from "StageAlign"
-import {StageScaleMode} from "StageScaleMode"
+import {StageAlign} from "./StageAlign"
+import {StageScaleMode} from "./StageScaleMode"
 
 export class Stage extends awaystage.Stage{
 
