@@ -31,6 +31,7 @@ export {EventDispatcher} from "./lib/events/EventDispatcher";
 export {IEventDispatcher} from "./lib/events/IEventDispatcher";
 export {IOErrorEvent} from "./lib/events/IOErrorEvent";
 export {MouseEvent} from "./lib/events/MouseEvent";
+export {ProgressEvent} from "./lib/events/ProgressEvent";
 export {TimerEvent} from "./lib/events/TimerEvent";
 
 export {ColorTransform} from "./lib/geom/ColorTransform";

@@ -9,6 +9,7 @@ export class Sprite extends AwaySprite{
 	
 	constructor(){
 		super();
+		console.log("constructer sprite");
 		this._stage=Sprite.rootStage;
 	}
 	
@@ -27,7 +28,7 @@ export class Sprite extends AwaySprite{
 	public static get rootStage():Stage
 	{
 		if(Sprite._rootStage==null){
-			throw("ERROR: a Stage must have been created before any Sprite can be created!")
+			//throw("ERROR: a Stage must have been created before any Sprite can be created!")
 		}
 		return Sprite._rootStage;
 	}

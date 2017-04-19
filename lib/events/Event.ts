@@ -1,1 +1,5 @@
-export {EventBase as Event} from "@awayjs/core";
+import {EventBase} from "@awayjs/core";
+export class Event extends EventBase{
+	public static COMPLETE="complete";
+
+}

@@ -112,6 +112,7 @@ export class Stage{
 	private onResize(event = null): void
 	{
 
+		// todo: correctly consider stagescalemode
 		this._view.y         = 0;
 		this._view.x         = 0;
 		this._view.width     = window.innerWidth;
