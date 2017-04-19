@@ -29,6 +29,7 @@ export {TriangleCulling} from "./lib/display/TriangleCulling";
 export {Event} from "./lib/events/Event";
 export {EventDispatcher} from "./lib/events/EventDispatcher";
 export {IEventDispatcher} from "./lib/events/IEventDispatcher";
+export {IOErrorEvent} from "./lib/events/IOErrorEvent";
 export {MouseEvent} from "./lib/events/MouseEvent";
 export {TimerEvent} from "./lib/events/TimerEvent";
 
@@ -49,6 +50,12 @@ export {URLLoaderDataFormat} from "./lib/net/URLLoaderDataFormat";
 export {URLRequest} from "./lib/net/URLRequest";
 export {URLRequestMethod} from "./lib/net/URLRequestMethod";
 export {URLVariables} from "./lib/net/URLVariables";
+export {SharedObject} from "./lib/net/SharedObject";
+
+export {ApplicationDomain}	from "./lib/system/ApplicationDomain";
+export {Capabilities}	from "./lib/system/Capabilities";
+export {LoaderContext}	from "./lib/system/LoaderContext";
+export {SecurityDomain}	from "./lib/system/SecurityDomain";
 
 export {AntiAliasType} from "./lib/text/AntiAliasType";
 export {Font} from "./lib/text/Font";
@@ -61,13 +68,18 @@ export {TextFormatAlign} from "./lib/text/TextFormatAlign";
 export {TextInteractionMode} from "./lib/text/TextInteractionMode";
 export {TextLineMetrics} from "./lib/text/TextLineMetrics";
 
-export {Keyboard}						from "./lib/ui/Keyboard";
+export {Keyboard}	from "./lib/ui/Keyboard";
+export {Mouse}	from "./lib/ui/Mouse";
 
 export {ByteArray} from "./lib/utils/ByteArray";
 export {clearInterval} from "./lib/utils/clearInterval";
 export {clearTimeout} from "./lib/utils/clearTimeout";
 export {Dictionary} from "./lib/utils/Dictionary";
+export {getDefinitionByName} from "./lib/utils/getDefinitionByName";
+export {getQualifiedClassName} from "./lib/utils/getQualifiedClassName";
 export {getTimer} from "./lib/utils/getTimer";
 export {setInterval} from "./lib/utils/setInterval";
 export {setTimeout} from "./lib/utils/setTimeout";
 export {Timer} from "./lib/utils/Timer";
+
+export * from "./lib/RegisterCode";

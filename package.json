@@ -41,11 +41,13 @@
     "@awayjs/scene": "^0.8.0",
     "@awayjs/materials": "^0.3.0",
     "@awayjs/view": "^0.2.0",
+    "@awayjs/renderer": "^0.8.0",
+    "@awayjs/stage": "^0.8.0",
+    "@awayjs/player": "^0.5.16",
+    "@awayjs/parsers": "^0.5.31",
     "tslib": "github:microsoft/tslib"
   },
   "devDependencies": {
-    "@awayjs/renderer": "^0.8.0",
-    "@awayjs/stage": "^0.8.0",
     "rimraf": "^2.5.2",
     "rollup": "^0.36.4",
     "rollup-plugin-includepaths": "^0.2.1",
