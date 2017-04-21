@@ -5,6 +5,7 @@ import {LoaderContext} from "../system/LoaderContext";
 import {DisplayObjectContainer} from "./DisplayObjectContainer";
 import {DisplayObject} from "./DisplayObject";
 import {Sprite} from "./Sprite";
+import {MovieClip} from "./MovieClip";
 import {LoaderEvent, AssetLibrary, AssetEvent} from "@awayjs/core";
 import {MovieClip as AwayMovieClip, Sprite as AwaySprite} from "@awayjs/scene";
 import {AWDParser} from "@awayjs/parsers";
@@ -39,14 +40,12 @@ export class Loader extends DisplayObjectContainer{
 			//this.addChild(<DisplayObjectContainer> event.asset);
 		}
 		else if(event.asset.isAsset(AwayMovieClip)) {
-			/*
 			console.log("added MovieClip asset to loader");
-			if (event.asset.name="Scene 1"){
-				(<AwayMovieClip>event.asset).adapter=(<Sprite>new Sprite());
-				(<Sprite>(<AwayMovieClip>event.asset).adapter).adaptee=(<AwayMovieClip>event.asset);
-				this.addChild((<DisplayObject>(<AwaySprite>event.asset).adapter));
+			if (event.asset.name=="Scene 1"){
+				(<AwayMovieClip>event.asset).adapter=(<MovieClip>new MovieClip());
+				(<MovieClip>(<AwayMovieClip>event.asset).adapter).adaptee=(<AwayMovieClip>event.asset);
+				this.addChild((<MovieClip>(<AwayMovieClip>event.asset).adapter));
 			}
-			*/
 		}
 	}
 
