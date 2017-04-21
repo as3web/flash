@@ -35,6 +35,7 @@ export class Stage{
 		this.initEninge();
 		this.initListeners();
 		this._mainSprite=new startClass();
+		this._view.scene.addChild(this._mainSprite.adaptee);
 		console.log("constructed Stage and create the entranceclass");
 	}
 	
@@ -77,6 +78,7 @@ export class Stage{
 		this._hoverControl = new HoverController(camera, null, 180, 0, 1000);
 		this._view.camera = camera;
 
+
 	}
 
 	/**
@@ -102,7 +104,7 @@ export class Stage{
 
 		if (this._time >= frameMarker) {
 			this._time -= frameMarker;
-
+			this._mainSprite.advanceFrame();
 			// todo: update the _mainSprite, so that movieclips play and scripts are executed
 
 			this._view.render();
