@@ -1,4 +1,5 @@
-import {EventDispatcher, Transform, Point, Vector3D, Rectangle} from "@awayjs/core";
+import {Transform, Point, Vector3D, Rectangle} from "@awayjs/core";
+import {EventDispatcher} from "../events/EventDispatcher";
 import {DisplayObject as AwayDisplayObject, IDisplayObjectAdapter} from "@awayjs/scene";
 import {LoaderInfo} from "./LoaderInfo";
 import {DisplayObjectContainer} from "./DisplayObjectContainer";
@@ -78,7 +79,6 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	//---------------------------stuff added to make it work:
 
 
-	private _adaptee:AwayDisplayObject;
 	private _stage:Stage;
 
 
@@ -98,11 +98,11 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	// --------------------- stuff needed because of implementing the existing IDisplayObjectAdapter
 
 	public get adaptee():AwayDisplayObject{
-		return this._adaptee;
+		return (<AwayDisplayObject>this.adaptee);
 	};
 	public set adaptee(value:AwayDisplayObject){
-		this._adaptee=value;
-		this._adaptee.adapter=this;
+		this.adaptee=value;
+		this.adaptee.adapter=this;
 	};
 
 	public isBlockedByScript():boolean{
@@ -155,10 +155,10 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * set to 0 are active, even though they are invisible.
 	 */
 	public get alpha () : number {
-		return this._adaptee.alpha;
+		return this.adaptee.alpha;
 	}
 	public set alpha (value:number) {
-		this._adaptee.alpha=value;
+		this.adaptee.alpha=value;
 	}
 
 	/**
@@ -453,10 +453,10 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * of 0, even if you try to set height to a different value.
 	 */
 	public get height () : number{
-		return this._adaptee.height;
+		return this.adaptee.height;
 	}
 	public set height (value:number) {
-		this._adaptee.height=value;
+		this.adaptee.height=value;
 	}
 
 	/**
@@ -543,10 +543,10 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 *   placed on the timeline in the Flash authoring tool.
 	 */
 	public get name () : string{
-		return this._adaptee.name;
+		return this.adaptee.name;
 	}
 	public set name (value:string) {
-		this._adaptee.name=value;
+		this.adaptee.name=value;
 	}
 	/**
 	 * Specifies whether the display any is opaque with a certain background color.
@@ -619,10 +619,10 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * same as  my_video.rotation = 90.
 	 */
 	public get rotation () : number{
-		return this._adaptee.rotation;
+		return this.adaptee.rotation;
 	}
 	public set rotation (value:number) {
-		this._adaptee.rotation=value;
+		this.adaptee.rotation=value;
 	}
 
 	/**
@@ -631,11 +631,11 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * subtracted from 360 to obtain a value within the range.
 	 */
 	public get rotationX () : number{
-		return this._adaptee.rotationX;
+		return this.adaptee.rotationX;
 
 	}
 	public set rotationX (value:number) {
-		this._adaptee.rotationX=value;
+		this.adaptee.rotationX=value;
 	}
 
 	/**
@@ -648,11 +648,11 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * @playerversion	Lite 4
 	 */
 	public get rotationY () : number{
-		return this._adaptee.rotationY;
+		return this.adaptee.rotationY;
 
 	}
 	public set rotationY (value:number) {
-		this._adaptee.rotationY=value;
+		this.adaptee.rotationY=value;
 
 	}
 
@@ -662,11 +662,11 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * subtracted from 360 to obtain a value within the range.
 	 */
 	public get rotationZ () : number{
-		return this._adaptee.rotationZ;
+		return this.adaptee.rotationZ;
 
 	}
 	public set rotationZ (value:number) {
-		this._adaptee.rotationZ=value;
+		this.adaptee.rotationZ=value;
 
 	}
 
@@ -725,11 +725,11 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * @console.logs	ArgumentError If you pass an invalid argument to the method.
 	 */
 	public get scale9Grid () : Rectangle{
-		return this._adaptee.scale9Grid;
+		return this.adaptee.scale9Grid;
 	}
 	public set scale9Grid (innerRectangle:Rectangle) {
 
-		this._adaptee.scale9Grid=innerRectangle;
+		this.adaptee.scale9Grid=innerRectangle;
 	}
 
 	/**
@@ -740,10 +740,10 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * whole pixels.
 	 */
 	public get scaleX () : number{
-		return this._adaptee.scaleX;
+		return this.adaptee.scaleX;
 	}
 	public set scaleX (value:number) {
-		this._adaptee.scaleX=value;
+		this.adaptee.scaleX=value;
 	}
 
 	/**
@@ -754,10 +754,10 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * whole pixels.
 	 */
 	public get scaleY () : number{
-		return this._adaptee.scaleY;
+		return this.adaptee.scaleY;
 	}
 	public set scaleY (value:number) {
-		this._adaptee.scaleY=value;
+		this.adaptee.scaleY=value;
 	}
 
 	/**
@@ -768,10 +768,10 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * whole pixels.
 	 */
 	public get scaleZ () : number{
-		return this._adaptee.scaleZ;
+		return this.adaptee.scaleZ;
 	}
 	public set scaleZ (value:number) {
-		this._adaptee.scaleZ=value;
+		this.adaptee.scaleZ=value;
 	}
 
 	/**
@@ -790,11 +790,11 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * is rotated 90° and you scroll it left and right, the display any actually scrolls up and down.
 	 */
 	public get scrollRect () : Rectangle{
-		return this._adaptee.scrollRect;
+		return this.adaptee.scrollRect;
 
 	}
 	public set scrollRect (value:Rectangle) {
-		this._adaptee.scrollRect=value;
+		this.adaptee.scrollRect=value;
 	}
 
 	/**
@@ -835,7 +835,7 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * matrix, color transform, and pixel bounds as the old display any, myOldDisplayObj.Note that AIR for TV devices use hardware acceleration, if it is available, for color transforms.
 	 */
 	public get transform () : Transform{
-		return this._adaptee.transform;
+		return this.adaptee.transform;
 
 	}
 	public set transform (value:Transform) {
@@ -848,11 +848,11 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * it cannot be clicked.
 	 */
 	public get visible () : boolean{
-		return this._adaptee.visible;
+		return this.adaptee.visible;
 
 	}
 	public set visible (value:boolean) {
-		this._adaptee.visible=value;
+		this.adaptee.visible=value;
 
 	}
 
@@ -874,11 +874,11 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * of 0, even if you try to set width to a different value.
 	 */
 	public get width () : number{
-		return this._adaptee.width;
+		return this.adaptee.width;
 
 	}
 	public set width (value:number) {
-		this._adaptee.width=value;
+		this.adaptee.width=value;
 
 	}
 
@@ -891,11 +891,11 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * The any's coordinates refer to the registration point position.
 	 */
 	public get x () : number{
-		return this._adaptee.x;
+		return this.adaptee.x;
 
 	}
 	public set x (value:number) {
-		this._adaptee.x=value;
+		this.adaptee.x=value;
 
 	}
 
@@ -908,10 +908,10 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * The any's coordinates refer to the registration point position.
 	 */
 	public get y () : number{
-		return this._adaptee.y;
+		return this.adaptee.y;
 	}
 	public set y (value:number) {
-		this._adaptee.y=value;
+		this.adaptee.y=value;
 	}
 
 	/**
@@ -928,10 +928,10 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * calculation puts it. The calculation is: (x~~cameraFocalLength/cameraRelativeZPosition, y~~cameraFocalLength/cameraRelativeZPosition)
 	 */
 	public get z () : number{
-		return this._adaptee.z;
+		return this.adaptee.z;
 	}
 	public set z (value:number) {
-		this._adaptee.z=value;
+		this.adaptee.z=value;
 	}
 
 	/**
