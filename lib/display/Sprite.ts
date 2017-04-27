@@ -22,7 +22,7 @@ export class Sprite extends DisplayObjectContainer{
 	 */
 	constructor(){
 		super();
-		//if(adaptee==null)throw("flash/DisplayObject is a abstract class!")
+		//if(adaptee==null)console.log("flash/DisplayObject is a abstract class!")
 		this.adaptee=new AwaySprite();
 	}
 
@@ -62,10 +62,11 @@ export class Sprite extends DisplayObjectContainer{
 	 * to label.
 	 */
 	public get buttonMode () : boolean{
-		throw("buttonMode not implemented yet in flash/Sprite");
+		console.log("buttonMode not implemented yet in flash/Sprite");
+		return false;
 	}
 	public set buttonMode (value:boolean) {
-		throw("buttonMode not implemented yet in flash/Sprite");
+		console.log("buttonMode not implemented yet in flash/Sprite");
 		
 	}
 
@@ -78,7 +79,8 @@ export class Sprite extends DisplayObjectContainer{
 	 * @playerversion	Lite 4
 	 */
 	public get dropTarget () : DisplayObject{
-		throw("dropTarget not implemented yet in flash/Sprite");
+		console.log("dropTarget not implemented yet in flash/Sprite");
+		return null;
 		
 	}
 
@@ -92,7 +94,8 @@ export class Sprite extends DisplayObjectContainer{
 	 */
 	public get graphics () : any{
 		//todo any = Graphics
-		throw("graphics not implemented yet in flash/Sprite");
+		console.log("graphics not implemented yet in flash/Sprite");
+		return null;
 		
 	}
 
@@ -110,11 +113,12 @@ export class Sprite extends DisplayObjectContainer{
 	 * of your sprite button.
 	 */
 	public get hitArea () : Sprite{
-		throw("hitArea not implemented yet in flash/Sprite");
+		console.log("hitArea not implemented yet in flash/Sprite");
+		return null;
 
 	}
 	public set hitArea (value:Sprite){
-		throw("hitArea not implemented yet in flash/Sprite");
+		console.log("hitArea not implemented yet in flash/Sprite");
 
 	}
 
@@ -125,10 +129,11 @@ export class Sprite extends DisplayObjectContainer{
 	 */
 	public get soundTransform () :any{
 		// todo: any = SoundTransform
-		throw("soundTransform not implemented yet in flash/Sprite");
+		console.log("soundTransform not implemented yet in flash/Sprite");
+		return null;
 	}
 	public set soundTransform (sndTransform:any){
-		throw("soundTransform not implemented yet in flash/Sprite");
+		console.log("soundTransform not implemented yet in flash/Sprite");
 	}
 
 	/**
@@ -147,10 +152,11 @@ export class Sprite extends DisplayObjectContainer{
 	 * to false.
 	 */
 	public get useHandCursor () : boolean{
-		throw("useHandCursor not implemented yet in flash/Sprite");
+		console.log("useHandCursor not implemented yet in flash/Sprite");
+		return false;
 	}
 	public set useHandCursor (value:boolean){
-		throw("useHandCursor not implemented yet in flash/Sprite");
+		console.log("useHandCursor not implemented yet in flash/Sprite");
 	}
 
 	/**
@@ -169,7 +175,7 @@ export class Sprite extends DisplayObjectContainer{
 	 *   rectangle for the Sprite.
 	 */
 	public startDrag (lockCenter:boolean=false, bounds:Rectangle=null) {
-		throw("startDrag not implemented yet in flash/Sprite");
+		console.log("startDrag not implemented yet in flash/Sprite");
 	}
 
 	/**
@@ -189,7 +195,7 @@ export class Sprite extends DisplayObjectContainer{
 	 *   rectangle for the Sprite.
 	 */
 	public startTouchDrag (touchPonumberID:number, lockCenter:boolean=false, bounds:Rectangle=null) {
-		throw("startTouchDrag not implemented yet in flash/Sprite");
+		console.log("startTouchDrag not implemented yet in flash/Sprite");
 	}
 
 	/**
@@ -199,7 +205,7 @@ export class Sprite extends DisplayObjectContainer{
 	 * sprite becomes draggable. Only one sprite is draggable at a time.
 	 */
 	public stopDrag () {
-		throw("startTouchDrag not implemented yet in flash/Sprite");
+		console.log("startTouchDrag not implemented yet in flash/Sprite");
 	}
 
 	/**
@@ -210,7 +216,7 @@ export class Sprite extends DisplayObjectContainer{
 	 * @param	touchPonumberID	The numbereger assigned to the touch ponumber in the startTouchDrag method.
 	 */
 	public stopTouchDrag (touchPonumberID:number) {
-		throw("startTouchDrag not implemented yet in flash/Sprite");
+		console.log("startTouchDrag not implemented yet in flash/Sprite");
 	}
 
 }

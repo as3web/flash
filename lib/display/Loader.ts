@@ -13,6 +13,8 @@ import {URLRequest} from "../net/URLRequest";
 import {Event} from "../events/Event";
 import {DisplayObjectContainer as AwayDisplayObjectContainer} from "@awayjs/scene";
 
+// todo: define all methods (start new with converting as3-Loader to ts ?)
+
 export class Loader extends DisplayObjectContainer{
 
 	private _loaderInfoAS:LoaderInfo;

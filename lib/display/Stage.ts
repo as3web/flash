@@ -132,7 +132,7 @@ export class Stage extends DisplayObjectContainer{
 
 	constructor(startClass) {
 		super();
-		Sprite.rootStage=this;
+		DisplayObject.activeStage=this;
 		this.initEninge();
 		this.initListeners();
 		this._mainSprite=new startClass();
@@ -141,6 +141,8 @@ export class Stage extends DisplayObjectContainer{
 	}
 
 	//---------------------------stuff added to make it work:
+
+
 
 	private initEninge(){
 
@@ -214,7 +216,7 @@ export class Stage extends DisplayObjectContainer{
 
 	public set accessibilityImplementation (value:any){
 		//todo: any is AccessibilityImplementation
-		throw("textSnapshot not implemented yet in flash/Stage");
+		console.log("textSnapshot not implemented yet in flash/Stage");
 	}
 
 
@@ -247,16 +249,19 @@ export class Stage extends DisplayObjectContainer{
 	 *   </pre>
 	 */
 	public get allowsFullScreen () : boolean{
-		throw("allowsFullScreen not implemented yet in flash/Stage");
+		console.log("allowsFullScreen not implemented yet in flash/Stage");
+		return false;
 	}
 
 	public get allowsFullScreenInteractive () : boolean{
-		throw("allowsFullScreenInteractive not implemented yet in flash/Stage");
+		console.log("allowsFullScreenInteractive not implemented yet in flash/Stage");
+		return false;
 	}
 
 
 	public get browserZoomFactor () : number{
-		throw("browserZoomFactor not implemented yet in flash/Stage");
+		console.log("browserZoomFactor not implemented yet in flash/Stage");
+		return 0;
 	}
 
 
@@ -292,10 +297,11 @@ export class Stage extends DisplayObjectContainer{
 	 * The three possible values are strings with corresponding constants in the flash.display.ColorCorrection class:"default": Use the same color correction as the host system."on": Always perform color correction."off": Never perform color correction.
 	 */
 	public get colorCorrection () : string{
-		throw("colorCorrection not implemented yet in flash/Stage");
+		console.log("colorCorrection not implemented yet in flash/Stage");
+		return "";
 	}
 	public set colorCorrection (value:string){
-		throw("colorCorrection not implemented yet in flash/Stage");
+		console.log("colorCorrection not implemented yet in flash/Stage");
 	}
 
 	/**
@@ -308,15 +314,18 @@ export class Stage extends DisplayObjectContainer{
 
 	 */
 	public get colorCorrectionSupport () : string{
-		throw("colorCorrectionSupport not implemented yet in flash/Stage");
+		console.log("colorCorrectionSupport not implemented yet in flash/Stage");
+		return "";
 	}
 
 	public get contentsScaleFactor () : number{
-		throw("contentsScaleFactor not implemented yet in flash/Stage");
+		console.log("contentsScaleFactor not implemented yet in flash/Stage");
+		return 0;
 	}
 
 	public get displayContextInfo () : string{
-		throw("displayContextInfo not implemented yet in flash/Stage");
+		console.log("displayContextInfo not implemented yet in flash/Stage");
+		return "";
 	}
 
 	/**
@@ -373,10 +382,11 @@ export class Stage extends DisplayObjectContainer{
 	 *   true throws a security error.
 	 */
 	public get displayState () : string{
-		throw("displayState not implemented yet in flash/Stage");
+		console.log("displayState not implemented yet in flash/Stage");
+		return "";
 	}
 	public set displayState (value:string) {
-		throw("displayState not implemented yet in flash/Stage");
+		console.log("displayState not implemented yet in flash/Stage");
 	}
 
 
@@ -388,11 +398,12 @@ export class Stage extends DisplayObjectContainer{
 	 */
 	public get focus () : any{
 		//todo: any is InteractiveObject
-		throw("focus not implemented yet in flash/Stage");
+		console.log("focus not implemented yet in flash/Stage");
+		return null;
 	}
 	public set focus (newFocus:any){
 		//todo: any is InteractiveObject
-		throw("focus not implemented yet in flash/Stage");
+		console.log("focus not implemented yet in flash/Stage");
 	}
 
 
@@ -414,11 +425,12 @@ export class Stage extends DisplayObjectContainer{
 	 *   For more information, see the "Security" chapter in the ActionScript 3.0 Developer's Guide.
 	 */
 	public get frameRate () : number{
-		throw("frameRate not implemented yet in flash/Stage");
+		console.log("frameRate not implemented yet in flash/Stage");
+		return 0;
 	}
 
 	public set frameRate (value:number) {
-		throw("frameRate not implemented yet in flash/Stage");
+		console.log("frameRate not implemented yet in flash/Stage");
 	}
 
 	/**
@@ -435,7 +447,8 @@ export class Stage extends DisplayObjectContainer{
 	 * and Stage.scaleMode is set to StageScaleMode.NO_SCALE.
 	 */
 	public get fullScreenHeight () : number{
-		throw("fullScreenHeight not implemented yet in flash/Stage");
+		console.log("fullScreenHeight not implemented yet in flash/Stage");
+		return 0;
 	}
 
 	/**
@@ -464,10 +477,11 @@ export class Stage extends DisplayObjectContainer{
 	 * For more information, see www.adobe.com/go/display_settings.
 	 */
 	public get fullScreenSourceRect () : Rectangle{
-		throw("fullScreenSourceRect not implemented yet in flash/Stage");
+		console.log("fullScreenSourceRect not implemented yet in flash/Stage");
+		return null;
 	}
 	public set fullScreenSourceRect (Rectangle){
-		throw("fullScreenSourceRect not implemented yet in flash/Stage");
+		console.log("fullScreenSourceRect not implemented yet in flash/Stage");
 	}
 
 	/**
@@ -484,17 +498,19 @@ export class Stage extends DisplayObjectContainer{
 	 * Stage.scaleMode is set to StageScaleMode.NO_SCALE.
 	 */
 	public get fullScreenWidth () : number{
-		throw("fullScreenWidth not implemented yet in flash/Stage");
+		console.log("fullScreenWidth not implemented yet in flash/Stage");
+		return 0;
 	}
 
 
 
 
 	public get mouseLock () : boolean{
-		throw("mouseLock not implemented yet in flash/Stage");
+		console.log("mouseLock not implemented yet in flash/Stage");
+		return false;
 	}
 	public set mouseLock (value:boolean){
-		throw("mouseLock not implemented yet in flash/Stage");
+		console.log("mouseLock not implemented yet in flash/Stage");
 	}
 
 
@@ -530,11 +546,12 @@ export class Stage extends DisplayObjectContainer{
 	 *   For more information, see the "Security" chapter in the ActionScript 3.0 Developer's Guide.
 	 */
 	public get quality () : string{
-		throw("quality not implemented yet in flash/Stage");
+		console.log("quality not implemented yet in flash/Stage");
+		return "";
 
 	}
 	public set quality (value:string){
-		throw("quality not implemented yet in flash/Stage");
+		console.log("quality not implemented yet in flash/Stage");
 	}
 
 
@@ -582,11 +599,13 @@ export class Stage extends DisplayObjectContainer{
 	 *   For more information, see the "Security" chapter in the ActionScript 3.0 Developer's Guide.
 	 */
 	public get showDefaultContextMenu () : boolean{
-		throw("showDefaultContextMenu not implemented yet in flash/Stage");
+		console.log("showDefaultContextMenu not implemented yet in flash/Stage");
+		return false;
+
 
 	}
 	public set showDefaultContextMenu (value:boolean){
-		throw("showDefaultContextMenu not implemented yet in flash/Stage");
+		console.log("showDefaultContextMenu not implemented yet in flash/Stage");
 
 	}
 
@@ -602,13 +621,15 @@ export class Stage extends DisplayObjectContainer{
 	 * an InteractiveObject receiving focus or invoking the requestSoftKeyboard() method.
 	 */
 	public get softKeyboardRect () : Rectangle{
-		throw("softKeyboardRect not implemented yet in flash/Stage");
+		console.log("softKeyboardRect not implemented yet in flash/Stage");
+		return null;
 
 	}
 
-	public get stage3Ds () : Array<any>{
+	public get stage3Ds () : any[]{
 		// todo: any is stage3d
-		throw("stage3Ds not implemented yet in flash/Stage");
+		console.log("stage3Ds not implemented yet in flash/Stage");
+		return [];
 	}
 
 	/**
@@ -620,11 +641,12 @@ export class Stage extends DisplayObjectContainer{
 	 *   For more information, see the "Security" chapter in the ActionScript 3.0 Developer's Guide.
 	 */
 	public get stageFocusRect () : boolean{
-		throw("stageFocusRect not implemented yet in flash/Stage");
+		console.log("stageFocusRect not implemented yet in flash/Stage");
+		return false;
 
 	}
 	public set stageFocusRect (on:boolean){
-		throw("stageFocusRect not implemented yet in flash/Stage");
+		console.log("stageFocusRect not implemented yet in flash/Stage");
 	}
 
 	/**
@@ -674,9 +696,10 @@ export class Stage extends DisplayObjectContainer{
 	 * of the StageVideo object at index 0.The StageVideo object at index 2 is displayed in front
 	 * of the StageVideo object at index 1.Use the StageVideo.depth property to change this ordering.Note: AIR for TV devices support only one StageVideo object.
 	 */
-	public get stageVideos () : Array<any>{
+	public get stageVideos () : any[]{
 		//todo: any is StageVideo
-		throw("stageVideos not implemented yet in flash/Stage");
+		console.log("stageVideos not implemented yet in flash/Stage");
+		return [];
 	}
 
 	/**
@@ -722,7 +745,8 @@ export class Stage extends DisplayObjectContainer{
 	 *   For more information, see the "Security" chapter in the ActionScript 3.0 Developer's Guide.
 	 */
 	public get tabChildren () : boolean{
-		throw("tabChildren not implemented yet in flash/Stage");
+		console.log("tabChildren not implemented yet in flash/Stage");
+		return false;
 	}
 
 	/**
@@ -732,8 +756,9 @@ export class Stage extends DisplayObjectContainer{
 	 *   textSnapshot property of a display object container other than the Stage object.
 	 */
 	public get textSnapshot () : any{
-		throw("textSnapshot not implemented yet in flash/Stage");
+		console.log("textSnapshot not implemented yet in flash/Stage");
 		//todo: any is flash.text.TextSnapshot
+		return null;
 	}
 
 	/**
@@ -760,7 +785,8 @@ export class Stage extends DisplayObjectContainer{
 	 * is the correct value.
 	 */
 	public get wmodeGPU () : boolean{
-		throw("wmodeGPU not implemented yet in flash/Stage");
+		console.log("wmodeGPU not implemented yet in flash/Stage");
+		return false;
 	}
 
 	//empty functions to prevent inherited actions
@@ -811,7 +837,7 @@ export class Stage extends DisplayObjectContainer{
 	 * Security.allowDomain() method.
 	 */
 	public invalidate (){
-		throw("invalidate not implemented yet in flash/Stage");
+		console.log("invalidate not implemented yet in flash/Stage");
 	}
 
 	/**
@@ -823,7 +849,8 @@ export class Stage extends DisplayObjectContainer{
 	 *   the SWF file does not have access.
 	 */
 	public isFocusInaccessible () : boolean{
-		throw("isFocusInaccessible not implemented yet in flash/Stage");
+		console.log("isFocusInaccessible not implemented yet in flash/Stage");
+		return false;
 	}
 
 

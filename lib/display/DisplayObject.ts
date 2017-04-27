@@ -50,7 +50,7 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 *   <p class="- topic/p ">The DisplayObject class supports basic ality like the <i class="+ topic/ph hi-d/i ">x</i> and <i class="+ topic/ph hi-d/i ">y</i> position of
 	 * an any, as well as more advanced properties of the any such as its transformation matrix.
 	 * </p><p class="- topic/p ">DisplayObject is an abstract base class; therefore, you cannot call DisplayObject directly. Invoking
-	 * <codeph class="+ topic/ph pr-d/codeph ">new DisplayObject()</codeph> throws an <codeph class="+ topic/ph pr-d/codeph ">ArgumentError</codeph> exception. </p><p class="- topic/p ">All display anys inherit from the DisplayObject class.</p><p class="- topic/p ">The DisplayObject class itself does not include any APIs for rendering content onscreen.
+	 * <codeph class="+ topic/ph pr-d/codeph ">new DisplayObject()</codeph> console.logs an <codeph class="+ topic/ph pr-d/codeph ">ArgumentError</codeph> exception. </p><p class="- topic/p ">All display anys inherit from the DisplayObject class.</p><p class="- topic/p ">The DisplayObject class itself does not include any APIs for rendering content onscreen.
 	 * For that reason, if you want create a custom subclass of the DisplayObject class, you will want
 	 * to extend one of its subclasses that do have APIs for rendering content onscreen,
 	 * such as the Shape, Sprite, Bitmap, SimpleButton, TextField, or MovieClip class.</p><p class="- topic/p ">The DisplayObject class contains several broadcast events. Normally, the target
@@ -72,7 +72,7 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 
 	constructor(adaptee:AwayDisplayObject=null){
 		super();
-		this._stage=DisplayObject.rootStage;
+		this._stage=DisplayObject.activeStage;
 	}
 
 	//---------------------------stuff added to make it work:
@@ -81,19 +81,19 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	private _adaptee:AwayDisplayObject;
 	private _stage:Stage;
 
-	private static _rootStage:Stage;
-	public static set rootStage(value:Stage)
-	{
-		DisplayObject._rootStage=value;
-	}
-	public static get rootStage():Stage
-	{
-		if(DisplayObject._rootStage==null){
-			//throw("ERROR: a Stage must have been created before any Sprite can be created!")
-		}
-		return DisplayObject._rootStage;
-	}
 
+	private static _activeStage:Stage=null;
+	public static set activeStage(value:any)
+	{
+		DisplayObject._activeStage=value;
+	}
+	public static get activeStage():any
+	{
+		if(DisplayObject._activeStage==null){
+			//console.log("ERROR: a Stage must have been created before any Sprite can be created!")
+		}
+		return DisplayObject._activeStage;
+	}
 
 	// --------------------- stuff needed because of implementing the existing IDisplayObjectAdapter
 
@@ -106,22 +106,25 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	};
 
 	public isBlockedByScript():boolean{
-		throw("isBlockedByScript not implemented yet in flash/DisplayObject");
+		console.log("isBlockedByScript not implemented yet in flash/DisplayObject");
+		return false;
 	}
 
 	public isVisibilityByScript():boolean{
-		throw("isVisibilityByScript not implemented yet in flash/DisplayObject");
+		console.log("isVisibilityByScript not implemented yet in flash/DisplayObject");
+		return false;
 	}
 
-	public freeFromScript():void{
-		throw("freeFromScript not implemented yet in flash/DisplayObject");}
+	public freeFromScript(){
+		console.log("freeFromScript not implemented yet in flash/DisplayObject");}
 
 	public clone(newAdaptee:AwayDisplayObject):IDisplayObjectAdapter{
-		throw("clone not implemented yet in flash/DisplayObject");
+		console.log("clone not implemented yet in flash/DisplayObject");
+		return null;
 	}
 
 	public dispose(){
-		throw("dispose not implemented yet in flash/DisplayObject");
+		console.log("dispose not implemented yet in flash/DisplayObject");
 	}
 
 	//---------------------------original as3 properties / methods:
@@ -137,11 +140,12 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * that any.
 	 */
 	public get accessibilityProperties () : any{
-		throw("accessibilityProperties not implemented yet in flash/DisplayObject");
+		console.log("accessibilityProperties not implemented yet in flash/DisplayObject");
 		//todo: flash.accessibility.AccessibilityProperties
+		return null;
 	}
 	public set accessibilityProperties (value:any){
-		throw("accessibilityProperties not implemented yet in flash/DisplayObject");
+		console.log("accessibilityProperties not implemented yet in flash/DisplayObject");
 	}
 
 	/**
@@ -150,8 +154,12 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * The default value is 1. Display anys with alpha
 	 * set to 0 are active, even though they are invisible.
 	 */
-	public get alpha () : number{	return this._adaptee.alpha;}
-	public set alpha (value:number) {		this._adaptee.alpha=value;}
+	public get alpha () : number {
+		return this._adaptee.alpha;
+	}
+	public set alpha (value:number) {
+		this._adaptee.alpha=value;
+	}
 
 	/**
 	 * A value from the BlendMode class that specifies which blend mode to use.
@@ -239,11 +247,12 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * the blendMode property is set to BlendMode.NORMAL. Not supported under GPU rendering.
 	 */
 	public get blendMode () : string{
-		throw("blendMode not implemented yet in flash/DisplayObject");
+		console.log("blendMode not implemented yet in flash/DisplayObject");
 		// todo: translate awayblendmode to as3blendmode
+		return "";
 	}
 	public set blendMode (value:string) {
-		throw("blendMode not implemented yet in flash/DisplayObject");
+		console.log("blendMode not implemented yet in flash/DisplayObject");
 		//this._adaptee.blendMode=value;
 	}
 
@@ -273,13 +282,13 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * @langversion	3.0
 	 * @playerversion	Flash 10
 	 * @playerversion	AIR 1.5
-	 * @throws	ArgumentError When the shader output type is not compatible with this operation
+	 * @console.logs	ArgumentError When the shader output type is not compatible with this operation
 	 *   (the shader must specify a pixel4
 	 *   output).
-	 * @throws	ArgumentError When the shader specifies fewer than two image inputs or the first
+	 * @console.logs	ArgumentError When the shader specifies fewer than two image inputs or the first
 	 *   two inputs are not image4 inputs.
-	 * @throws	ArgumentError When the shader specifies an image input that isn't provided.
-	 * @throws	ArgumentError When a Byte[] or Vector.<number> instance is used as
+	 * @console.logs	ArgumentError When the shader specifies an image input that isn't provided.
+	 * @console.logs	ArgumentError When a Byte[] or Vector.<number> instance is used as
 	 *   an input and the width
 	 *   and height properties aren't specified for the
 	 *   ShaderInput, or the specified values don't match the amount of
@@ -287,7 +296,7 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 *   property for more information.
 	 */
 	public set blendShader (value:any) {
-		throw("blendShader not implemented yet in flash/DisplayObject");
+		console.log("blendShader not implemented yet in flash/DisplayObject");
 		//todo (if ever)
 	}
 
@@ -324,10 +333,11 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * movie clip is translated (when its x and y position is changed).
 	 */
 	public get cacheAsBitmap () : boolean{
-		throw("cacheAsBitmap not implemented yet in flash/DisplayObject");
+		console.log("cacheAsBitmap not implemented yet in flash/DisplayObject");
+		return false;
 	}
 	public set cacheAsBitmap (value:boolean) {
-		throw("cacheAsBitmap not implemented yet in flash/DisplayObject");
+		console.log("cacheAsBitmap not implemented yet in flash/DisplayObject");
 	}
 
 	/**
@@ -400,16 +410,16 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 *   </codeblock>
 	 * @langversion	3.0
 	 * @playerversion	Flash 9
-	 * @throws	ArgumentError When filters includes a ShaderFilter and the shader
+	 * @console.logs	ArgumentError When filters includes a ShaderFilter and the shader
 	 *   output type is not compatible with this operation
 	 *   (the shader must specify a pixel4
 	 *   output).
-	 * @throws	ArgumentError When filters includes a ShaderFilter and the shader
+	 * @console.logs	ArgumentError When filters includes a ShaderFilter and the shader
 	 *   doesn't specify any image input or the first
 	 *   input is not an image4 input.
-	 * @throws	ArgumentError When filters includes a ShaderFilter and the shader
+	 * @console.logs	ArgumentError When filters includes a ShaderFilter and the shader
 	 *   specifies an image input that isn't provided.
-	 * @throws	ArgumentError When filters includes a ShaderFilter, a
+	 * @console.logs	ArgumentError When filters includes a ShaderFilter, a
 	 *   Byte[] or Vector.<number> instance as
 	 *   a shader input, and the width
 	 *   and height properties aren't specified for the
@@ -417,11 +427,12 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 *   data in the input data. See the ShaderInput.input
 	 *   property for more information.
 	 */
-	public get filters () : Array<any>[]{
-		throw("filters not implemented yet in flash/DisplayObject");
+	public get filters () : any[]{
+		console.log("filters not implemented yet in flash/DisplayObject");
+		return [];
 	}
-	public set filters (value:Array<any>[]) {
-		throw("filters not implemented yet in flash/DisplayObject");
+	public set filters (value:any[]) {
+		console.log("filters not implemented yet in flash/DisplayObject");
 	}
 
 	/**
@@ -459,8 +470,9 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * this.root.loaderInfo.addEventListener(Event.COMPLETE, func).
 	 */
 	public get loaderInfo () : LoaderInfo{
-		throw("loaderInfo not implemented yet in flash/DisplayObject");
+		console.log("loaderInfo not implemented yet in flash/DisplayObject");
 		//this._adaptee.loaderInfo
+		return this.loaderInfo;
 	}
 
 	/**
@@ -483,18 +495,19 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * any, and that any's mask property becomes null.
 	 */
 	public get mask () : DisplayObject{
-		throw("mask not implemented yet in flash/DisplayObject");
-		//this._adaptee.mask;
+		console.log("mask not implemented yet in flash/DisplayObject");
+		return null;
 	}
 	public set mask (value:DisplayObject) {
-		throw("mask not implemented yet in flash/DisplayObject");
+		console.log("mask not implemented yet in flash/DisplayObject");
 	}
 
 	public get metaData () : any{
-		throw("mask not implemented yet in flash/DisplayObject");
+		console.log("mask not implemented yet in flash/DisplayObject");
+		return null;
 	}
 	public set metaData (data:any) {
-		throw("mask not implemented yet in flash/DisplayObject");
+		console.log("mask not implemented yet in flash/DisplayObject");
 	}
 
 	/**
@@ -504,7 +517,8 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * non-rotated any.
 	 */
 	public get mouseX () : number{
-		throw("mouseX not implemented yet in flash/DisplayObject");
+		console.log("mouseX not implemented yet in flash/DisplayObject");
+		return 0;
 	}
 
 	/**
@@ -514,7 +528,8 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * non-rotated any.
 	 */
 	public get mouseY () : number{
-		throw("mouseY not implemented yet in flash/DisplayObject");
+		console.log("mouseY not implemented yet in flash/DisplayObject");
+		return 0;
 	}
 
 	/**
@@ -524,7 +539,7 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * @langversion	3.0
 	 * @playerversion	Flash 9
 	 * @playerversion	Lite 4
-	 * @throws	IllegalOperationError If you are attempting to set this property on an any that was
+	 * @console.logs	IllegalOperationError If you are attempting to set this property on an any that was
 	 *   placed on the timeline in the Flash authoring tool.
 	 */
 	public get name () : string{
@@ -548,10 +563,11 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * method with the shapeFlag parameter set to true.The opaque background region does not respond to mouse events.
 	 */
 	public get opaqueBackground () : any{
-		throw("opaqueBackground not implemented yet in flash/DisplayObject");
+		console.log("opaqueBackground not implemented yet in flash/DisplayObject");
+		return null;
 	}
 	public set opaqueBackground (value:any) {
-		throw("opaqueBackground not implemented yet in flash/DisplayObject");
+		console.log("opaqueBackground not implemented yet in flash/DisplayObject");
 	}
 
 	/**
@@ -565,12 +581,13 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 *   this.parent.parent.alpha = 20;
 	 *
 	 *   </codeblock>
-	 * @throws	SecurityError The parent display any belongs to a security sandbox
+	 * @console.logs	SecurityError The parent display any belongs to a security sandbox
 	 *   to which you do not have access. You can avoid this situation by having
 	 *   the parent movie call the Security.allowDomain() method.
 	 */
 	public get parent () : DisplayObjectContainer{
-		throw("parent not implemented yet in flash/DisplayObject");
+		console.log("parent not implemented yet in flash/DisplayObject");
+		return null;
 	}
 
 	/**
@@ -591,7 +608,8 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * root property is set.
 	 */
 	public get root () : DisplayObject{
-		throw("root not implemented yet in flash/DisplayObject");
+		console.log("root not implemented yet in flash/DisplayObject");
+		return null;
 	}
 
 	/**
@@ -611,10 +629,6 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * Indicates the x-axis rotation of the DisplayObject instance, in degrees, from its original orientation relative to the 3D parent container. Values from 0 to 180 represent
 	 * clockwise rotation; values from 0 to -180 represent counterclockwise rotation. Values outside this range are added to or
 	 * subtracted from 360 to obtain a value within the range.
-	 * @langversion	3.0
-	 * @playerversion	Flash 10
-	 * @playerversion	AIR 1.5
-	 * @playerversion	Lite 4
 	 */
 	public get rotationX () : number{
 		return this._adaptee.rotationX;
@@ -708,7 +722,7 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 *   my_mc.lineTo(0, 0);
 	 *   my_mc.endFill();
 	 *   </listing>
-	 * @throws	ArgumentError If you pass an invalid argument to the method.
+	 * @console.logs	ArgumentError If you pass an invalid argument to the method.
 	 */
 	public get scale9Grid () : Rectangle{
 		return this._adaptee.scale9Grid;

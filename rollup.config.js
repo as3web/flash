@@ -12,7 +12,10 @@ module.exports = {
 		'@awayjs/renderer',
 		'@awayjs/scene',
 		'@awayjs/stage',
-		'@awayjs/view'
+		'@awayjs/view',
+		'@awayjs/parsers',
+		'@awayjs/player',
+
 	],
 	globals: {
 		'@awayjs/core': 'AwayjsCore',
@@ -21,6 +24,8 @@ module.exports = {
 		'@awayjs/renderer': 'AwayjsRenderer',
 		'@awayjs/scene': 'AwayjsScene',
 		'@awayjs/stage': 'AwayjsStage',
+		'@awayjs/parsers': 'AwayjsParsers',
+		'@awayjs/player': 'AwayjsPlayer',
 		'@awayjs/view': 'AwayjsView'
 	},
 	targets: [
