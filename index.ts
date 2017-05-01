@@ -124,20 +124,21 @@ export {getAliasName} from "./lib/utils/getAliasName";
 export {getDefinitionByName} from "./lib/utils/getDefinitionByName";
 export {getQualifiedClassName} from "./lib/utils/getQualifiedClassName";
 export {getQualifiedSuperclassName} from "./lib/utils/getQualifiedSuperclassName";
-export {getTimer} from "./lib/utils/getTimer";
+export {getTimer} from "./lib/utils/getTimer";//js (not used / already transpiled)
 export {setInterval} from "./lib/utils/setInterval";
 export {setTimeout} from "./lib/utils/setTimeout";
 export {unescapeMultiByte} from "./lib/utils/unescapeMultiByte";
 
-export {ByteArray} from "./lib/utils/ByteArray";
+export {ByteArray} from "./lib/utils/ByteArray";//awayjs
 export {Dictionary} from "./lib/utils/Dictionary";
-export {Endian} from "./lib/utils/Endian";
+export {Endian} from "./lib/utils/Endian";//standalone
 export {IDataInput} from "./lib/utils/IDataInput";
 export {IDataOutput} from "./lib/utils/IDataOutput";
 export {IExternalizable} from "./lib/utils/IExternalizable";
 export {Timer} from "./lib/utils/Timer";
 export {Trace} from "./lib/utils/Trace";
 
+//Dummy classes:
 export {XML}	from "./lib/xml/XML";
 export {XMLDocumentAway}	from "./lib/xml/XMLDocumentAway";
 export {XMLList}	from "./lib/xml/XMLList";
@@ -146,8 +147,34 @@ export {XMLNodeType}	from "./lib/xml/XMLNodeType";
 
 export * from "./lib/RegisterCode";
 
-//export {TweenLite}	from "./lib/greensock/TweenLite";
+/* greensock adapter are only temporary here
+ totally dummy classes*/
+export { RoundPropsPlugin} from './lib/greensock/plugins/RoundPropsPlugin';
+export { RectanglePath2D} from './lib/greensock/motionPaths/RectanglePath2D';
+export { Power} from './lib/greensock/easing/Power';
+export { Power1} from './lib/greensock/easing/Power1';
+export { Power2} from './lib/greensock/easing/Power2';
+export { Power3} from './lib/greensock/easing/Power3';
+export { Power4} from './lib/greensock/easing/Power4';
+export { Linear} from './lib/greensock/easing/Linear';
+export { TweenLite} from './lib/greensock/TweenLite';
 
-/* starling adapter are only temporary here */
 
- export {Starling}	from "./lib/starling/Starling";
+/* starling adapter are only temporary here
+ totally dummy classes
+ */
+
+export { SystemUtil} from './lib/starling/utils/SystemUtil';
+//export { Texture} from './lib/starling/textures/Texture';
+export { RenderTexture} from './lib/starling/textures/RenderTexture';
+//export { TouchPhase} from './lib/starling/events/TouchPhase';
+//export { TouchEvent} from './lib/starling/events/TouchEvent';
+export { Touch} from './lib/starling/events/Touch';
+export { ResizeEvent} from './lib/starling/events/ResizeEvent';
+//export { Event} from './lib/starling/events/Event';
+//export { Stage} from './lib/starling/display/Stage';
+//export { Sprite} from './lib/starling/display/Sprite';
+export { Quad} from './lib/starling/display/Quad';
+export { Image} from './lib/starling/display/Image';
+//export { DisplayObject} from './lib/starling/display/DisplayObject';
+export { Starling} from './lib/starling/core/Starling';

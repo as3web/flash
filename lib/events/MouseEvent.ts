@@ -1,2 +1,6 @@
 // todo: create real adapter for this ?
-export {MouseEvent} from "@awayjs/scene";
+import  {MouseEvent as AwayMouseEvent} from "@awayjs/scene";
+export class MouseEvent extends AwayMouseEvent{
+	public stageX:number;
+	public stageY:number;
+}

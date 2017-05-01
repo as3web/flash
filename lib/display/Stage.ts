@@ -1,6 +1,7 @@
 import * as awayStage from "@awayjs/stage";
 import {StageAlign} from "./StageAlign"
 import {Sprite} from "./Sprite"
+import {Event} from "../events/Event"
 import {DisplayObjectContainer} from "./DisplayObjectContainer"
 import {DisplayObject} from "./DisplayObject"
 import {StageScaleMode} from "./StageScaleMode"
@@ -191,9 +192,13 @@ export class Stage extends DisplayObjectContainer{
 
 		if (this._time >= frameMarker) {
 			this._time -= frameMarker;
-			this._mainSprite.advanceFrame();
-			// todo: update the _mainSprite, so that movieclips play and scripts are executed
 
+			this.dispatchEventRecursive(new Event(Event.ENTER_FRAME));
+			this._mainSprite.advanceFrame();
+			this.dispatchEventRecursive(new Event(Event.FRAME_CONSTRUCTED));
+			// todo: move Framescriptexecution and rest update logic  from Movieclip.update to here
+			this.dispatchEventRecursive(new Event(Event.EXIT_FRAME));
+			this.dispatchEventRecursive(new Event(Event.RENDER));
 			this._view.render();
 		}
 	}

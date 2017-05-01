@@ -8,6 +8,7 @@ export class XML extends XMLNode
 	public loaded:boolean;
 	public status:number;
 	public xmlDecl:string;
+	public static ignoreWhitespace:boolean;
 
 	constructor(text:string){
 		super(XMLNodeType.XML_DECLARATION, "null");

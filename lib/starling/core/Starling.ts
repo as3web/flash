@@ -1,15 +1,15 @@
-import {EventDispatcher} from "../events/EventDispatcher";
-import { Context3D } from "../display3D/Context3D"
+import {EventDispatcher} from "../../events/EventDispatcher";
+import { Context3D } from "../../display3D/Context3D"
 //import {Juggler} from "../animation/Juggler";
 //import { Stage3D } from "../display3D/Stage3D"
 import {Stage} from "../display/Stage";
 import {DisplayObject} from "../display/DisplayObject";
 //import {TouchProcessor} from "../events/TouchProcessor";
-import { Rectangle } from "../geom/Rectangle"
+import { Rectangle } from "../../geom/Rectangle"
 import { Sprite } from "../display/Sprite"
 import { Event } from "../events/Event"
 //import { Program3D } from "../display3D/Program3D"
-import { ByteArray } from "../utils/ByteArray"
+import { ByteArray } from "../../utils/ByteArray"
 
 /// Dispatched when the display list is about to be rendered.
 /*[Event(name="render", type="starling.events.Event")]*/

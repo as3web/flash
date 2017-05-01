@@ -2,6 +2,7 @@ import {Point} from "@awayjs/core";
 import {DisplayObjectContainer as AwayDisplayObjectContainer, Sprite as AwaySprite, MovieClip as AwayMovieClip, DisplayObject as AwayDisplayObject} from "@awayjs/scene";
 import {DisplayObject} from "./DisplayObject";
 import {InteractiveObject} from "./InteractiveObject";
+import {Event} from "../events/Event";
 
 export class DisplayObjectContainer extends InteractiveObject{
 
@@ -43,23 +44,29 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 *
 	 *   new Loader()new Sprite()new MovieClip()
 	 */
-	constructor(){
+	constructor(adaptee:AwayDisplayObjectContainer=null){
 		super();
 	}
 	//---------------------------stuff added to make it work:
 
 	// return the adaptee cast to AwayDisplayObjectContainer. just a helper to avoid casting everywhere
-	public get adaptee_container():AwayDisplayObjectContainer {return (<AwayDisplayObjectContainer>this.adaptee);}
+	public get adaptee():AwayDisplayObjectContainer {
+		return (<AwayDisplayObjectContainer>this.adaptee);
+	}
+	public set adaptee(adaptee:AwayDisplayObjectContainer) {
+		this.adaptee=adaptee;
+	}
 
 	/* gets called from stage in order to move the playhead to next frame.
 	 the DisplayObjectContainer should call this function on all children if they extend DisplayObjectContainer themself.
-	 A MovieClip should
+	 At a MovieClip the function stops, and here the AwayJS Movieclip takes over.
+	 For most cases this will be at top level (root is a Movieclip) 
 	 */
 	public advanceFrame() {
-		var i:number=this.adaptee_container.numChildren;
+		var i:number=this.adaptee.numChildren;
 		while(i>0){
 			i--;
-			var oneChild:AwayDisplayObject=this.adaptee_container.getChildAt(i);
+			var oneChild:AwayDisplayObject=this.adaptee.getChildAt(i);
 			if(oneChild.isAsset(AwaySprite)||oneChild.isAsset(AwayDisplayObjectContainer)){
 				if(oneChild.adapter){
 					(<DisplayObjectContainer>oneChild.adapter).advanceFrame();
@@ -72,6 +79,21 @@ export class DisplayObjectContainer extends InteractiveObject{
 
 	}
 
+	//	overwrite 
+	public dispatchEventRecursive(event:Event) {
+		this.dispatchEvent(event);
+
+		var i:number=this.adaptee.numChildren;
+		while(i>0){
+			i--;
+			var oneChild:AwayDisplayObject=this.adaptee.getChildAt(i);
+			if(oneChild.adapter){
+				(<DisplayObject>oneChild.adapter).dispatchEventRecursive(event);
+			}
+		}
+	};
+
+	
 
 	//---------------------------original as3 properties / methods:
 
@@ -157,7 +179,11 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 *   the caller is a child (or grandchild etc.) of the child being added.
 	 */
 	public addChild (child:DisplayObject) : DisplayObject {
-		(<AwayDisplayObjectContainer>this.adaptee).addChild(child.adaptee);
+		
+		child.dispatchEventRecursive(new Event(Event.ADDED_TO_STAGE));
+		child.dispatchEvent(new Event(Event.ADDED));
+
+		this.adaptee.addChild((<DisplayObject>child).adaptee);
 		return child;
 	}
 
@@ -185,6 +211,8 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 *   the caller is a child (or grandchild etc.) of the child being added.
 	 */
 	public addChildAt (child:DisplayObject, index:number) : DisplayObject {
+		child.dispatchEventRecursive(new Event(Event.ADDED_TO_STAGE));
+		child.dispatchEvent(new Event(Event.ADDED));
 		(<AwayDisplayObjectContainer>this.adaptee).addChildAt(child.adaptee, index);
 		return child;
 	}
@@ -329,6 +357,8 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * @throws	ArgumentError Throws if the child parameter is not a child of this object.
 	 */
 	public removeChild (child:DisplayObject) : DisplayObject {
+		child.dispatchEventRecursive(new Event(Event.REMOVED_FROM_STAGE));
+		child.dispatchEvent(new Event(Event.REMOVED));
 		console.log("removeChild not implemented yet in flash/DisplayObjectContainer");
 		return null;
 	}
@@ -353,11 +383,15 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * @throws	RangeError Throws if the index does not exist in the child list.
 	 */
 	public removeChildAt (index:number) : DisplayObject {
+		//child.dispatchEventRecursive(Event.REMOVED_FROM_STAGE);
+		//child.dispatchEvent(new Event(Event.REMOVED));
 		console.log("removeChildAt not implemented yet in flash/DisplayObjectContainer");
 		return null;
 	}
 
 	public removeChildren (beginIndex:number=0, endIndex:number=2147483647)  {
+		//child.dispatchEventRecursive(Event.REMOVED_FROM_STAGE);
+		//child.dispatchEvent(new Event(Event.REMOVED));
 		console.log("removeChildren not implemented yet in flash/DisplayObjectContainer");
 	}
 

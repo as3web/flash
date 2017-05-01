@@ -8,5 +8,9 @@ export class Capabilities{
 	{
 		return "none"; //"Plugin"
 	}
+	public static  get screenDPI():number
+	{
+		return 0; //"Plugin"
+	}
 
 }

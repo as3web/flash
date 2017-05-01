@@ -4,6 +4,11 @@ export class Texture{
 
 	// todo. can probably route directly to awayjs class
 
+
+	public static fromBitmapData(bitmapData:BitmapData):Texture{
+		console.log("fromBitmapData not implemented yet in flash/Texture");
+		return null;
+	}
 	constructor (){
 	}
 

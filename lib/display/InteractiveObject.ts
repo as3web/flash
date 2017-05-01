@@ -6,6 +6,8 @@ import {DisplayObject as AwayDisplayObject} from "@awayjs/scene";
 export class InteractiveObject extends DisplayObject{
 
 	/**
+	 * forget about these events for now:
+	 * 
 	 * Dispatched immediately after the soft keyboard is lowered.
 	 * @eventType	flash.events.SoftKeyboardEvent.SOFT_KEYBOARD_DEACTIVATE
 	 [Event(name="softKeyboardDeactivate", type="flash.events.SoftKeyboardEvent")]
@@ -73,6 +75,121 @@ export class InteractiveObject extends DisplayObject{
 	 * Dispatched when the value of the object's tabChildren flag changes.
 	 * @eventType	flash.events.Event.TAB_CHILDREN_CHANGE
 	 [Event(name="tabChildrenChange", type="flash.events.Event")]
+
+	 * Dispatched when the user performs a swipe gesture at a point of contact with an InteractiveObject instance (such as touching three
+	 * fingers to a screen and then moving them in parallel over a display object on a mobile phone or tablet with a touch screen).
+	 * @eventType	flash.events.TransformGestureEvent.GESTURE_SWIPE
+	 [Event(name="gestureSwipe", type="flash.events.TransformGestureEvent")]
+
+	 * Dispatched when the user performs a zoom gesture at a point of contact with an InteractiveObject instance (such as touching two
+	 * fingers to a screen and then quickly spreading the fingers apart over a display object on a mobile phone or tablet with a touch screen).
+	 * @eventType	flash.events.TransformGestureEvent.GESTURE_ZOOM
+	 [Event(name="gestureZoom", type="flash.events.TransformGestureEvent")]
+
+	 * Dispatched when the user performs a rotation gesture at a point of contact with an InteractiveObject instance (such as touching two fingers
+	 * and rotating them over a display object on a mobile phone or tablet with a touch screen).
+	 * @eventType	flash.events.TransformGestureEvent.GESTURE_ROTATE
+	 [Event(name="gestureRotate", type="flash.events.TransformGestureEvent")]
+
+	 * Dispatched when the user creates a point of contact with an InteractiveObject instance, then taps
+	 * on a touch-enabled device (such as placing several fingers over a display object to open a menu and then taps one finger to select a menu item
+	 * on a mobile phone or tablet with a touch screen).
+	 * @eventType	flash.events.PressAndTapGestureEvent.GESTURE_PRESS_AND_TAP
+	 [Event(name="gesturePressAndTap", type="flash.events.PressAndTapGestureEvent")]
+
+	 * Dispatched when the user moves a point of contact over the InteractiveObject instance
+	 * on a touch-enabled device (such as moving a finger from left to right over a display object
+	 * on a mobile phone or tablet with a touch screen).
+	 * @eventType	flash.events.TransformGestureEvent.GESTURE_PAN
+	 [Event(name="gesturePan", type="flash.events.TransformGestureEvent")]
+
+	 * Dispatched when the user presses two points of contact over the same InteractiveObject instance
+	 * on a touch-enabled device (such as presses and releases two fingers over a display object
+	 * on a mobile phone or tablet with a touch screen).
+	 * @eventType	flash.events.GestureEvent.GESTURE_TWO_FINGER_TAP
+	 [Event(name="gestureTwoFingerTap", type="flash.events.GestureEvent")]
+
+	 * Dispatched when the user lifts the point of contact over the same InteractiveObject instance on which the contact was initiated
+	 * on a touch-enabled device (such as presses and releases a finger from a single point over a display object
+	 * on a mobile phone or tablet with a touch screen).
+	 * @eventType	flash.events.TouchEvent.TOUCH_TAP
+	 [Event(name="touchTap", type="flash.events.TouchEvent")]
+
+	 * Dispatched when the user moves the point of contact over an InteractiveObject instance on a touch-enabled device
+	 * (such as drags a finger from a point outside a display object to a point over a display object on a mobile phone or tablet with a touch screen).
+	 * @eventType	flash.events.TouchEvent.TOUCH_ROLL_OVER
+	 [Event(name="touchRollOver", type="flash.events.TouchEvent")]
+
+	 * Dispatched when the user moves the point of contact away from an InteractiveObject instance on a touch-enabled device
+	 * (such as drags a finger from over a display object to a point outside the display object on a mobile phone or tablet with a touch screen).
+	 * @eventType	flash.events.TouchEvent.TOUCH_ROLL_OUT
+	 [Event(name="touchRollOut", type="flash.events.TouchEvent")]
+
+	 * Dispatched when the user moves the point of contact over an InteractiveObject instance on a touch-enabled device
+	 * (such as drags a finger from a point outside a display object to a point over a display object on a mobile phone or tablet with a touch screen).
+	 * @eventType	flash.events.TouchEvent.TOUCH_OVER
+	 [Event(name="touchOver", type="flash.events.TouchEvent")]
+
+	 * Dispatched when the user moves the point of contact away from InteractiveObject instance on a touch-enabled device
+	 * (such as drags a finger from one display object to another on a mobile phone or tablet with a touch screen).
+	 * @eventType	flash.events.TouchEvent.TOUCH_OUT
+	 [Event(name="touchOut", type="flash.events.TouchEvent")]
+
+	 * Dispatched when the user moves the point of contact with a touch-enabled device (such as drags a finger across a mobile phone or tablet with a touch screen).
+	 * @eventType	flash.events.TouchEvent.TOUCH_MOVE
+	 [Event(name="touchMove", type="flash.events.TouchEvent")]
+
+	 * Dispatched when the user removes contact with a touch-enabled device (such as lifts a finger off a mobile phone or tablet with a touch screen).
+	 * @eventType	flash.events.TouchEvent.TOUCH_END
+	 [Event(name="touchEnd", type="flash.events.TouchEvent")]
+
+	 * Dispatched when the user first contacts a touch-enabled device (such as touches a finger to a mobile phone or tablet with a touch screen).
+	 * @eventType	flash.events.TouchEvent.TOUCH_BEGIN
+	 [Event(name="touchBegin", type="flash.events.TouchEvent")]
+
+	 * Dispatched when the user attempts to change focus by using a pointer device.
+	 * @eventType	flash.events.FocusEvent.MOUSE_FOCUS_CHANGE
+	 [Event(name="mouseFocusChange", type="flash.events.FocusEvent")]
+
+	 * Dispatched when the user attempts to change focus by using keyboard navigation.
+	 * @eventType	flash.events.FocusEvent.KEY_FOCUS_CHANGE
+	 *
+	 * Dispatched after a display object loses focus.
+	 * @eventType	flash.events.FocusEvent.FOCUS_OUT
+	 [Event(name="focusOut", type="flash.events.FocusEvent")]
+
+	 * Dispatched after a display object gains focus.
+	 * @eventType	flash.events.FocusEvent.FOCUS_IN
+	 [Event(name="focusIn", type="flash.events.FocusEvent")]
+
+	 * Dispatched when the user activates the platform-specific accelerator key combination for a select all operation
+	 * or selects 'Select All' from the text context menu.
+	 * @eventType	flash.events.Event.SELECT_ALL
+	 [Event(name="selectAll", type="flash.events.Event")]
+
+	 * Dispatched when the user activates the platform-specific accelerator key combination for a paste operation
+	 * or selects 'Paste' from the text context menu.
+	 * @eventType	flash.events.Event.PASTE
+	 [Event(name="paste", type="flash.events.Event")]
+
+	 * Dispatched when the user activates the platform-specific accelerator key combination for a cut operation
+	 * or selects 'Cut' from the text context menu.
+	 * @eventType	flash.events.Event.CUT
+	 [Event(name="cut", type="flash.events.Event")]
+
+	 * Dispatched when the user activates the platform-specific accelerator key combination for a copy operation
+	 * or selects 'Copy' from the text context menu.
+	 * @eventType	flash.events.Event.COPY
+	 [Event(name="copy", type="flash.events.Event")]
+
+	 * Dispatched when the user selects 'Clear' (or 'Delete') from the text context menu.
+	 * @eventType	flash.events.Event.CLEAR
+	 [Event(name="clear", type="flash.events.Event")]
+	 */
+	
+	/** these should be able to get setup:
+	 
+	  
 	 
 	 * Dispatched when the user releases a key.
 	 * @eventType	flash.events.KeyboardEvent.KEY_UP
@@ -82,6 +199,8 @@ export class InteractiveObject extends DisplayObject{
 	 * @eventType	flash.events.KeyboardEvent.KEY_DOWN
 	 [Event(name="keyDown", type="flash.events.KeyboardEvent")]
 	 
+	 // listen on awayjs adapter and translate
+	 
 	 * Dispatched when a user releases the pointing device button over an
 	 * InteractiveObject instance.
 	 * @eventType	flash.events.MouseEvent.RIGHT_MOUSE_UP
@@ -89,7 +208,7 @@ export class InteractiveObject extends DisplayObject{
 	 
 	 * Dispatched when a user presses the pointing device button over an InteractiveObject instance.
 	 * @eventType	flash.events.MouseEvent.RIGHT_MOUSE_DOWN
-	[Event(name="rightMouseDown", type="flash.events.MouseEvent")]
+	 [Event(name="rightMouseDown", type="flash.events.MouseEvent")]
 	 
 	 * Dispatched when a user presses and releases the right button of the user's
 	 * pointing device over the same InteractiveObject.
@@ -110,76 +229,6 @@ export class InteractiveObject extends DisplayObject{
 	 * @eventType	flash.events.MouseEvent.MIDDLE_CLICK
 	 [Event(name="middleClick", type="flash.events.MouseEvent")]
 	 
-	 * Dispatched when the user performs a swipe gesture at a point of contact with an InteractiveObject instance (such as touching three
-	 * fingers to a screen and then moving them in parallel over a display object on a mobile phone or tablet with a touch screen).
-	 * @eventType	flash.events.TransformGestureEvent.GESTURE_SWIPE
-	 [Event(name="gestureSwipe", type="flash.events.TransformGestureEvent")]
-	 
-	 * Dispatched when the user performs a zoom gesture at a point of contact with an InteractiveObject instance (such as touching two
-	 * fingers to a screen and then quickly spreading the fingers apart over a display object on a mobile phone or tablet with a touch screen).
-	 * @eventType	flash.events.TransformGestureEvent.GESTURE_ZOOM
-	 [Event(name="gestureZoom", type="flash.events.TransformGestureEvent")]
-	 
-	 * Dispatched when the user performs a rotation gesture at a point of contact with an InteractiveObject instance (such as touching two fingers
-	 * and rotating them over a display object on a mobile phone or tablet with a touch screen).
-	 * @eventType	flash.events.TransformGestureEvent.GESTURE_ROTATE
-	 [Event(name="gestureRotate", type="flash.events.TransformGestureEvent")]
-	 
-	 * Dispatched when the user creates a point of contact with an InteractiveObject instance, then taps
-	 * on a touch-enabled device (such as placing several fingers over a display object to open a menu and then taps one finger to select a menu item
-	 * on a mobile phone or tablet with a touch screen).
-	 * @eventType	flash.events.PressAndTapGestureEvent.GESTURE_PRESS_AND_TAP
-	 [Event(name="gesturePressAndTap", type="flash.events.PressAndTapGestureEvent")]
-	 
-	 * Dispatched when the user moves a point of contact over the InteractiveObject instance
-	 * on a touch-enabled device (such as moving a finger from left to right over a display object
-	 * on a mobile phone or tablet with a touch screen).
-	 * @eventType	flash.events.TransformGestureEvent.GESTURE_PAN
-	 [Event(name="gesturePan", type="flash.events.TransformGestureEvent")]
-	 
-	 * Dispatched when the user presses two points of contact over the same InteractiveObject instance
-	 * on a touch-enabled device (such as presses and releases two fingers over a display object
-	 * on a mobile phone or tablet with a touch screen).
-	 * @eventType	flash.events.GestureEvent.GESTURE_TWO_FINGER_TAP
-	 [Event(name="gestureTwoFingerTap", type="flash.events.GestureEvent")]
-	 
-	 * Dispatched when the user lifts the point of contact over the same InteractiveObject instance on which the contact was initiated
-	 * on a touch-enabled device (such as presses and releases a finger from a single point over a display object
-	 * on a mobile phone or tablet with a touch screen).
-	 * @eventType	flash.events.TouchEvent.TOUCH_TAP
-	 [Event(name="touchTap", type="flash.events.TouchEvent")]
-	 
-	 * Dispatched when the user moves the point of contact over an InteractiveObject instance on a touch-enabled device
-	 * (such as drags a finger from a point outside a display object to a point over a display object on a mobile phone or tablet with a touch screen).
-	 * @eventType	flash.events.TouchEvent.TOUCH_ROLL_OVER
-	 [Event(name="touchRollOver", type="flash.events.TouchEvent")]
-	 
-	 * Dispatched when the user moves the point of contact away from an InteractiveObject instance on a touch-enabled device
-	 * (such as drags a finger from over a display object to a point outside the display object on a mobile phone or tablet with a touch screen).
-	 * @eventType	flash.events.TouchEvent.TOUCH_ROLL_OUT
-	 [Event(name="touchRollOut", type="flash.events.TouchEvent")]
-	 
-	 * Dispatched when the user moves the point of contact over an InteractiveObject instance on a touch-enabled device
-	 * (such as drags a finger from a point outside a display object to a point over a display object on a mobile phone or tablet with a touch screen).
-	 * @eventType	flash.events.TouchEvent.TOUCH_OVER
-	 [Event(name="touchOver", type="flash.events.TouchEvent")]
-	 
-	 * Dispatched when the user moves the point of contact away from InteractiveObject instance on a touch-enabled device
-	 * (such as drags a finger from one display object to another on a mobile phone or tablet with a touch screen).
-	 * @eventType	flash.events.TouchEvent.TOUCH_OUT
-	 [Event(name="touchOut", type="flash.events.TouchEvent")]
-	 
-	 * Dispatched when the user moves the point of contact with a touch-enabled device (such as drags a finger across a mobile phone or tablet with a touch screen).
-	 * @eventType	flash.events.TouchEvent.TOUCH_MOVE
-	 [Event(name="touchMove", type="flash.events.TouchEvent")]
-	 
-	 * Dispatched when the user removes contact with a touch-enabled device (such as lifts a finger off a mobile phone or tablet with a touch screen).
-	 * @eventType	flash.events.TouchEvent.TOUCH_END
-	 [Event(name="touchEnd", type="flash.events.TouchEvent")]
-	 
-	 * Dispatched when the user first contacts a touch-enabled device (such as touches a finger to a mobile phone or tablet with a touch screen).
-	 * @eventType	flash.events.TouchEvent.TOUCH_BEGIN
-	 [Event(name="touchBegin", type="flash.events.TouchEvent")]
 	 
 	 * Dispatched when the user moves a pointing device over an InteractiveObject instance.
 	 * @eventType	flash.events.MouseEvent.ROLL_OVER
@@ -226,44 +275,6 @@ export class InteractiveObject extends DisplayObject{
 	 * @eventType	flash.events.MouseEvent.CLICK
 	 [Event(name="click", type="flash.events.MouseEvent")]
 	 
-	 * Dispatched when the user attempts to change focus by using a pointer device.
-	 * @eventType	flash.events.FocusEvent.MOUSE_FOCUS_CHANGE
-	 [Event(name="mouseFocusChange", type="flash.events.FocusEvent")]
-	 
-	 * Dispatched when the user attempts to change focus by using keyboard navigation.
-	 * @eventType	flash.events.FocusEvent.KEY_FOCUS_CHANGE	
-	 * 
-	 * Dispatched after a display object loses focus.
-	 * @eventType	flash.events.FocusEvent.FOCUS_OUT
-	 [Event(name="focusOut", type="flash.events.FocusEvent")]
-	 
-	 * Dispatched after a display object gains focus.
-	 * @eventType	flash.events.FocusEvent.FOCUS_IN
-	 [Event(name="focusIn", type="flash.events.FocusEvent")]
-	 
-	 * Dispatched when the user activates the platform-specific accelerator key combination for a select all operation
-	 * or selects 'Select All' from the text context menu.
-	 * @eventType	flash.events.Event.SELECT_ALL
-	 [Event(name="selectAll", type="flash.events.Event")]
-	 
-	 * Dispatched when the user activates the platform-specific accelerator key combination for a paste operation
-	 * or selects 'Paste' from the text context menu.
-	 * @eventType	flash.events.Event.PASTE
-	 [Event(name="paste", type="flash.events.Event")]
-	 
-	 * Dispatched when the user activates the platform-specific accelerator key combination for a cut operation
-	 * or selects 'Cut' from the text context menu.
-	 * @eventType	flash.events.Event.CUT
-	 [Event(name="cut", type="flash.events.Event")]
-	 
-	 * Dispatched when the user activates the platform-specific accelerator key combination for a copy operation
-	 * or selects 'Copy' from the text context menu.
-	 * @eventType	flash.events.Event.COPY
-	 [Event(name="copy", type="flash.events.Event")]
-	 
-	 * Dispatched when the user selects 'Clear' (or 'Delete') from the text context menu.
-	 * @eventType	flash.events.Event.CLEAR
-	 [Event(name="clear", type="flash.events.Event")]
 	 
 	 * The InteractiveObject class is the abstract base class for all display objects with which the user can
 	 * interact, using the mouse, keyboard, or other user input device.
@@ -298,8 +309,19 @@ export class InteractiveObject extends DisplayObject{
 	 *
 	 *   new SimpleButton()new TextField()new Loader()new Sprite()new MovieClip()
 	 */
-	constructor(){
-		super();
+	constructor(adaptee:AwayDisplayObject=null){
+		super(adaptee);
+
+		/*
+		this._eventMapping[Event.ACTIVATE]={
+			adaptedDispatcher:null,
+			adaptedType:null,
+			translater:null};
+		this._eventMapping[Event.DEACTIVATE]={
+			adaptedDispatcher:null,
+			adaptedType:null,
+			translater:null};
+			*/
 	}
 
 	//---------------------------stuff added to make it work:

@@ -17,7 +17,7 @@ export class Shape extends DisplayObject
 	 * Creates a new Shape object.
 	 */
 	constructor (){
-		super();
+		super(null)//todo;
 	}
 	/**
 	 * Specifies the Graphics object belonging to this Shape object, where vector
