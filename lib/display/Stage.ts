@@ -196,7 +196,7 @@ export class Stage extends DisplayObjectContainer{
 			this.dispatchEventRecursive(new Event(Event.ENTER_FRAME));
 			this._mainSprite.advanceFrame();
 			this.dispatchEventRecursive(new Event(Event.FRAME_CONSTRUCTED));
-			// todo: move Framescriptexecution and rest update logic  from Movieclip.update to here
+			// todo: move Framescriptexecution and rest from frame-update logic from Movieclip.update to here
 			this.dispatchEventRecursive(new Event(Event.EXIT_FRAME));
 			this.dispatchEventRecursive(new Event(Event.RENDER));
 			this._view.render();

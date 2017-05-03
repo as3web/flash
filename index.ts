@@ -129,6 +129,7 @@ export {setInterval} from "./lib/utils/setInterval";
 export {setTimeout} from "./lib/utils/setTimeout";
 export {unescapeMultiByte} from "./lib/utils/unescapeMultiByte";
 
+export {AwayDate} from "./lib/utils/AwayDate";
 export {ByteArray} from "./lib/utils/ByteArray";//awayjs
 export {Dictionary} from "./lib/utils/Dictionary";
 export {Endian} from "./lib/utils/Endian";//standalone
