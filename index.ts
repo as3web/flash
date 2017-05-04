@@ -50,6 +50,7 @@ export {ProgressEvent} from "./lib/events/ProgressEvent";
 export {SampleDataEvent} from "./lib/events/SampleDataEvent";
 export {TextEvent} from "./lib/events/TextEvent";
 export {TimerEvent} from "./lib/events/TimerEvent";
+export {TouchEvent} from "./lib/events/TouchEvent";
 
 export {ExternalInterface} from "./lib/external/ExternalInterface";
 

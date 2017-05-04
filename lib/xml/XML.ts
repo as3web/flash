@@ -11,6 +11,7 @@ export class XML extends XMLNode
 	public xmlDecl:string;
 	public static ignoreWhitespace:boolean;
 	public col:XMLList;
+	public attribute:any;
 
 	constructor(text:string){
 		super(XMLNodeType.XML_DECLARATION, "null");
