@@ -1,5 +1,6 @@
 import { XMLNode } from "./XMLNode";
 import { XMLNodeType } from "./XMLNodeType";
+import { XMLList } from "./XMLList";
 export class XML extends XMLNode
 {
 	public contentType:string;
@@ -9,6 +10,7 @@ export class XML extends XMLNode
 	public status:number;
 	public xmlDecl:string;
 	public static ignoreWhitespace:boolean;
+	public col:XMLList;
 
 	constructor(text:string){
 		super(XMLNodeType.XML_DECLARATION, "null");
