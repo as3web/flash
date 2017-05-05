@@ -1,6 +1,7 @@
 
 import {InteractiveObject} from "../display/InteractiveObject";
 import { Event } from "./Event";
+import { MouseEvent as MouseEventAway} from "@awayjs/scene";
 
 
 /**
@@ -332,23 +333,25 @@ export class MouseEvent extends Event
 	 *   The Option key modifier on Macintosh system must be represented using this key modifier. So far, it seems
 	 *   only the Windows version is hooked up.
 	 */
+	private _altKey:boolean;
 	public get altKey () : boolean{
 
-		return false;
+		return this._altKey;
 	}
 	public set altKey (value:boolean){
-	
+		this._altKey=value;
 	}
 
 	/**
 	 * Indicates whether the primary mouse button is pressed (true) or not (false).
 	 */
+	private _buttonDown:boolean;
 	public get buttonDown () : boolean{
 
-		return false;
+		return this._buttonDown;
 	}
 	public set buttonDown (value:boolean){
-		
+		this._buttonDown=value;
 	}
 	
 
@@ -356,12 +359,12 @@ export class MouseEvent extends Event
 	 * On Windows or Linux, indicates whether the Ctrl key is active (true) or inactive (false).
 	 * On Macintosh, indicates whether either the Control key or the Command key is activated.
 	 */
+	private _ctrlKey:boolean;
 	public get ctrlKey () : boolean{
-
-		return false;
+		return this._ctrlKey;
 	}
 	public set ctrlKey (value:boolean){
-		
+		this._ctrlKey=value;
 	}
 
 	/**
@@ -375,12 +378,12 @@ export class MouseEvent extends Event
 	 * @playerversion	Flash 9
 	 * @playerversion	Lite 4
 	 */
+	private _delta:number;
 	public get delta () : number{
-		return 0;
-		
+		return this._delta;
 	}
 	public set delta (value:number){
-		
+		this._delta=value;
 	}
 
 	/**
@@ -395,49 +398,59 @@ export class MouseEvent extends Event
 	 * @playerversion	Flash 10
 	 * @playerversion	Lite 4
 	 */
+	private _isRelatedObjectInaccessible:boolean;
 	public get isRelatedObjectInaccessible () : boolean{
-		return false;
+		return this._isRelatedObjectInaccessible;
 
 	}
 	public set isRelatedObjectInaccessible (value:boolean){
+		this._isRelatedObjectInaccessible=value;
 
 	}
 
 	/**
 	 * The horizontal coordinate at which the event occurred relative to the containing sprite.
 	 */
+	private _localX:number;
 	public get localX () : number{
-		return 0;
+		return this._localX;
 
 	}
 	public set localX (value:number){
+		this._localX=value;
 
 	}
 
 	/**
 	 * The vertical coordinate at which the event occurred relative to the containing sprite.
 	 */
+	private _localY:number;
 	public get localY () : number{
-		return 0;
+		return this._localY;
 
 	}
 	public set localY (value:number){
+		this._localY=value;
 
 	}
 
+	private _movementX:number;
 	public get movementX () : number{
-		return 0;
+		return this._movementX;
 
 	}
 	public set movementX (value:number){
+		this._movementX=value;
 
 	}
 
+	private _movementY:number;
 	public get movementY () : number{
-		return 0;
+		return this._movementY;
 
 	}
 	public set movementY (value:number){
+		this._movementY=value;
 
 	}
 
@@ -449,11 +462,13 @@ export class MouseEvent extends Event
 	 * or there is a related object, but it is in a security sandbox to which you don't have access.
 	 * Use the isRelatedObjectInaccessible() property to determine which of these reasons applies.
 	 */
+	private _relatedObject:InteractiveObject;
 	public get relatedObject () : InteractiveObject{
-		return null;
+		return this._relatedObject;
 
 	}
 	public set relatedObject (value:InteractiveObject){
+		this._relatedObject=value;
 
 	}
 
@@ -461,10 +476,12 @@ export class MouseEvent extends Event
 	 * Indicates whether the Shift key is active (true) or inactive
 	 * (false).
 	 */
+	private _shiftKey:boolean;
 	public get shiftKey () : boolean{
-		return false;
+		return this._shiftKey;
 	}
 	public set shiftKey (value:boolean){
+		this._shiftKey=value;
 
 	}
 
@@ -472,8 +489,9 @@ export class MouseEvent extends Event
 	 * The horizontal coordinate at which the event occurred in global Stage coordinates.
 	 * This property is calculated when the localX property is set.
 	 */
+	private _stageX:number;
 	public get stageX () : number{
-		return 0;
+		return this._stageX;
 
 	}
 
@@ -481,8 +499,9 @@ export class MouseEvent extends Event
 	 * The vertical coordinate at which the event occurred in global Stage coordinates.
 	 * This property is calculated when the localY property is set.
 	 */
+	private _stageY:number;
 	public get stageY () : number{
-		return 0;
+		return this._stageY;
 
 	}
 
@@ -532,6 +551,36 @@ export class MouseEvent extends Event
 		super(type, bubbles, cancelable);
 	}
 
+	/* added to clone events from away to as3web. */
+	public fillFromAway (awayEvent:MouseEventAway){
+		//console.log("cloneFromAway not implemented yet in flash/MouseEvent");
+
+		this.delta = awayEvent.delta;
+
+		this.ctrlKey = awayEvent.ctrlKey;
+		this.shiftKey = awayEvent.shiftKey;
+
+		this._stageX = awayEvent.screenX;
+		this._stageY = awayEvent.screenY;
+
+		//todo: translate more stuff from awayjs to as3
+		
+		//result.screenX = this.screenX;
+		//result.screenY = this.screenY;
+/*
+		result.view = awayEvent.view;
+		result.entity = awayEvent.entity;
+		result.renderable = awayEvent.renderable;
+		result.material = awayEvent.material;
+		result.uv = awayEvent.uv;
+		result.position = awayEvent.position;
+		result.normal = awayEvent.normal;
+		result.elementIndex = awayEvent.elementIndex;
+*/
+		//result._iParentEvent = awayEvent;
+		//result._iAllowedToPropagate = awayEvent._iAllowedToPropagate;
+
+	}
 	/**
 	 * Returns a string that contains all the properties of the MouseEvent object. The string is in the following format:
 	 * [MouseEvent type=value bubbles=value cancelable=value ... delta=value]

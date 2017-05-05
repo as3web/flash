@@ -2,6 +2,7 @@ import * as awayStage from "@awayjs/stage";
 import {StageAlign} from "./StageAlign"
 import {Sprite} from "./Sprite"
 import {Event} from "../events/Event"
+import {IEventMapper} from "../events/IEventMapper"
 import {DisplayObjectContainer} from "./DisplayObjectContainer"
 import {DisplayObject} from "./DisplayObject"
 import {StageScaleMode} from "./StageScaleMode"
@@ -133,6 +134,30 @@ export class Stage extends DisplayObjectContainer{
 
 	constructor(startClass) {
 		super();
+		/*
+		//todo
+		this.eventMappingDummys[StageVideoAvailabilityEvent.STAGE_VIDEO_AVAILABILITY]="StageVideoAvailabilityEvent.STAGE_VIDEO_AVAILABILITY";
+		this.eventMappingDummys[StageOrientationEvent.ORIENTATION_CHANGE]="StageOrientationEvent.ORIENTATION_CHANGE";
+		this.eventMappingDummys[StageOrientationEvent.ORIENTATION_CHANGING]="StageOrientationEvent.ORIENTATION_CHANGING";
+		this.eventMappingDummys[FullScreenEvent.FULL_SCREEN]="FullScreenEvent.FULL_SCREEN";
+		*/
+
+		// resize event listens on window
+		this._resizeCallbackDelegate = (event:any) => this.resizeCallback(event);
+		this.eventMapping[Event.RESIZE]=(<IEventMapper>{
+			adaptedType:"",
+			addListener:this.initResizeListener,
+			removeListener:this.removeResizeListener,
+			callback:this._resizeCallbackDelegate});
+
+		// mouse leave event listens on document
+		this._mouseLeaveCallbackDelegate = (event:any) => this.mouseLeaveCallback(event);
+		this.eventMapping[Event.MOUSE_LEAVE]=(<IEventMapper>{
+			adaptedType:"",
+			addListener:this.initMouseLeaveListener,
+			removeListener:this.removeMouseLeaveListener,
+			callback:this._mouseLeaveCallbackDelegate});
+
 		DisplayObject.activeStage=this;
 		this.initEninge();
 		this.initListeners();
@@ -141,6 +166,41 @@ export class Stage extends DisplayObjectContainer{
 		console.log("constructed Stage and create the entranceclass");
 	}
 
+	// ---------- event mapping functions Event.RESIZE
+
+	private initResizeListener(type:string, callback:(event:any) => void):void
+	{
+		window.onresize = callback;
+	}
+	private removeResizeListener(type:string, callback:(event:any) => void):void
+	{
+		window.onresize = null;
+	}
+
+	private _resizeCallbackDelegate:(event:any) => void;
+	private resizeCallback(event:any=null):void
+	{
+		this.dispatchEvent(new Event(Event.RESIZE));
+	}
+
+	// ---------- event mapping functions Event.MOUSE_LEAVE
+
+	private initMouseLeaveListener(type:string, callback:(event:any) => void):void
+	{
+		window.onmouseleave = callback;
+	}
+	private removeMouseLeaveListener(type:string, callback:(event:any) => void):void
+	{
+		window.onmouseleave = null;
+	}
+
+	private _mouseLeaveCallbackDelegate:(event:any) => void;
+	private mouseLeaveCallback(event:any=null):void
+	{
+		this.dispatchEvent(new Event(Event.MOUSE_LEAVE));
+	}
+
+	
 	//---------------------------stuff added to make it work:
 
 

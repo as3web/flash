@@ -1,4 +1,6 @@
 import {Event} from "./Event";
+import {IEventMapper} from "./IEventMapper";
+
 import {EventDispatcher as AwayEventDispatcher, EventBase} from "@awayjs/core";
 
 /**
@@ -14,51 +16,105 @@ import {EventDispatcher as AwayEventDispatcher, EventBase} from "@awayjs/core";
  */
 export class EventDispatcher extends AwayEventDispatcher{
 
-	private _adaptee:AwayEventDispatcher;
+	protected _adaptee:AwayEventDispatcher;
 
-	public eventMapping:Object;
-
+	protected eventMapping:Object;
+	protected eventMappingDummys:Object;
+	protected eventMappingInvert:Object;
+	
 	constructor(target:any = null)
 	{
 		super(target);
 
+		this.eventMapping={};
+		this.eventMappingDummys={};
+		this.eventMappingInvert={};//only needed in some cases, when we translate back from awayjs-type to flash-type
+
+		this._activateCallbackDelegate = (event:any) => this.activateCallback(event);
+		this.eventMapping[Event.ACTIVATE]=(<IEventMapper>{
+			adaptedType:"",
+			addListener:this.initActivateListener,
+			removeListener:this.removeActivateListener,
+			callback:this._activateCallbackDelegate});
+
+		this._deactivateCallbackDelegate = (event:any) => this.deactivateCallback(event);
+		this.eventMapping[Event.DEACTIVATE]=(<IEventMapper>{
+			adaptedType:"",
+			addListener:this.initDeactivateListener,
+			removeListener:this.removeDeactivateListener,
+			callback:this._deactivateCallbackDelegate});
 	}
 
-	public constructEventmapping(){
-		this.eventMapping={};
-		/*
-		 this._eventMapping[Event.ACTIVATE]={
-		 adaptedDispatcher:null,
-		 adaptedType:null,
-		 adaptedCallback:null};
-		 this._eventMapping[Event.DEACTIVATE]={
-		 adaptedDispatcher:null,
-		 adaptedType:null,
-		 adaptedCallback:null};
-		 */
-	};
+	// ---------- event mapping functions Event.ACTIVATE
+
+	private initActivateListener(type:string, callback:(event:any) => void):void
+	{
+		window.onfocus = callback;
+	}
+	private removeActivateListener(type:string, callback:(event:any) => void):void
+	{
+		window.onfocus = null;
+	}
+
+	private _activateCallbackDelegate:(event:any) => void;
+	private activateCallback(event:any=null):void
+	{
+		this.dispatchEvent(new Event(Event.ACTIVATE));
+	}
+
+
+	// ---------- event mapping functions Event.DEACTIVATE
+
+	private initDeactivateListener(type:string, callback:(event:any) => void):void
+	{
+		window.onblur = callback;
+	}
+	private removeDeactivateListener(type:string, callback:(event:any) => void):void
+	{
+		window.onblur = null;
+	}
+	private _deactivateCallbackDelegate:(event:any) => void;
+	private deactivateCallback(event:any=null):void
+	{
+		this.dispatchEvent(new Event(Event.DEACTIVATE));
+	}
+
 
 	/*overwrite*/
 	public addEventListener(type:string, listener:(event:EventBase) => void):void
 	{
+		if(this.eventMappingDummys.hasOwnProperty(type)){
+			
+			if(this.eventMappingDummys[type]==""){
+				
+				// this is a dummy eventMapping, that is set with no message.
+				// this means we do not need to create any mapping, 
+				// the event should still work, because we dispatch the event without listeneing for awayjs-events
+				// so we still need to register it on superclass, so it will work if we dispacth it manually
+				super.addEventListener(type, listener);
+				return;
+			}
+			
+			// this is a dummy eventMapping that has a message
+			// that means it is not expected to work, and we do not need to register it on superclass
+			// for now we output a warning
+			console.log("Warning - EventDispatcher:  trying to listen for unsupported event: : "+this.eventMappingDummys[type]);
+			return;
+		}
 		if(this.eventMapping.hasOwnProperty(type)){
-			// a mapping exists
+			
+			// a mapping exists for this event
 			
 			//making sure standart behaviour still works (listener is tracked in list)
 			super.addEventListener(type, listener);
 
-			var thisMapping:any=this.eventMapping[type];
-			// create new listener for adapatedEventType on the adaptedDispatcher
-			// when a event comes in, it is translated into dispatchedEventClass
-			// for this to work, the dispatchedEventClass must provide a cloneFrom function
-			thisMapping.adaptedDispatcher.addEventListener(thisMapping.adaptedType, thisMapping.translater)
-
-
+			// call the provided "addListener" function
+			this.eventMapping[type].addListener.call(this, this.eventMapping[type].adaptedType, this.eventMapping[type].callback);
 			return;
 		}
 		// if we make it here, the event is not handled by this dispatcher
 		// lets output a Warning for now.
-		console.log("EventDispatcher: trying to listen for unhandled event: '"+type+"'")
+		console.log("EventDispatcher: trying to listen for unknown event: '"+type+"'")
 	}
 
 	/**
@@ -72,8 +128,7 @@ export class EventDispatcher extends AwayEventDispatcher{
 		super.removeEventListener(type, listener);
 		if(this.eventMapping.hasOwnProperty(type)){
 			// a mapping exists
-			var thisMapping:any=this.eventMapping[type];
-			thisMapping.adaptedDispatcher.removeEventListener(thisMapping.adaptedType, thisMapping.adaptedCallback);
+			this.eventMapping[type].removeListener.call(this, this.eventMapping[type].adaptedType, this.eventMapping[type].callback);
 		}
 	}
 	public get adaptee():AwayEventDispatcher{

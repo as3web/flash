@@ -29,9 +29,7 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * [broadcast event] Dispatched when the display list is about to be updated and rendered.
 	 * @eventType	flash.events.Event.RENDER
 	 [Event(name="render", type="flash.events.Event")]
-
-
-
+	 
 	 * Dispatched when a displayobject is about to be removed from the display list,
 	 * either directly or through the removal of a sub tree in which the displayobject is contained.
 	 * @eventType	flash.events.Event.REMOVED_FROM_STAGE
@@ -40,9 +38,6 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * Dispatched when a displayobject is about to be removed from the display list.
 	 * @eventType	flash.events.Event.REMOVED
 	 [Event(name="removed", type="flash.events.Event")]
-
-
-
 
 	 * Dispatched when a displayobject is added to the on stage display list,
 	 * either directly or through the addition of a sub tree in which the displayobject is contained.
@@ -87,7 +82,22 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 
 		// needed, because `this.stage` must already be available when constructor of extending classes are executed
 		this._stage=DisplayObject.activeStage;
+
+		// no eventMapping needed for the DisplayObject-events.
+		// they can all be dispatched without listening on other objects
+		// still need to create a dummy mapping with empty message, in order to have them registered
+		// (we want unknown events to fail when they try to register in addEventListener
+		this.eventMappingDummys[Event.ENTER_FRAME]="";
+		this.eventMappingDummys[Event.FRAME_CONSTRUCTED]="";
+		this.eventMappingDummys[Event.EXIT_FRAME]="";
+		this.eventMappingDummys[Event.RENDER]="";
+		this.eventMappingDummys[Event.REMOVED_FROM_STAGE]="";
+		this.eventMappingDummys[Event.REMOVED]="";
+		this.eventMappingDummys[Event.ADDED_TO_STAGE]="";
+		this.eventMappingDummys[Event.ADDED]="";
 	}
+
+
 
 	//---------------------------stuff added to make it work:
 
@@ -120,21 +130,6 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	
 	public dispatchEventRecursive(event:Event) {	this.dispatchEvent(event);	}
 
-
-	public constructEventmapping(){
-		super.constructEventmapping();
-		this.eventMapping={};
-		/*
-		 this._eventMapping[Event.ACTIVATE]={
-		 adaptedDispatcher:null,
-		 adaptedType:null,
-		 translater:null};
-		 this._eventMapping[Event.DEACTIVATE]={
-		 adaptedDispatcher:null,
-		 adaptedType:null,
-		 translater:null};
-		 */
-	};
 
 
 	// --------------------- stuff needed because of implementing the existing IDisplayObjectAdapter

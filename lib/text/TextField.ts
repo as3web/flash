@@ -62,10 +62,10 @@ export class TextField extends InteractiveObject
 
 	}
 	public get adaptee():AwayTextField {
-		return (<AwayTextField>this.adaptee);
+		return (<AwayTextField>this._adaptee);
 	}
 	public set adaptee(adaptee:AwayTextField) {
-		this.adaptee=adaptee;
+		this._adaptee=adaptee;
 	}
 	/**
 	 * When set to true and the text field is not in focus, Flash Player highlights the

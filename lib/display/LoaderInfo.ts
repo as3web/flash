@@ -1,5 +1,7 @@
 import {EventDispatcher} from "../events/EventDispatcher";
 import {ApplicationDomain} from "../system/ApplicationDomain";
+import {IOErrorEvent} from "../events/IOErrorEvent";
+import {ProgressEvent} from "../events/ProgressEvent";
 import {Event} from "../events/Event";
 import { Loader } from "./Loader";
 import { DisplayObject } from "./DisplayObject";
@@ -15,7 +17,7 @@ import {ByteArray} from "../utils/ByteArray";
  * method of the Loader object, or when a second load is performed by the same Loader object and the
  * original content is removed prior to the load beginning.
  * @eventType	flash.events.Event.UNLOAD
- 
+
 [Event(name="unload", type="flash.events.Event")]
 
  * Dispatched when data is received as the download operation progresses.
@@ -25,7 +27,7 @@ import {ByteArray} from "../utils/ByteArray";
 
  * Dispatched when a load operation starts.
  * @eventType	flash.events.Event.OPEN
- 
+
 [Event(name="open", type="flash.events.Event")]
 
  * Dispatched when an input or output error occurs that causes a load operation to fail.
@@ -137,6 +139,17 @@ export class LoaderInfo extends EventDispatcher
 		console.log("actionScriptVersion not implemented yet in flash/LoaderInfo");
 		return 0;
 		
+	}
+	constructor(target:any = null)
+	{
+		super(target);
+		this.eventMappingDummys[Event.UNLOAD]="LoaderInfo:Event.UNLOAD";
+		this.eventMappingDummys[ProgressEvent.PROGRESS]="LoaderInfo:ProgressEvent.PROGRESS";
+		this.eventMappingDummys[IOErrorEvent.IO_ERROR]="LoaderInfo:IOErrorEvent.IO_ERROR";
+		//this.eventMappingDummys[HTTPStatusEvent.IO_ERROR]="HTTPStatusEvent.IO_ERROR";
+		this.eventMappingDummys[Event.OPEN]="LoaderInfo:Event.OPEN";
+		this.eventMappingDummys[Event.INIT]="LoaderInfo:Event.INIT";
+		this.eventMappingDummys[Event.COMPLETE]="LoaderInfo:Event.COMPLETE";
 	}
 
 	/**
@@ -256,7 +269,10 @@ export class LoaderInfo extends EventDispatcher
 	 * The MIME type of the loaded file. The value is null if not enough of the file has loaded
 	 * in order to determine the type. The following list gives the possible values:
 	 *
-	 *   "application/x-shockwave-flash""image/jpeg""image/gif""image/png"
+	 *   "application/x-shockwave-flash"
+	 *   "image/jpeg"
+	 *   "image/gif"
+	 *   "image/png"
 	 */
 	public get contentType () : string{
 		console.log("contentType not implemented yet in flash/LoaderInfo");
@@ -487,12 +503,13 @@ export class LoaderInfo extends EventDispatcher
 		return 0;
 		
 	}
-
+/*
 	public dispatchEvent (event:Event) : boolean{
 		console.log("dispatchEvent not implemented yet in flash/LoaderInfo");
 		return false;
 		
 	}
+	*/
 
 	/**
 	 * Returns the LoaderInfo object associated with a SWF file defined as an object.

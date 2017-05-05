@@ -1,77 +1,168 @@
 
-import {Rectangle} from "@awayjs/core";
+import {Rectangle, EventBase} from "@awayjs/core";
 import {DisplayObject} from "./DisplayObject";
-import {DisplayObject as AwayDisplayObject} from "@awayjs/scene";
+import {DisplayObject as AwayDisplayObject, MouseEvent as MouseEventAway} from "@awayjs/scene";
+import {MouseEvent} from "../events/MouseEvent";
+import {KeyboardEvent} from "../events/KeyboardEvent";
 
+import {IEventMapper} from "../events/IEventMapper"
 export class InteractiveObject extends DisplayObject{
 
-	/**
-	 * forget about these events for now:
-	 * 
+	/** these should be able to get setup:
+	 
+
+	 // listen on key directly
+	 
+	 * Dispatched when the user releases a key.
+	 * @eventType	flash.events.KeyboardEvent.KEY_UP
+	 [Event(name="keyUp", type="flash.events.KeyboardEvent")]
+	 
+	 * Dispatched when the user presses a key.
+	 * @eventType	flash.events.KeyboardEvent.KEY_DOWN
+	 [Event(name="keyDown", type="flash.events.KeyboardEvent")]
+	 
+	 // listen on awayjs adapter and translate
+	 
+	 * Dispatched when a user releases the pointing device button over an
+	 * InteractiveObject instance.
+	 * @eventType	flash.events.MouseEvent.RIGHT_MOUSE_UP
+	 [Event(name="rightMouseUp", type="flash.events.MouseEvent")]
+	 
+	 * Dispatched when a user presses the pointing device button over an InteractiveObject instance.
+	 * @eventType	flash.events.MouseEvent.RIGHT_MOUSE_DOWN
+	 [Event(name="rightMouseDown", type="flash.events.MouseEvent")]
+	 
+	 * Dispatched when a user presses and releases the right button of the user's
+	 * pointing device over the same InteractiveObject.
+	 * @eventType	flash.events.MouseEvent.RIGHT_CLICK
+	 [Event(name="rightClick", type="flash.events.MouseEvent")]
+	 
+	 * Dispatched when a user releases the pointing device button over an
+	 * InteractiveObject instance.
+	 * @eventType	flash.events.MouseEvent.MIDDLE_MOUSE_UP
+	 [Event(name="middleMouseUp", type="flash.events.MouseEvent")]
+	 
+	 * Dispatched when a user presses the middle pointing device button over an InteractiveObject instance.
+	 * @eventType	flash.events.MouseEvent.MIDDLE_MOUSE_DOWN
+	 [Event(name="middleMouseDown", type="flash.events.MouseEvent")]
+	 
+	 * Dispatched when a user presses and releases the middle button of the user's
+	 * pointing device over the same InteractiveObject.
+	 * @eventType	flash.events.MouseEvent.MIDDLE_CLICK
+	 [Event(name="middleClick", type="flash.events.MouseEvent")]
+	 
+	 
+	 * Dispatched when the user moves a pointing device over an InteractiveObject instance.
+	 * @eventType	flash.events.MouseEvent.ROLL_OVER
+	 [Event(name="rollOver", type="flash.events.MouseEvent")]
+	 
+	 * Dispatched when the user moves a pointing device away from an InteractiveObject
+	 * instance.
+	 * @eventType	flash.events.MouseEvent.ROLL_OUT
+	 [Event(name="rollOut", type="flash.events.MouseEvent")]
+	 
+	 * Dispatched when a mouse wheel is spun over an InteractiveObject instance.
+	 * @eventType	flash.events.MouseEvent.MOUSE_WHEEL
+	 [Event(name="mouseWheel", type="flash.events.MouseEvent")]
+	 
+	 * Dispatched when a user releases the pointing device button over an
+	 * InteractiveObject instance.
+	 * @eventType	flash.events.MouseEvent.MOUSE_UP
+	 [Event(name="mouseUp", type="flash.events.MouseEvent")]
+	 
+	 * Dispatched when the user moves a pointing device over an InteractiveObject instance.
+	 * @eventType	flash.events.MouseEvent.MOUSE_OVER
+	 [Event(name="mouseOver", type="flash.events.MouseEvent")]
+	 
+	 * Dispatched when the user moves a pointing device away from an InteractiveObject instance.
+	 * @eventType	flash.events.MouseEvent.MOUSE_OUT
+	 [Event(name="mouseOut", type="flash.events.MouseEvent")]
+	 
+	 * Dispatched when a user moves the pointing device while it is over an InteractiveObject.
+	 * @eventType	flash.events.MouseEvent.MOUSE_MOVE
+	 [Event(name="mouseMove", type="flash.events.MouseEvent")]
+	 
+	 * Dispatched when a user presses the pointing device button over an InteractiveObject instance.
+	 * @eventType	flash.events.MouseEvent.MOUSE_DOWN
+	 [Event(name="mouseDown", type="flash.events.MouseEvent")]
+	 
+	 * Dispatched when a user presses and releases the main button of a pointing device twice in
+	 * rapid succession over the same InteractiveObject when that object's
+	 * doubleClickEnabled flag is set to true.
+	 * @eventType	flash.events.MouseEvent.DOUBLE_CLICK
+	 [Event(name="doubleClick", type="flash.events.MouseEvent")]
+	 
+	 * Dispatched when a user presses and releases the main button of the user's
+	 * pointing device over the same InteractiveObject.
+	 * @eventType	flash.events.MouseEvent.CLICK
+	 [Event(name="click", type="flash.events.MouseEvent")]
+
+	 */
+	 /**
 	 * Dispatched immediately after the soft keyboard is lowered.
 	 * @eventType	flash.events.SoftKeyboardEvent.SOFT_KEYBOARD_DEACTIVATE
 	 [Event(name="softKeyboardDeactivate", type="flash.events.SoftKeyboardEvent")]
-	 
+
 	 * Dispatched immediately after the soft keyboard is raised.
 	 * @eventType	flash.events.SoftKeyboardEvent.SOFT_KEYBOARD_ACTIVATE
 	 [Event(name="softKeyboardActivate", type="flash.events.SoftKeyboardEvent")]
-	 
+
 	 * Dispatched immediately before the soft keyboard is raised.
 	 * @eventType	flash.events.SoftKeyboardEvent.SOFT_KEYBOARD_ACTIVATING
 	 [Event(name="softKeyboardActivating", type="flash.events.SoftKeyboardEvent")]
-	 
+
 	 * Dispatched when a user enters one or more
 	 * characters of text.
 	 * @eventType	flash.events.TextEvent.TEXT_INPUT
 	 [Event(name="textInput", type="flash.events.TextEvent")]
 	 /// This event is dispatched to any client app that supports inline input with an IME
 	 [Event(name="imeStartComposition", type="flash.events.IMEEvent")]
-	 
+
 	 * Dispatched when a user gesture triggers the context menu associated with this interactive
 	 * object in an AIR application.
 	 * @eventType	flash.events.MouseEvent.CONTEXT_MENU
 	 [Event(name="contextMenu", type="flash.events.MouseEvent")]
-	 
+
 	 * Dispatched by the drag initiator InteractiveObject when the user releases the drag gesture.
 	 * @eventType	flash.events.NativeDragEvent.NATIVE_DRAG_COMPLETE
 	 [Event(name="nativeDragComplete", type="flash.events.NativeDragEvent")]
-	 
+
 	 * Dispatched during a drag operation by the InteractiveObject that is
 	 * specified as the drag initiator in the DragManager.doDrag() call.
 	 * @eventType	flash.events.NativeDragEvent.NATIVE_DRAG_UPDATE
 	 [Event(name="nativeDragUpdate", type="flash.events.NativeDragEvent")]
-	 
+
 	 * Dispatched at the beginning of a drag operation by the InteractiveObject that is
 	 * specified as the drag initiator in the DragManager.doDrag() call.
 	 * @eventType	flash.events.NativeDragEvent.NATIVE_DRAG_START
 	 [Event(name="nativeDragStart", type="flash.events.NativeDragEvent")]
-	 
+
 	 * Dispatched by an InteractiveObject when a drag gesture leaves its boundary.
 	 * @eventType	flash.events.NativeDragEvent.NATIVE_DRAG_EXIT
 	 [Event(name="nativeDragExit", type="flash.events.NativeDragEvent")]
-	 
+
 	 * Dispatched by the target InteractiveObject when a dragged object is
 	 * dropped on it and the drop has been accepted with a call to
 	 * DragManager.acceptDragDrop().
 	 * @eventType	flash.events.NativeDragEvent.NATIVE_DRAG_DROP
 	 [Event(name="nativeDragDrop", type="flash.events.NativeDragEvent")]
-	 
+
 	 * Dispatched by an InteractiveObject continually while a drag gesture remains within its
 	 * boundary.
 	 * @eventType	flash.events.NativeDragEvent.NATIVE_DRAG_OVER
 	 [Event(name="nativeDragOver", type="flash.events.NativeDragEvent")]
-	 
+
 	 * Dispatched by an InteractiveObject when a drag gesture enters its boundary.
 	 * @eventType	flash.events.NativeDragEvent.NATIVE_DRAG_ENTER
-	 
+
 	 * Dispatched when the value of the object's tabIndex property changes.
 	 * @eventType	flash.events.Event.TAB_INDEX_CHANGE
 	 [Event(name="tabIndexChange", type="flash.events.Event")]
-	 
+
 	 * Dispatched when the object's tabEnabled flag changes.
 	 * @eventType	flash.events.Event.TAB_ENABLED_CHANGE
 	 [Event(name="tabEnabledChange", type="flash.events.Event")]
-	 
+
 	 * Dispatched when the value of the object's tabChildren flag changes.
 	 * @eventType	flash.events.Event.TAB_CHILDREN_CHANGE
 	 [Event(name="tabChildrenChange", type="flash.events.Event")]
@@ -186,97 +277,10 @@ export class InteractiveObject extends DisplayObject{
 	 * @eventType	flash.events.Event.CLEAR
 	 [Event(name="clear", type="flash.events.Event")]
 	 */
-	
-	/** these should be able to get setup:
-	 
-	  
-	 
-	 * Dispatched when the user releases a key.
-	 * @eventType	flash.events.KeyboardEvent.KEY_UP
-	 [Event(name="keyUp", type="flash.events.KeyboardEvent")]
-	 
-	 * Dispatched when the user presses a key.
-	 * @eventType	flash.events.KeyboardEvent.KEY_DOWN
-	 [Event(name="keyDown", type="flash.events.KeyboardEvent")]
-	 
-	 // listen on awayjs adapter and translate
-	 
-	 * Dispatched when a user releases the pointing device button over an
-	 * InteractiveObject instance.
-	 * @eventType	flash.events.MouseEvent.RIGHT_MOUSE_UP
-	 [Event(name="rightMouseUp", type="flash.events.MouseEvent")]
-	 
-	 * Dispatched when a user presses the pointing device button over an InteractiveObject instance.
-	 * @eventType	flash.events.MouseEvent.RIGHT_MOUSE_DOWN
-	 [Event(name="rightMouseDown", type="flash.events.MouseEvent")]
-	 
-	 * Dispatched when a user presses and releases the right button of the user's
-	 * pointing device over the same InteractiveObject.
-	 * @eventType	flash.events.MouseEvent.RIGHT_CLICK
-	 [Event(name="rightClick", type="flash.events.MouseEvent")]
-	 
-	 * Dispatched when a user releases the pointing device button over an
-	 * InteractiveObject instance.
-	 * @eventType	flash.events.MouseEvent.MIDDLE_MOUSE_UP
-	 [Event(name="middleMouseUp", type="flash.events.MouseEvent")]
-	 
-	 * Dispatched when a user presses the middle pointing device button over an InteractiveObject instance.
-	 * @eventType	flash.events.MouseEvent.MIDDLE_MOUSE_DOWN
-	 [Event(name="middleMouseDown", type="flash.events.MouseEvent")]
-	 
-	 * Dispatched when a user presses and releases the middle button of the user's
-	 * pointing device over the same InteractiveObject.
-	 * @eventType	flash.events.MouseEvent.MIDDLE_CLICK
-	 [Event(name="middleClick", type="flash.events.MouseEvent")]
-	 
-	 
-	 * Dispatched when the user moves a pointing device over an InteractiveObject instance.
-	 * @eventType	flash.events.MouseEvent.ROLL_OVER
-	 [Event(name="rollOver", type="flash.events.MouseEvent")]
-	 
-	 * Dispatched when the user moves a pointing device away from an InteractiveObject
-	 * instance.
-	 * @eventType	flash.events.MouseEvent.ROLL_OUT
-	 [Event(name="rollOut", type="flash.events.MouseEvent")]
-	 
-	 * Dispatched when a mouse wheel is spun over an InteractiveObject instance.
-	 * @eventType	flash.events.MouseEvent.MOUSE_WHEEL
-	 [Event(name="mouseWheel", type="flash.events.MouseEvent")]
-	 
-	 * Dispatched when a user releases the pointing device button over an
-	 * InteractiveObject instance.
-	 * @eventType	flash.events.MouseEvent.MOUSE_UP
-	 [Event(name="mouseUp", type="flash.events.MouseEvent")]
-	 
-	 * Dispatched when the user moves a pointing device over an InteractiveObject instance.
-	 * @eventType	flash.events.MouseEvent.MOUSE_OVER
-	 [Event(name="mouseOver", type="flash.events.MouseEvent")]
-	 
-	 * Dispatched when the user moves a pointing device away from an InteractiveObject instance.
-	 * @eventType	flash.events.MouseEvent.MOUSE_OUT
-	 [Event(name="mouseOut", type="flash.events.MouseEvent")]
-	 
-	 * Dispatched when a user moves the pointing device while it is over an InteractiveObject.
-	 * @eventType	flash.events.MouseEvent.MOUSE_MOVE
-	 [Event(name="mouseMove", type="flash.events.MouseEvent")]
-	 
-	 * Dispatched when a user presses the pointing device button over an InteractiveObject instance.
-	 * @eventType	flash.events.MouseEvent.MOUSE_DOWN
-	 [Event(name="mouseDown", type="flash.events.MouseEvent")]
-	 
-	 * Dispatched when a user presses and releases the main button of a pointing device twice in
-	 * rapid succession over the same InteractiveObject when that object's
-	 * doubleClickEnabled flag is set to true.
-	 * @eventType	flash.events.MouseEvent.DOUBLE_CLICK
-	 [Event(name="doubleClick", type="flash.events.MouseEvent")]
-	 
-	 * Dispatched when a user presses and releases the main button of the user's
-	 * pointing device over the same InteractiveObject.
-	 * @eventType	flash.events.MouseEvent.CLICK
-	 [Event(name="click", type="flash.events.MouseEvent")]
-	 
-	 
-	 * The InteractiveObject class is the abstract base class for all display objects with which the user can
+
+	 /**
+
+	* The InteractiveObject class is the abstract base class for all display objects with which the user can
 	 * interact, using the mouse, keyboard, or other user input device.
 	 *
 	 *   <p class="- topic/p ">You cannot instantiate the InteractiveObject class directly. A call to the <codeph class="+ topic/ph pr-d/codeph ">new
@@ -312,16 +316,197 @@ export class InteractiveObject extends DisplayObject{
 	constructor(adaptee:AwayDisplayObject=null){
 		super(adaptee);
 
-		/*
-		this._eventMapping[Event.ACTIVATE]={
-			adaptedDispatcher:null,
-			adaptedType:null,
-			translater:null};
-		this._eventMapping[Event.DEACTIVATE]={
-			adaptedDispatcher:null,
-			adaptedType:null,
-			translater:null};
-			*/
+
+		 // these events can not be mapped from awayjs: //todo (?)
+		 this.eventMappingDummys[MouseEvent.RIGHT_MOUSE_UP]="InteractiveObject:MouseEvent.RIGHT_MOUSE_UP";
+		 this.eventMappingDummys[MouseEvent.RIGHT_MOUSE_DOWN]="InteractiveObject:MouseEvent.RIGHT_MOUSE_DOWN";
+		 this.eventMappingDummys[MouseEvent.RIGHT_MOUSE_DOWN]="InteractiveObject:MouseEvent.RIGHT_MOUSE_DOWN";
+		 this.eventMappingDummys[MouseEvent.RIGHT_CLICK]="InteractiveObject:MouseEvent.RIGHT_CLICK";
+		 this.eventMappingDummys[MouseEvent.MIDDLE_MOUSE_UP]="InteractiveObject:MouseEvent.MIDDLE_MOUSE_UP";
+		 this.eventMappingDummys[MouseEvent.MIDDLE_MOUSE_DOWN]="InteractiveObject:MouseEvent.MIDDLE_MOUSE_DOWN";
+		 this.eventMappingDummys[MouseEvent.MIDDLE_CLICK]="InteractiveObject:MouseEvent.MIDDLE_CLICK";
+
+		 this.eventMappingDummys[MouseEvent.ROLL_OVER]="InteractiveObject:MouseEvent.ROLL_OVER";
+		 this.eventMappingDummys[MouseEvent.ROLL_OUT]="InteractiveObject:MouseEvent.ROLL_OUT";
+
+		 /*
+		 //todo
+		 this.eventMappingDummys[SoftKeyboardEvent.SOFT_KEYBOARD_DEACTIVATE]="SoftKeyboardEvent.SOFT_KEYBOARD_DEACTIVATE";
+		 this.eventMappingDummys[SoftKeyboardEvent.SOFT_KEYBOARD_ACTIVATE]="SoftKeyboardEvent.SOFT_KEYBOARD_ACTIVATE";
+		 this.eventMappingDummys[SoftKeyboardEvent.SOFT_KEYBOARD_ACTIVATING]="SoftKeyboardEvent.SOFT_KEYBOARD_ACTIVATING";
+		 this.eventMappingDummys[TextEvent.TEXT_INPUT]="TextEvent.TEXT_INPUT";
+		 this.eventMappingDummys[MouseEvent.CONTEXT_MENU]="MouseEvent.CONTEXT_MENU";
+		 this.eventMappingDummys[NativeDragEvent.NATIVE_DRAG_COMPLETE]="NativeDragEvent.NATIVE_DRAG_COMPLETE";
+		 this.eventMappingDummys[NativeDragEvent.NATIVE_DRAG_UPDATE]="NativeDragEvent.NATIVE_DRAG_UPDATE";
+		 this.eventMappingDummys[NativeDragEvent.NATIVE_DRAG_START]="NativeDragEvent.NATIVE_DRAG_START";
+		 this.eventMappingDummys[NativeDragEvent.NATIVE_DRAG_EXIT]="NativeDragEvent.NATIVE_DRAG_EXIT";
+		 this.eventMappingDummys[NativeDragEvent.NATIVE_DRAG_DROP]="NativeDragEvent.NATIVE_DRAG_DROP";
+		 this.eventMappingDummys[NativeDragEvent.NATIVE_DRAG_OVER]="NativeDragEvent.NATIVE_DRAG_OVER";
+		 this.eventMappingDummys[NativeDragEvent.NATIVE_DRAG_ENTER]="NativeDragEvent.NATIVE_DRAG_ENTER";
+		 this.eventMappingDummys[Event.TAB_INDEX_CHANGE]="Event.TAB_INDEX_CHANGE";
+		 this.eventMappingDummys[Event.TAB_ENABLED_CHANGE]="Event.TAB_ENABLED_CHANGE";
+		 this.eventMappingDummys[Event.TAB_CHILDREN_CHANGE]="Event.TAB_CHILDREN_CHANGE";
+		 this.eventMappingDummys[TransformGestureEvent.GESTURE_SWIPE]="TransformGestureEvent.GESTURE_SWIPE";
+		 this.eventMappingDummys[TransformGestureEvent.GESTURE_ROTATE]="TransformGestureEvent.GESTURE_ROTATE";
+		 this.eventMappingDummys[TransformGestureEvent.GESTURE_PRESS_AND_TAP]="TransformGestureEvent.GESTURE_PRESS_AND_TAP";
+		 this.eventMappingDummys[GestureEvent.GESTURE_PAN]="GestureEvent.GESTURE_PAN";
+		 this.eventMappingDummys[GestureEvent.GESTURE_TWO_FINGER_TAP]="GestureEvent.GESTURE_TWO_FINGER_TAP";
+		 this.eventMappingDummys[TouchEvent.TOUCH_TAP]="TouchEvent.TOUCH_TAP";
+		 this.eventMappingDummys[TouchEvent.TOUCH_ROLL_OVER]="TouchEvent.TOUCH_ROLL_OVER";
+		 this.eventMappingDummys[TouchEvent.TOUCH_ROLL_OUT]="TouchEvent.TOUCH_ROLL_OUT";
+		 this.eventMappingDummys[TouchEvent.TOUCH_OVER]="TouchEvent.TOUCH_OVER";
+		 this.eventMappingDummys[TouchEvent.TOUCH_OUT]="TouchEvent.TOUCH_OUT";
+		 this.eventMappingDummys[TouchEvent.TOUCH_MOVE]="TouchEvent.TOUCH_MOVE";
+		 this.eventMappingDummys[TouchEvent.TOUCH_END]="TouchEvent.TOUCH_END";
+		 this.eventMappingDummys[TouchEvent.TOUCH_BEGIN]="TouchEvent.TOUCH_BEGIN";
+		 this.eventMappingDummys[FocusEvent.MOUSE_FOCUS_CHANGE]="FocusEvent.MOUSE_FOCUS_CHANGE";
+		 this.eventMappingDummys[FocusEvent.KEY_FOCUS_CHANGE]="FocusEvent.KEY_FOCUS_CHANGE";
+		 this.eventMappingDummys[FocusEvent.FOCUS_OUT]="FocusEvent.FOCUS_OUT";
+		 this.eventMappingDummys[FocusEvent.FOCUS_IN]="FocusEvent.FOCUS_IN";
+		 this.eventMappingDummys[Event.SELECT_ALL]="Event.SELECT_ALL";
+		 this.eventMappingDummys[Event.PASTE]="Event.PASTE";
+		 this.eventMappingDummys[Event.CUT]="Event.CUT";
+		 this.eventMappingDummys[Event.COPY]="Event.COPY";
+		 this.eventMappingDummys[Event.CLEAR]="Event.CLEAR";
+		  */
+
+
+
+		 
+		 // KeyboardEvent events adapt to js-events. they listen on document.onKeyUp / onKeyDown:
+
+		 this._keyUpCallbackDelegate = (event:any) => this.keyUpCallback(event);
+		 this.eventMapping[KeyboardEvent.KEY_UP]=(<IEventMapper>{
+			 adaptedType:"",
+			 addListener:this.initKeyUpListener,
+			 removeListener:this.removeKeyUpListener,
+			 callback:this._keyUpCallbackDelegate});
+
+		 this._keyDownCallbackDelegate = (event:any) => this.keyDownCallback(event);
+		 this.eventMapping[KeyboardEvent.KEY_DOWN]=(<IEventMapper>{
+			 adaptedType:"",
+			 addListener:this.initKeyDownListener,
+			 removeListener:this.removeKeyDownListener,
+			 callback:this._keyDownCallbackDelegate});
+
+		 // MouseEvent events adapt to awayjs-MouseEvents. they listen on adapter:
+		 // these mapping share the same callback, thats why we need the setup the eventMappingInvert to
+
+		 this._mouseCallbackDelegate = (event:MouseEventAway) => this.mouseCallback(event);
+
+		 this.eventMappingInvert[MouseEventAway.MOUSE_WHEEL]=MouseEvent.MOUSE_WHEEL;
+		 this.eventMapping[MouseEvent.MOUSE_WHEEL]= (<IEventMapper>{
+			 adaptedType:MouseEventAway.MOUSE_WHEEL,
+			 addListener:this.initMouseListener,
+			 removeListener:this.removeMouseListener,
+			 callback:this._mouseCallbackDelegate});
+
+		 this.eventMappingInvert[MouseEventAway.MOUSE_UP]=MouseEvent.MOUSE_UP;
+		 this.eventMapping[MouseEvent.MOUSE_UP]=(<IEventMapper>{
+			 adaptedType:MouseEventAway.MOUSE_UP,
+			 addListener:this.initMouseListener,
+			 removeListener:this.removeMouseListener,
+			 callback:this._mouseCallbackDelegate});
+
+		 this.eventMappingInvert[MouseEventAway.MOUSE_OVER]=MouseEvent.MOUSE_OVER;
+		 this.eventMapping[MouseEvent.MOUSE_OVER]=(<IEventMapper>{
+			 adaptedType:MouseEventAway.MOUSE_OVER,
+			 addListener:this.initMouseListener,
+			 removeListener:this.removeMouseListener,
+			 callback:this._mouseCallbackDelegate});
+
+		 this.eventMappingInvert[MouseEventAway.MOUSE_OUT]=MouseEvent.MOUSE_OUT;
+		 this.eventMapping[MouseEvent.MOUSE_OUT]=(<IEventMapper>{
+			 adaptedType:MouseEventAway.MOUSE_OUT,
+			 addListener:this.initMouseListener,
+			 removeListener:this.removeMouseListener,
+			 callback:this._mouseCallbackDelegate});
+
+		 this.eventMappingInvert[MouseEventAway.MOUSE_MOVE]=MouseEvent.MOUSE_MOVE;
+		 this.eventMapping[MouseEvent.MOUSE_MOVE]=(<IEventMapper>{
+			 adaptedType:MouseEventAway.MOUSE_MOVE,
+			 addListener:this.initMouseListener,
+			 removeListener:this.removeMouseListener,
+			 callback:this._mouseCallbackDelegate});
+
+		 this.eventMappingInvert[MouseEventAway.MOUSE_DOWN]=MouseEvent.MOUSE_DOWN;
+		 this.eventMapping[MouseEvent.MOUSE_DOWN]=(<IEventMapper>{
+			 adaptedType:MouseEventAway.MOUSE_DOWN,
+			 addListener:this.initMouseListener,
+			 removeListener:this.removeMouseListener,
+			 callback:this._mouseCallbackDelegate});
+
+		 this.eventMappingInvert[MouseEventAway.DOUBLE_CLICK]=MouseEvent.DOUBLE_CLICK;
+		 this.eventMapping[MouseEvent.DOUBLE_CLICK]=(<IEventMapper>{
+			 adaptedType:MouseEventAway.DOUBLE_CLICK,
+			 addListener:this.initMouseListener,
+			 removeListener:this.removeMouseListener,
+			 callback:this._mouseCallbackDelegate});
+
+		 this.eventMappingInvert[MouseEventAway.CLICK]=MouseEvent.CLICK;
+		this.eventMapping[MouseEvent.CLICK]=(<IEventMapper>{
+			adaptedType:MouseEventAway.CLICK,
+			addListener:this.initMouseListener,
+			removeListener:this.removeMouseListener,
+			callback:this._mouseCallbackDelegate});
+
+	}
+
+	// ---------- event mapping functions for KeyboardEvent.KEY_UP:
+
+
+	private initKeyUpListener(type:string, callback:(event:any) => void):void
+	{
+		document.onkeydown = callback;
+	}
+	private removeKeyUpListener(type:string, callback:(event:any) => void):void
+	{
+		window.onkeydown = null;
+	}
+	private _keyUpCallbackDelegate:(event:any) => void;
+	private keyUpCallback(event:any=null):void
+	{
+		var newkeyBoardEvent:KeyboardEvent=new KeyboardEvent(KeyboardEvent.KEY_UP);
+		newkeyBoardEvent.keyCode = event.keyCode;
+		// todo: set other values like alt/shift etc
+		this.dispatchEvent(newkeyBoardEvent);
+	}
+
+	// ---------- event mapping functions for KeyboardEvent.KEY_DOWN:
+
+	private initKeyDownListener(type:string, callback:(event:any) => void):void
+	{
+		document.onkeydown = callback;
+	}
+	private removeKeyDownListener(type:string, callback:(event:any) => void):void
+	{
+		window.onkeydown = null;
+	}
+	private _keyDownCallbackDelegate:(event:any) => void;
+	private keyDownCallback(event:any=null):void
+	{
+		var newkeyBoardEvent:KeyboardEvent=new KeyboardEvent(KeyboardEvent.KEY_DOWN);
+		newkeyBoardEvent.keyCode = event.keyCode;
+		// todo: set other values like alt/shift etc
+		this.dispatchEvent(newkeyBoardEvent);
+	}
+
+	// ---------- event mapping functions for MouseEvents:
+
+	private initMouseListener(type:string, callback:(event:MouseEventAway) => void):void
+	{
+		this.adaptee.addEventListener(type, callback);
+	}
+	private removeMouseListener(type:string, callback:(event:MouseEventAway) => void):void
+	{
+		this.adaptee.removeEventListener(type, callback);
+	}
+	private _mouseCallbackDelegate:(event:MouseEventAway) => void;
+	private mouseCallback(event:MouseEventAway):void
+	{
+		var adaptedEvent:MouseEvent=new MouseEvent(this.eventMappingInvert[event.type]);
+		adaptedEvent.fillFromAway(event);
+		this.dispatchEvent(adaptedEvent);
 	}
 
 	//---------------------------stuff added to make it work:

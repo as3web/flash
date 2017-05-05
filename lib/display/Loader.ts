@@ -18,11 +18,12 @@ import {DisplayObjectContainer as AwayDisplayObjectContainer} from "@awayjs/scen
 export class Loader extends DisplayObjectContainer{
 
 	private _loaderInfoAS:LoaderInfo;
-	private _awayLoader:AwayLoader;
+	//private _awayLoader:AwayLoader;
 	constructor(){
 		super();
 		this.adaptee=new AwayDisplayObjectContainer();
-		this._awayLoader=new AwayLoader();
+		this.adaptee.adapter=this;
+		//this._awayLoader=new AwayLoader();
 		AssetLibrary.enableParser(AWDParser);
 		AssetLibrary.addEventListener(LoaderEvent.LOAD_COMPLETE, (event: LoaderEvent) => this.onComplete(event));
 		AssetLibrary.addEventListener(AssetEvent.ASSET_COMPLETE, (event: AssetEvent) => this.onAssetComplete(event));
@@ -38,12 +39,12 @@ export class Loader extends DisplayObjectContainer{
 
 	private onAssetComplete(event: AssetEvent){
 		if(event.asset.isAsset(AwaySprite)) {
-			console.log("added Sprite asset to loader")
+			//console.log("added Sprite asset to loader")
 			//this.addChild(<DisplayObjectContainer> event.asset);
 		}
 		else if(event.asset.isAsset(AwayMovieClip)) {
-			console.log("added MovieClip asset to loader");
 			if (event.asset.name=="Scene 1"){
+				console.log("added MovieClip asset to loader");
 				(<AwayMovieClip>event.asset).adapter=(<MovieClip>new MovieClip());
 				(<MovieClip>(<AwayMovieClip>event.asset).adapter).adaptee=(<AwayMovieClip>event.asset);
 				this.addChild((<MovieClip>(<AwayMovieClip>event.asset).adapter));

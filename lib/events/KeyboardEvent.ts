@@ -102,12 +102,12 @@ export class KeyboardEvent extends Event
 	 * Note: When an input method editor (IME) is running,
 	 * keyCode does not report accurate key codes.
 	 */
+	private _keyCode:number;
 	public get keyCode () : number{
-		console.log("keyCode not implemented yet in flash/KeyboardEvent");
-		return 0;
+		return this._keyCode;
 	}
 	public set keyCode (value:number){
-		console.log("keyCode not implemented yet in flash/KeyboardEvent");
+		this._keyCode=value;
 	}
 
 	/**

@@ -22,20 +22,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * throws an <codeph class="+ topic/ph pr-d/codeph ">ArgumentError</codeph> exception.
 	 *
 	 *   <p class="- topic/p ">For more information, see the "Display Programming" chapter of the <i class="+ topic/ph hi-d/i ">ActionScript 3.0 Developer's Guide</i>.</p>
-	 *
-	 *   EXAMPLE:
-	 *
-	 *   The following example uses the class <codeph class="+ topic/ph pr-d/codeph ">DisplayObjectContainerExample</codeph> to
-	 * create five orange squares in succession. This task is accomplished by performing the following steps:
-	 *
-	 *   <ol class="- topic/ol "><li class="- topic/li ">The constructor calls the <codeph class="+ topic/ph pr-d/codeph ">configureAssets()</codeph> method.</li><li class="- topic/li ">The <codeph class="+ topic/ph pr-d/codeph ">configureAssets()</codeph> method creates <codeph class="+ topic/ph pr-d/codeph ">child</codeph> and
-	 * <codeph class="+ topic/ph pr-d/codeph ">lastChild</codeph> Sprite objects.</li><li class="- topic/li ">A <codeph class="+ topic/ph pr-d/codeph ">for</codeph> loop creates the five orange squares and positions
-	 * them one after another.</li><li class="- topic/li ">Each time a CustomSprite object is created, its constructor calls the <codeph class="+ topic/ph pr-d/codeph ">draw()</codeph>
-	 * method of the <codeph class="+ topic/ph pr-d/codeph ">CustomSprite</codeph> object, which creates a 50-by-50-pixel square
-	 * by calling the <codeph class="+ topic/ph pr-d/codeph ">beginFill()</codeph>, <codeph class="+ topic/ph pr-d/codeph ">drawRect()</codeph>, and <codeph class="+ topic/ph pr-d/codeph ">endFill()</codeph>
-	 * methods of the Graphics class.  The <codeph class="+ topic/ph pr-d/codeph ">addChild()</codeph> method adds each square to the
-	 * display list.</li></ol><codeblock xml:space="preserve" class="+ topic/pre pr-d/codeblock ">
-	 *
+
 
 	 /**
 	 * Calling the new DisplayObjectContainer() constructor throws an
@@ -51,16 +38,15 @@ export class DisplayObjectContainer extends InteractiveObject{
 
 	// return the adaptee cast to AwayDisplayObjectContainer. just a helper to avoid casting everywhere
 	public get adaptee():AwayDisplayObjectContainer {
-		return (<AwayDisplayObjectContainer>this.adaptee);
+		return (<AwayDisplayObjectContainer>this._adaptee);
 	}
 	public set adaptee(adaptee:AwayDisplayObjectContainer) {
-		this.adaptee=adaptee;
+		this._adaptee=adaptee;
 	}
 
-	/* gets called from stage in order to move the playhead to next frame.
+	/* gets called from stage in order to move the playhead of the root-movieclips to next frame.
 	 the DisplayObjectContainer should call this function on all children if they extend DisplayObjectContainer themself.
-	 At a MovieClip the function stops, and here the AwayJS Movieclip takes over.
-	 For most cases this will be at top level (root is a Movieclip) 
+	 if any child is a MovieClip this function will not be called on its childrens adapter.
 	 */
 	public advanceFrame() {
 		var i:number=this.adaptee.numChildren;
@@ -83,12 +69,14 @@ export class DisplayObjectContainer extends InteractiveObject{
 	public dispatchEventRecursive(event:Event) {
 		this.dispatchEvent(event);
 
-		var i:number=this.adaptee.numChildren;
-		while(i>0){
-			i--;
-			var oneChild:AwayDisplayObject=this.adaptee.getChildAt(i);
-			if(oneChild.adapter){
-				(<DisplayObject>oneChild.adapter).dispatchEventRecursive(event);
+		if(this.adaptee){
+			var i:number=this.adaptee.numChildren;
+			while(i>0){
+				i--;
+				var oneChild:AwayDisplayObject=this.adaptee.getChildAt(i);
+				if(oneChild.adapter){
+					(<DisplayObject>oneChild.adapter).dispatchEventRecursive(event);
+				}
 			}
 		}
 	};

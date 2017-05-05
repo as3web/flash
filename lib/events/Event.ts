@@ -589,6 +589,7 @@ export class Event extends EventBase
 	/**
 	 * The event target. This property contains the target node. For example, if a user clicks an OK button, the target node is the display list node containing that button.
 	 */
+	/* provided because awayjs-eventbase has "target" as public property
 	public get target () : any{
 		console.log("target not implemented yet in flash/Event");
 		return null;
@@ -597,10 +598,12 @@ export class Event extends EventBase
 	/**
 	 * The type of event. The type is case-sensitive.
 	 */
+	/* provided because awayjs-eventbase has "type" as public property
 	public get type () : string{
 		console.log("type not implemented yet in flash/Event");
 		return "";
 	}
+	*/
 
 	/**
 	 * Duplicates an instance of an Event subclass.
@@ -632,7 +635,15 @@ export class Event extends EventBase
 		return null;
 	}
 
+	/**
+	 * Fill all properties from awayjs-event
+	 * @param	awayEvent	The awayjs-event
+	 *   the className parameter is PingEvent.
+	 */
 
+	public fillFromAway (awayEvent:EventBase){
+		console.log("flash/Event.cloneFromAway should be implemented in SubClass");
+	}
 	/**
 	 * A utility function for implementing the toString() method in custom
 	 * ActionScript 3.0 Event classes. Overriding the
