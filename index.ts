@@ -33,6 +33,7 @@ export {StageAlign} from "./lib/display/StageAlign";
 export {StageScaleMode} from "./lib/display/StageScaleMode";
 export {TriangleCulling} from "./lib/display/TriangleCulling";
 
+export {BasicMaterial} from "@awayjs/graphics";
 export {Context3D} from "./lib/display3D/Context3D";
 export {Context3DClearMask} from "./lib/display3D/Context3DClearMask";
 export {Context3DProgramType} from "./lib/display3D/Context3DProgramType";

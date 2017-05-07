@@ -15,6 +15,7 @@ import * as awayScene from "@awayjs/scene";
 import {MethodMaterial}	from "@awayjs/materials";
 import {DefaultRenderer} from  "@awayjs/renderer";
 import {View, SceneGraphPartition} from "@awayjs/view";
+import {DisplayObject as AwayDisplayObject} from "@awayjs/scene";
 
 
 
@@ -262,6 +263,22 @@ export class Stage extends DisplayObjectContainer{
 			this._view.render();
 		}
 	}
+
+	//	overwrite
+	public dispatchEventRecursive(event:Event) {
+		this.dispatchEvent(event);
+
+		if(this.adaptee){
+			var i:number=this._view.scene.numChildren;
+			while(i>0){
+				i--;
+				var oneChild:AwayDisplayObject=this._view.scene.getChildAt(i);
+				if(oneChild.adapter){
+					(<DisplayObject>oneChild.adapter).dispatchEventRecursive(event);
+				}
+			}
+		}
+	};
 
 	private onResize(event = null)
 	{

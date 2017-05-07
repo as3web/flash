@@ -3,6 +3,7 @@ import {DisplayObjectContainer} from "./DisplayObjectContainer"
 import {Stage} from "./Stage"
 import {DisplayObject} from "./DisplayObject"
 import {Rectangle} from "@awayjs/core";
+import {Graphics} from "./Graphics";
 export class Sprite extends DisplayObjectContainer{
 
 
@@ -29,6 +30,12 @@ export class Sprite extends DisplayObjectContainer{
 	//---------------------------stuff added to make it work:
 
 
+	public get adaptee():AwaySprite {
+		return (<AwaySprite>this._adaptee);
+	}
+	public set adaptee(adaptee:AwaySprite) {
+		this._adaptee=adaptee;
+	}
 
 
 	//---------------------------original as3 properties / methods:
@@ -73,10 +80,6 @@ export class Sprite extends DisplayObjectContainer{
 	/**
 	 * Specifies the display object over which the sprite is being dragged, or on
 	 * which the sprite was dropped.
-	 * @langversion	3.0
-	 * @playerversion	Flash 9
-	 * @playerversion	AIR 1.0
-	 * @playerversion	Lite 4
 	 */
 	public get dropTarget () : DisplayObject{
 		console.log("dropTarget not implemented yet in flash/Sprite");
@@ -87,15 +90,10 @@ export class Sprite extends DisplayObjectContainer{
 	/**
 	 * Specifies the Graphics object that belongs to this sprite where vector
 	 * drawing commands can occur.
-	 * @langversion	3.0
-	 * @playerversion	Flash 9
-	 * @playerversion	AIR 1.0
-	 * @playerversion	Lite 4
 	 */
-	public get graphics () : any{
-		//todo any = Graphics
-		console.log("graphics not implemented yet in flash/Sprite");
-		return null;
+	public get graphics () : Graphics{
+		//console.log("graphics not implemented yet in flash/Sprite");
+		return this.adaptee.graphics;
 		
 	}
 
