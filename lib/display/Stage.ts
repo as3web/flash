@@ -133,8 +133,20 @@ export class Stage extends DisplayObjectContainer{
 	private _stageWidth: number;
 	private _stageHeight: number;
 
+	// no need to create new events on each frame. we can reuse them
+	private _eventOnEnter: Event;
+	private _eventFrameContructed: Event;
+	private _eventExitFrame: Event;
+	private _eventRender: Event;
+
+
 	constructor(startClass) {
 		super();
+
+		this._eventOnEnter=new Event(Event.ENTER_FRAME);
+		this._eventFrameContructed=new Event(Event.FRAME_CONSTRUCTED);
+		this._eventExitFrame=new Event(Event.EXIT_FRAME);
+		this._eventRender=new Event(Event.RENDER);
 		/*
 		//todo
 		this.eventMappingDummys[StageVideoAvailabilityEvent.STAGE_VIDEO_AVAILABILITY]="StageVideoAvailabilityEvent.STAGE_VIDEO_AVAILABILITY";
@@ -163,6 +175,7 @@ export class Stage extends DisplayObjectContainer{
 		this.initEninge();
 		this.initListeners();
 		this._mainSprite=new startClass();
+		this._mainSprite.adaptee.adapter=this._mainSprite;
 		this._view.scene.addChild(this._mainSprite.adaptee);
 		console.log("constructed Stage and create the entranceclass");
 	}
@@ -254,12 +267,12 @@ export class Stage extends DisplayObjectContainer{
 		if (this._time >= frameMarker) {
 			this._time -= frameMarker;
 
-			this.dispatchEventRecursive(new Event(Event.ENTER_FRAME));
+			this.dispatchEventRecursive(this._eventOnEnter);
 			this._mainSprite.advanceFrame();
-			this.dispatchEventRecursive(new Event(Event.FRAME_CONSTRUCTED));
+			this.dispatchEventRecursive(this._eventFrameContructed);
 			// todo: move Framescriptexecution and rest from frame-update logic from Movieclip.update to here
-			this.dispatchEventRecursive(new Event(Event.EXIT_FRAME));
-			this.dispatchEventRecursive(new Event(Event.RENDER));
+			this.dispatchEventRecursive(this._eventExitFrame);
+			this.dispatchEventRecursive(this._eventRender);
 			this._view.render();
 		}
 	}
@@ -267,15 +280,12 @@ export class Stage extends DisplayObjectContainer{
 	//	overwrite
 	public dispatchEventRecursive(event:Event) {
 		this.dispatchEvent(event);
-
-		if(this.adaptee){
-			var i:number=this._view.scene.numChildren;
-			while(i>0){
-				i--;
-				var oneChild:AwayDisplayObject=this._view.scene.getChildAt(i);
-				if(oneChild.adapter){
-					(<DisplayObject>oneChild.adapter).dispatchEventRecursive(event);
-				}
+		var i:number=this._view.scene.numChildren;
+		while(i>0){
+			i--;
+			var oneChild:AwayDisplayObject=this._view.scene.getChildAt(i);
+			if(oneChild.adapter){
+				(<DisplayObject>oneChild.adapter).dispatchEventRecursive(event);
 			}
 		}
 	};
