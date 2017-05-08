@@ -1,4 +1,4 @@
-import {MovieClip as AwayMovieClip, DisplayObject as AwayDisplayObject, IMovieClipAdapter} from "@awayjs/scene";
+import {IDisplayObjectAdapter, MovieClip as AwayMovieClip, DisplayObject as AwayDisplayObject, IMovieClipAdapter} from "@awayjs/scene";
 import {Sprite} from "./Sprite";
 
 /**
@@ -56,6 +56,12 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 
 	//---------------------------original as3 properties / methods:
 
+	public clone(newAdaptee:AwayMovieClip=null):IDisplayObjectAdapter{
+		//console.log("clone not implemented yet in flash/DisplayObject");
+		var newMovie:MovieClip=new MovieClip();
+		newMovie.adaptee=this.adaptee;
+		return newMovie;
+	}
 	/**
 	 * Specifies the number of the frame in which the playhead is located in the timeline of
 	 * the MovieClip instance. If the movie clip has multiple scenes, this value is the

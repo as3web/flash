@@ -152,8 +152,8 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 		console.log("freeFromScript not implemented yet in flash/DisplayObject");}
 
 	public clone(newAdaptee:AwayDisplayObject=null):IDisplayObjectAdapter{
-		console.log("clone not implemented yet in flash/DisplayObject");
-		return null;
+		//console.log("clone not implemented yet in flash/DisplayObject");
+		return new DisplayObject(this.adaptee);
 	}
 
 	public dispose(){

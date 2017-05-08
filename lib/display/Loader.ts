@@ -43,10 +43,11 @@ export class Loader extends DisplayObjectContainer{
 			//this.addChild(<DisplayObjectContainer> event.asset);
 		}
 		else if(event.asset.isAsset(AwayMovieClip)) {
+			(<AwayMovieClip>event.asset).adapter=(<MovieClip>new MovieClip());
+			(<MovieClip>(<AwayMovieClip>event.asset).adapter).adaptee=(<AwayMovieClip>event.asset);
+			console.log("added MovieClip asset to loader");
 			if (event.asset.name=="Scene 1"){
 				console.log("added MovieClip asset to loader");
-				(<AwayMovieClip>event.asset).adapter=(<MovieClip>new MovieClip());
-				(<MovieClip>(<AwayMovieClip>event.asset).adapter).adaptee=(<AwayMovieClip>event.asset);
 				this.addChild((<MovieClip>(<AwayMovieClip>event.asset).adapter));
 			}
 		}

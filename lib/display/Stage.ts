@@ -1,4 +1,4 @@
-import * as awayStage from "@awayjs/stage";
+
 import {StageAlign} from "./StageAlign"
 import {Sprite} from "./Sprite"
 import {Event} from "../events/Event"
@@ -9,9 +9,9 @@ import {StageScaleMode} from "./StageScaleMode"
 import {EventDispatcher, Transform, Point, Vector3D, Rectangle} from "@awayjs/core";
 
 import {AssetEvent, LoaderEvent, ParserEvent, URLRequest, RequestAnimationFrame, CoordinateSystem, PerspectiveProjection} from "@awayjs/core";
-import {Graphics, Shape} from "@awayjs/graphics";
+import {Graphics, MaterialBase} from "@awayjs/graphics";
 import {HoverController, TextField, Billboard, Camera, LoaderContainer, MovieClip} from "@awayjs/scene";
-import * as awayScene from "@awayjs/scene";
+
 import {MethodMaterial}	from "@awayjs/materials";
 import {DefaultRenderer} from  "@awayjs/renderer";
 import {View, SceneGraphPartition} from "@awayjs/view";
@@ -147,6 +147,10 @@ export class Stage extends DisplayObjectContainer{
 		this._eventFrameContructed=new Event(Event.FRAME_CONSTRUCTED);
 		this._eventExitFrame=new Event(Event.EXIT_FRAME);
 		this._eventRender=new Event(Event.RENDER);
+
+		Graphics.get_material_for_color=function(color:number):MaterialBase{
+			return new MethodMaterial(color);
+		};
 		/*
 		//todo
 		this.eventMappingDummys[StageVideoAvailabilityEvent.STAGE_VIDEO_AVAILABILITY]="StageVideoAvailabilityEvent.STAGE_VIDEO_AVAILABILITY";
@@ -226,6 +230,7 @@ export class Stage extends DisplayObjectContainer{
 		this._renderer.renderableSorter = null;//new RenderableSort2D();
 
 		this._view = new View(this._renderer);
+		this._renderer.antiAlias=8;
 		this._stageWidth = 1024;
 		this._stageHeight = 768;
 
