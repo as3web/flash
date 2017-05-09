@@ -1,4 +1,6 @@
 import {ByteArray} from "@awayjs/core";
+import {IDisplayObjectAdapter} from "@awayjs/scene";
+
 /**
  * The ApplicationDomain class is a container for discrete groups of class definitions.
  * Application domains are used to partition classes that are in the same security domain.
@@ -22,20 +24,41 @@ import {ByteArray} from "@awayjs/core";
  */
 export class ApplicationDomain
 {
+	private static _systemDomain:ApplicationDomain;
+	private static getSystemDomain():ApplicationDomain{
+		if(ApplicationDomain._systemDomain==null)
+			ApplicationDomain._systemDomain=new ApplicationDomain();
+		return ApplicationDomain._systemDomain;
+	}
+
+	private static _currentDomain:ApplicationDomain;
+
+	private _parentDomain:ApplicationDomain;
+	private _definitions:Object;
 	/**
 	 * Creates a new application domain.
 	 * @param	parentDomain	If no parent domain is passed in, this application domain takes the system domain as its parent.
 	 */
 	constructor (parentDomain:ApplicationDomain=null){
-		console.log("ApplicationDomain not implemented yet in flash/ApplicationDomain");
+		if(parentDomain==null && ApplicationDomain._currentDomain!=null){
+			ApplicationDomain.currentDomain;
+			parentDomain=ApplicationDomain.getSystemDomain();
+		}
+
+		this._parentDomain=parentDomain;
+		this._definitions={};
 	}
+
 	/**
 	 * Gets the current application domain in which your code is executing.
 	 * @internal	Question: Do you call System.currentDomain? or Loader.currentDomain or request.currentDomain?
 	 */
 	public static get currentDomain () : ApplicationDomain{
-		console.log("currentDomain not implemented yet in flash/ApplicationDomain");
-		return null;
+		if(ApplicationDomain._systemDomain==null)
+			ApplicationDomain._systemDomain=new ApplicationDomain();
+		if(ApplicationDomain._currentDomain==null)
+			ApplicationDomain._currentDomain=new ApplicationDomain(ApplicationDomain._systemDomain);
+		return ApplicationDomain._currentDomain;
 	}
 
 	/**
@@ -63,10 +86,12 @@ export class ApplicationDomain
 	 * Gets the parent domain of this application domain.
 	 */
 	public get parentDomain () : ApplicationDomain{
-		console.log("parentDomain not implemented yet in flash/ApplicationDomain");
-		return null;
+		return this._parentDomain;
 	}
 
+	public addDefinition (name:string, asset:IDisplayObjectAdapter) : void{
+		this._definitions[name]=asset;
+	}
 
 	/**
 	 * Gets a public definition from the specified application domain.
@@ -78,14 +103,18 @@ export class ApplicationDomain
 	 * @throws	ReferenceError No public definition exists with the
 	 *   specified name.
 	 */
-	public getDefinition (name:string) : any{
-		console.log("getDefinition not implemented yet in flash/ApplicationDomain");
-		return null;
+	public getDefinition (name:string) : IDisplayObjectAdapter{
+		return this._definitions[name]
 	}
 
 	public getQualifiedDefinitionNames () : string[]{
-		console.log("getQualifiedDefinitionNames not implemented yet in flash/ApplicationDomain");
-		return [];
+		var allDefinitionsnames:string[]=[];
+		for (var key in this._definitions) {
+			if (this._definitions.hasOwnProperty(key)) {
+				allDefinitionsnames[allDefinitionsnames.length]=key;
+			}
+		}
+		return allDefinitionsnames;
 	}
 
 	/**
@@ -95,7 +124,6 @@ export class ApplicationDomain
 	 * @return	A value of true if the specified definition exists; otherwise, false.
 	 */
 	public hasDefinition (name:string) : boolean{
-		console.log("hasDefinition not implemented yet in flash/ApplicationDomain");
-		return false;
+		return this._definitions.hasOwnProperty(name);
 	}
 }

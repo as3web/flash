@@ -527,6 +527,7 @@ export class InteractiveObject extends DisplayObject{
 		return null;
 	}
 	public set accessibilityImplementation (value:any){
+		//todo
 		console.log("accessibilityImplementation not implemented yet in flash/InteractiveObject");
 
 	}
@@ -548,6 +549,7 @@ export class InteractiveObject extends DisplayObject{
 		return null;
 	}
 	public set contextMenu (cm:any){
+		//todo
 		console.log("contextMenu not implemented yet in flash/InteractiveObject");
 
 	}
@@ -565,10 +567,12 @@ export class InteractiveObject extends DisplayObject{
 	 * for the doubleClick event.
 	 */
 	public get doubleClickEnabled () : boolean{
+		//todo
 		console.log("doubleClickEnabled not implemented yet in flash/InteractiveObject");
 		return false;
 	}
 	public set doubleClickEnabled (enabled:boolean){
+		//todo
 		console.log("doubleClickEnabled not implemented yet in flash/InteractiveObject");
 
 	}
@@ -581,10 +585,12 @@ export class InteractiveObject extends DisplayObject{
 	 * stageFocusRect property of the Stage.
 	 */
 	public get focusRect () : any{
+		//todo
 		console.log("focusRect not implemented yet in flash/InteractiveObject");
 		return null;
 	}
 	public set focusRect (focusRect:any){
+		//todo
 		console.log("focusRect not implemented yet in flash/InteractiveObject");
 
 	}
@@ -601,11 +607,13 @@ export class InteractiveObject extends DisplayObject{
 	 * addEventListener() method to create interactive functionality.
 	 */
 	public get mouseEnabled () : boolean{
-		console.log("mouseEnabled not implemented yet in flash/InteractiveObject");
+		//todo
+		//console.log("mouseEnabled not implemented yet in flash/InteractiveObject");
 		return false;
 	}
 	public set mouseEnabled (enabled:boolean){
-		console.log("mouseEnabled not implemented yet in flash/InteractiveObject");
+		//todo
+		//console.log("mouseEnabled not implemented yet in flash/InteractiveObject");
 
 	}
 
@@ -623,10 +631,12 @@ export class InteractiveObject extends DisplayObject{
 	 * when the soft keyboard raises and lowers.Note: This property is not supported in AIR applications on iOS.
 	 */
 	public get needsSoftKeyboard () : boolean{
+		//todo
 		console.log("needsSoftKeyboard not implemented yet in flash/InteractiveObject");
 		return false;
 	}
 	public set needsSoftKeyboard (value:boolean){
+		//todo
 		console.log("needsSoftKeyboard not implemented yet in flash/InteractiveObject");
 
 	}
@@ -643,10 +653,12 @@ export class InteractiveObject extends DisplayObject{
 	 * respected in landscape orientations.
 	 */
 	public get softKeyboardInputAreaOfInterest () : Rectangle{
+		//todo
 		console.log("softKeyboardInputAreaOfInterest not implemented yet in flash/InteractiveObject");
 		return null;
 	}
 	public set softKeyboardInputAreaOfInterest (value:Rectangle){
+		//todo
 		console.log("softKeyboardInputAreaOfInterest not implemented yet in flash/InteractiveObject");
 
 	}
@@ -658,10 +670,12 @@ export class InteractiveObject extends DisplayObject{
 	 * For a SimpleButton object, the value is true.For a TextField object with type = "input", the value is true.For a Sprite object or MovieClip object with buttonMode = true, the value is true.
 	 */
 	public get tabEnabled () : boolean{
+		//todo
 		console.log("tabEnabled not implemented yet in flash/InteractiveObject");
 		return false;
 	}
 	public set tabEnabled (enabled:boolean){
+		//todo
 		console.log("tabEnabled not implemented yet in flash/InteractiveObject");
 
 	}
@@ -693,10 +707,12 @@ export class InteractiveObject extends DisplayObject{
 	 * InteractiveObject(tlfInstance3.getChildAt(1)).tabIndex = 1;
 	 */
 	public get tabIndex () : number{
+		//todo
 		console.log("tabIndex not implemented yet in flash/InteractiveObject");
 		return 0;
 	}
 	public set tabIndex (index:number){
+		//todo
 		console.log("tabIndex not implemented yet in flash/InteractiveObject");
 	}
 
@@ -710,6 +726,7 @@ export class InteractiveObject extends DisplayObject{
 	 * @return	A value of true means that the soft keyboard request was granted; false means that the soft keyboard was not raised.
 	 */
 	public requestSoftKeyboard () : boolean{
+		//todo
 		console.log("requestSoftKeyboard not implemented yet in flash/InteractiveObject");
 		return false;
 	}

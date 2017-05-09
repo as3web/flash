@@ -569,12 +569,15 @@ export class Event extends EventBase
 		return false;
 	}
 
+	private _currentTarget:any;
 	/**
 	 * The object that is actively processing the Event object with an event listener. For example, if a user clicks an OK button, the current target could be the node containing that button or one of its ancestors that has registered an event listener for that event.
 	 */
 	public get currentTarget () : any{
-		console.log("toString not implemented yet in flash/Event");
-		return null;
+		return this._currentTarget;
+	}
+	public set currentTarget (value: any) {
+		this._currentTarget=value;
 	}
 
 	/**

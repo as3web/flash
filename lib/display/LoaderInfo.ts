@@ -121,6 +121,7 @@ import {ByteArray} from "../utils/ByteArray";
  */
 export class LoaderInfo extends EventDispatcher
 {
+	private _applicationDomain:ApplicationDomain;
 	/**
 	 * The ActionScript version of the loaded SWF file.
 	 *
@@ -143,13 +144,21 @@ export class LoaderInfo extends EventDispatcher
 	constructor(target:any = null)
 	{
 		super(target);
+
+		// for now all LoaderInfo-Events will be handled in Loader.ts
+
+		// Events that are supposed to be working are registered as eventMappingExtern:
+
+		this.eventMappingExtern[Event.COMPLETE]="LoaderInfo:Event.COMPLETE";
+
+		// Events not supported yet are registered as eventMappingDummys:
+
 		this.eventMappingDummys[Event.UNLOAD]="LoaderInfo:Event.UNLOAD";
 		this.eventMappingDummys[ProgressEvent.PROGRESS]="LoaderInfo:ProgressEvent.PROGRESS";
 		this.eventMappingDummys[IOErrorEvent.IO_ERROR]="LoaderInfo:IOErrorEvent.IO_ERROR";
 		//this.eventMappingDummys[HTTPStatusEvent.IO_ERROR]="HTTPStatusEvent.IO_ERROR";
 		this.eventMappingDummys[Event.OPEN]="LoaderInfo:Event.OPEN";
 		this.eventMappingDummys[Event.INIT]="LoaderInfo:Event.INIT";
-		this.eventMappingDummys[Event.COMPLETE]="LoaderInfo:Event.COMPLETE";
 	}
 
 	/**
@@ -167,11 +176,16 @@ export class LoaderInfo extends EventDispatcher
 	 * @throws	SecurityError This security sandbox of the caller is not allowed to access this ApplicationDomain.
 	 */
 	public get applicationDomain () : ApplicationDomain{
-		console.log("applicationDomain not implemented yet in flash/LoaderInfo");
-		return null;
+		//console.log("applicationDomain not implemented yet in flash/LoaderInfo");
+		return this._applicationDomain;
 		
 	}
 
+	public set applicationDomain (value:ApplicationDomain){
+		//console.log("applicationDomain not implemented yet in flash/LoaderInfo");
+		this._applicationDomain=value;
+
+	}
 	/**
 	 * The bytes associated with a LoaderInfo object.
 	 * @throws	SecurityError If the object accessing this API is prevented from

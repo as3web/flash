@@ -77,7 +77,7 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 
 	 */
 
-	constructor(adaptee:AwayDisplayObject){
+	constructor(adaptee:AwayDisplayObject=null){
 		super(adaptee);
 
 		// needed, because `this.stage` must already be available when constructor of extending classes are executed
@@ -87,14 +87,14 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 		// they can all be dispatched without listening on other objects
 		// still need to create a dummy mapping with empty message, in order to have them registered
 		// (we want unknown events to fail when they try to register in addEventListener
-		this.eventMappingDummys[Event.ENTER_FRAME]="";
-		this.eventMappingDummys[Event.FRAME_CONSTRUCTED]="";
-		this.eventMappingDummys[Event.EXIT_FRAME]="";
-		this.eventMappingDummys[Event.RENDER]="";
-		this.eventMappingDummys[Event.REMOVED_FROM_STAGE]="";
-		this.eventMappingDummys[Event.REMOVED]="";
-		this.eventMappingDummys[Event.ADDED_TO_STAGE]="";
-		this.eventMappingDummys[Event.ADDED]="";
+		this.eventMappingExtern[Event.ENTER_FRAME]="";
+		this.eventMappingExtern[Event.FRAME_CONSTRUCTED]="";
+		this.eventMappingExtern[Event.EXIT_FRAME]="";
+		this.eventMappingExtern[Event.RENDER]="";
+		this.eventMappingExtern[Event.REMOVED_FROM_STAGE]="";
+		this.eventMappingExtern[Event.REMOVED]="";
+		this.eventMappingExtern[Event.ADDED_TO_STAGE]="";
+		this.eventMappingExtern[Event.ADDED]="";
 	}
 
 
@@ -135,7 +135,7 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	// --------------------- stuff needed because of implementing the existing IDisplayObjectAdapter
 
 	public get adaptee():AwayDisplayObject{
-		return (<AwayDisplayObject>this.adaptee);
+		return (<AwayDisplayObject>this._adaptee);
 	};
 
 	public isBlockedByScript():boolean{

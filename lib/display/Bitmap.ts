@@ -1,6 +1,8 @@
 import {Billboard} from "@awayjs/scene";
 import { DisplayObject } from "./DisplayObject";
 import { BitmapData } from "./BitmapData";
+import {MethodMaterial} from "@awayjs/materials";
+import {Single2DTexture} from "@awayjs/graphics";
 
 /**
  * The Bitmap class represents display objects that represent bitmap images. These can be images
@@ -27,6 +29,7 @@ import { BitmapData } from "./BitmapData";
  */
 export class Bitmap extends DisplayObject
 {
+	private _bitmapData:BitmapData;
 	/**
 	 * Initializes a Bitmap object to refer to the specified BitmapData object.
 	 * @param	bitmapData	The BitmapData object being referenced.
@@ -36,17 +39,28 @@ export class Bitmap extends DisplayObject
 	 *   smoothing set to false (left) and true (right):
 	 */
 	constructor (bitmapData:BitmapData=null, pixelSnapping:string="auto", smoothing:boolean=false){
-		super(new Billboard(null));
+		super();
+		this.adaptee=new Billboard(new MethodMaterial(), pixelSnapping, smoothing);
+		this.adaptee.material.addTexture(new Single2DTexture(this._bitmapData.adaptee));		
+		
+	}
+
+	// return the adaptee cast to AwayDisplayObjectContainer. just a helper to avoid casting everywhere
+	public get adaptee():Billboard {
+		return (<Billboard>this._adaptee);
+	}
+	public set adaptee(adaptee:Billboard) {
+		this._adaptee=adaptee;
 	}
 	/**
 	 * The BitmapData object being referenced.
 	 */
 	public get bitmapData () : BitmapData{
-		console.log("bitmapData not implemented yet in flash/Bitmap");
-		return null;
+		return this._bitmapData;
 	}
 	public set bitmapData (value:BitmapData){
-		console.log("bitmapData not implemented yet in flash/Bitmap");
+		this._bitmapData=value;
+		this.adaptee.material.addTexture(new Single2DTexture(this._bitmapData.adaptee));
 	}
 
 	/**
@@ -61,7 +75,6 @@ export class Bitmap extends DisplayObject
 	 * to be drawn as fast as possible using the vector renderer.
 	 */
 	public get pixelSnapping () : string{
-		console.log("pixelSnapping not implemented yet in flash/Bitmap");
 		return "";
 	}
 	public set pixelSnapping (value:string){

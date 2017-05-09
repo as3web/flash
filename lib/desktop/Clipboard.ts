@@ -33,6 +33,9 @@ import {ByteArray} from "../utils/ByteArray";
  */
 export class Clipboard
 {
+	
+	//todo: only dummy class yet
+	
 	/**
 	 * An array of strings containing the names of the data formats available
 	 * in this Clipboard object.

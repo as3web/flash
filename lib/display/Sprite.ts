@@ -21,10 +21,13 @@ export class Sprite extends DisplayObjectContainer{
 	 * DisplayObjectContainer.addChild() or DisplayObjectContainer.addChildAt()
 	 * method to add the Sprite to a parent DisplayObjectContainer.
 	 */
-	constructor(){
-		super();
-		//if(adaptee==null)console.log("flash/DisplayObject is a abstract class!")
-		this.adaptee=new AwaySprite();
+	constructor(adaptee:AwaySprite=null){
+		super(adaptee);
+		if(adaptee==null){
+
+			this.adaptee=new AwaySprite();
+			this.adaptee.adapter=this;
+		}
 	}
 
 	//---------------------------stuff added to make it work:
@@ -69,12 +72,13 @@ export class Sprite extends DisplayObjectContainer{
 	 * to label.
 	 */
 	public get buttonMode () : boolean{
+		//todo
 		console.log("buttonMode not implemented yet in flash/Sprite");
 		return false;
 	}
 	public set buttonMode (value:boolean) {
+		//todo
 		console.log("buttonMode not implemented yet in flash/Sprite");
-		
 	}
 
 	/**
@@ -82,6 +86,7 @@ export class Sprite extends DisplayObjectContainer{
 	 * which the sprite was dropped.
 	 */
 	public get dropTarget () : DisplayObject{
+		//todo
 		console.log("dropTarget not implemented yet in flash/Sprite");
 		return null;
 		
@@ -92,9 +97,7 @@ export class Sprite extends DisplayObjectContainer{
 	 * drawing commands can occur.
 	 */
 	public get graphics () : Graphics{
-		//console.log("graphics not implemented yet in flash/Sprite");
 		return this.adaptee.graphics;
-		
 	}
 
 	/**
@@ -111,13 +114,13 @@ export class Sprite extends DisplayObjectContainer{
 	 * of your sprite button.
 	 */
 	public get hitArea () : Sprite{
+		//todo
 		console.log("hitArea not implemented yet in flash/Sprite");
 		return null;
-
 	}
 	public set hitArea (value:Sprite){
+		//todo
 		console.log("hitArea not implemented yet in flash/Sprite");
-
 	}
 
 	/**
@@ -131,6 +134,7 @@ export class Sprite extends DisplayObjectContainer{
 		return null;
 	}
 	public set soundTransform (sndTransform:any){
+		//todo
 		console.log("soundTransform not implemented yet in flash/Sprite");
 	}
 
@@ -150,10 +154,12 @@ export class Sprite extends DisplayObjectContainer{
 	 * to false.
 	 */
 	public get useHandCursor () : boolean{
+		//todo
 		console.log("useHandCursor not implemented yet in flash/Sprite");
 		return false;
 	}
 	public set useHandCursor (value:boolean){
+		//todo
 		console.log("useHandCursor not implemented yet in flash/Sprite");
 	}
 
@@ -173,6 +179,7 @@ export class Sprite extends DisplayObjectContainer{
 	 *   rectangle for the Sprite.
 	 */
 	public startDrag (lockCenter:boolean=false, bounds:Rectangle=null) {
+		//todo
 		console.log("startDrag not implemented yet in flash/Sprite");
 	}
 
@@ -193,6 +200,7 @@ export class Sprite extends DisplayObjectContainer{
 	 *   rectangle for the Sprite.
 	 */
 	public startTouchDrag (touchPonumberID:number, lockCenter:boolean=false, bounds:Rectangle=null) {
+		//todo
 		console.log("startTouchDrag not implemented yet in flash/Sprite");
 	}
 
@@ -203,6 +211,7 @@ export class Sprite extends DisplayObjectContainer{
 	 * sprite becomes draggable. Only one sprite is draggable at a time.
 	 */
 	public stopDrag () {
+		//todo
 		console.log("startTouchDrag not implemented yet in flash/Sprite");
 	}
 
@@ -214,6 +223,7 @@ export class Sprite extends DisplayObjectContainer{
 	 * @param	touchPonumberID	The numbereger assigned to the touch ponumber in the startTouchDrag method.
 	 */
 	public stopTouchDrag (touchPonumberID:number) {
+		//todo
 		console.log("startTouchDrag not implemented yet in flash/Sprite");
 	}
 

@@ -131,10 +131,12 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 *   throws an exception. The Stage object does not implement this property.
 	 */
 	public get tabChildren () : boolean {
+		//todo
 		console.log("tabChildren not implemented yet in flash/DisplayObjectContainer");
 		return false;
 	}
 	public set tabChildren (enable:boolean)  {
+		//todo
 	}
 
 	/**
@@ -227,6 +229,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * @playerversion	Lite 4
 	 */
 	public areInaccessibleObjectsUnderPoint (point:Point) : boolean {
+		//todo
 		console.log("areInaccessibleObjectsUnderPoint not implemented yet in flash/DisplayObjectContainer");
 		return false;
 	}
@@ -244,6 +247,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * @playerversion	Lite 4
 	 */
 	public contains (child:DisplayObject) : boolean {
+		//todo
 		console.log("contains not implemented yet in flash/DisplayObjectContainer");
 		return false;
 	}
@@ -262,7 +266,6 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 *   the child movie call Security.allowDomain().
 	 */
 	public getChildAt (index:number) : DisplayObject {
-
 		return (<DisplayObject>(<AwayDisplayObjectContainer>this.adaptee).getChildAt(index).adapter);
 	}
 
@@ -298,7 +301,6 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * @throws	ArgumentError Throws if the child parameter is not a child of this object.
 	 */
 	public getChildIndex (child:DisplayObject) : number {
-
 		return (<AwayDisplayObjectContainer>this.adaptee).getChildIndex(child.adaptee);
 	}
 
@@ -322,6 +324,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * @playerversion	Lite 4
 	 */
 	public getObjectsUnderPoint (point:Point) : Array<any>[] {
+		//todo
 		console.log("getObjectsUnderPoint not implemented yet in flash/DisplayObjectContainer");
 		return [];
 	}
@@ -371,6 +374,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * @throws	RangeError Throws if the index does not exist in the child list.
 	 */
 	public removeChildAt (index:number) : DisplayObject {
+		//todo
 		//child.dispatchEventRecursive(Event.REMOVED_FROM_STAGE);
 		//child.dispatchEvent(new Event(Event.REMOVED));
 		console.log("removeChildAt not implemented yet in flash/DisplayObjectContainer");
@@ -378,6 +382,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	}
 
 	public removeChildren (beginIndex:number=0, endIndex:number=2147483647)  {
+		//todo
 		//child.dispatchEventRecursive(Event.REMOVED_FROM_STAGE);
 		//child.dispatchEvent(new Event(Event.REMOVED));
 		console.log("removeChildren not implemented yet in flash/DisplayObjectContainer");
@@ -410,10 +415,12 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * @throws	ArgumentError Throws if the child parameter is not a child of this object.
 	 */
 	public setChildIndex (child:DisplayObject, index:number)  {
+		//todo
 		console.log("setChildIndex not implemented yet in flash/DisplayObjectContainer");
 	}
 
 	public stopAllMovieClips ()  {
+		//todo
 		console.log("stopAllMovieClips not implemented yet in flash/DisplayObjectContainer");
 	}
 
@@ -429,6 +436,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * @throws	ArgumentError Throws if either child parameter is not a child of this object.
 	 */
 	public swapChildren (child1:DisplayObject, child2:DisplayObject) {
+		//todo
 		console.log("swapChildren not implemented yet in flash/DisplayObjectContainer");
 
 	}
@@ -444,6 +452,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * @throws	RangeError If either index does not exist in the child list.
 	 */
 	public swapChildrenAt (index1:number, index2:number)  {
+		//todo
 		console.log("swapChildrenAt not implemented yet in flash/DisplayObjectContainer");
 	}
 }

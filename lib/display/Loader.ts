@@ -18,36 +18,54 @@ import {DisplayObjectContainer as AwayDisplayObjectContainer} from "@awayjs/scen
 export class Loader extends DisplayObjectContainer{
 
 	private _loaderInfoAS:LoaderInfo;
-	//private _awayLoader:AwayLoader;
+	private _loaderContext:LoaderContext;
+	
 	constructor(){
 		super();
+
+
+		this._onLoaderCompleteDelegate = (event:LoaderEvent) => this.onLoaderComplete(event);
+		this._onAssetCompleteDelegate = (event:AssetEvent) => this.onAssetComplete(event);
+		
 		this.adaptee=new AwayDisplayObjectContainer();
 		this.adaptee.adapter=this;
-		//this._awayLoader=new AwayLoader();
+						
 		AssetLibrary.enableParser(AWDParser);
-		AssetLibrary.addEventListener(LoaderEvent.LOAD_COMPLETE, (event: LoaderEvent) => this.onComplete(event));
-		AssetLibrary.addEventListener(AssetEvent.ASSET_COMPLETE, (event: AssetEvent) => this.onAssetComplete(event));
 		this._loaderInfoAS=new LoaderInfo();
 
 	}
 
-	private onComplete(event: LoaderEvent){
+	private _onLoaderCompleteDelegate:(event:LoaderEvent) => void;
+	private onLoaderComplete(event: LoaderEvent){
 		console.log("loaded url!");
-		this.dispatchEvent(new Event(Event.COMPLETE));
 		this._loaderInfoAS.dispatchEvent(new Event(Event.COMPLETE));
+		AssetLibrary.removeEventListener(LoaderEvent.LOAD_COMPLETE, this._onLoaderCompleteDelegate);
+		AssetLibrary.removeEventListener(AssetEvent.ASSET_COMPLETE, this._onAssetCompleteDelegate);
+		
 	}
 
+	private _onAssetCompleteDelegate:(event:AssetEvent) => void;
 	private onAssetComplete(event: AssetEvent){
+		
+		// 	todo: take care of all needed asset-types (sounds / fonts / textfield)
+		//	todo: update awd to support as3-class-identifier as extra property. 
+		//  atm the name of the exported symbols will be the as3-class name, 
+		//  and all exported symbols are handled as if exposed to as3
+		
 		if(event.asset.isAsset(AwaySprite)) {
-			//console.log("added Sprite asset to loader")
-			//this.addChild(<DisplayObjectContainer> event.asset);
+			var awaySprite:AwaySprite=(<AwaySprite>event.asset);
+			awaySprite.adapter=(<Sprite>new Sprite());
+			(<Sprite>awaySprite.adapter).adaptee=awaySprite;
+			this._loaderContext.applicationDomain.addDefinition(event.asset.name, awaySprite.adapter);
 		}
 		else if(event.asset.isAsset(AwayMovieClip)) {
-			(<AwayMovieClip>event.asset).adapter=(<MovieClip>new MovieClip());
-			(<MovieClip>(<AwayMovieClip>event.asset).adapter).adaptee=(<AwayMovieClip>event.asset);
-			console.log("added MovieClip asset to loader");
+			var awayMC:AwayMovieClip=(<AwayMovieClip>event.asset);
+			awayMC.adapter=(<MovieClip>new MovieClip());
+			(<MovieClip>awayMC.adapter).adaptee=awayMC;
+			this._loaderContext.applicationDomain.addDefinition(event.asset.name, awayMC.adapter);
+			
+			// if this is the "Scene 1", we make it a child of the loader
 			if (event.asset.name=="Scene 1"){
-				console.log("added MovieClip asset to loader");
 				this.addChild((<MovieClip>(<AwayMovieClip>event.asset).adapter));
 			}
 		}
@@ -56,6 +74,10 @@ export class Loader extends DisplayObjectContainer{
 	public load(url:URLRequest, context:LoaderContext=null){
 		console.log("start loading the url:"+url.url);
 		url.url=url.url.replace(".swf", ".awd");
+		this._loaderContext=context;
+		this._loaderInfoAS.applicationDomain=context.applicationDomain;
+		AssetLibrary.addEventListener(LoaderEvent.LOAD_COMPLETE, this._onLoaderCompleteDelegate);
+		AssetLibrary.addEventListener(AssetEvent.ASSET_COMPLETE, this._onAssetCompleteDelegate);
 		AssetLibrary.load(url);
 	}
 
@@ -68,4 +90,4 @@ export class Loader extends DisplayObjectContainer{
 	{
 		this._loaderInfoAS=value;
 	}
-};
+}

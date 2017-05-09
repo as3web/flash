@@ -20,6 +20,8 @@ export class EventDispatcher extends AwayEventDispatcher{
 
 	protected eventMapping:Object;
 	protected eventMappingDummys:Object;
+	protected eventMappingExtern:Object;
+
 	protected eventMappingInvert:Object;
 	
 	constructor(target:any = null)
@@ -28,6 +30,8 @@ export class EventDispatcher extends AwayEventDispatcher{
 
 		this.eventMapping={};
 		this.eventMappingDummys={};
+		this.eventMappingExtern={};
+
 		this.eventMappingInvert={};//only needed in some cases, when we translate back from awayjs-type to flash-type
 
 		this._activateCallbackDelegate = (event:any) => this.activateCallback(event);
@@ -83,20 +87,20 @@ export class EventDispatcher extends AwayEventDispatcher{
 	/*overwrite*/
 	public addEventListener(type:string, listener:(event:EventBase) => void):void
 	{
+
+		if(this.eventMappingExtern.hasOwnProperty(type)){
+
+			// this is a external eventMapping
+			// this means that we do not need to create any mapping, and will manually dispatch the event
+			// we still need to register it on superclass, so it will work if we dispatch it manually
+			super.addEventListener(type, listener);
+			return;
+		}
 		if(this.eventMappingDummys.hasOwnProperty(type)){
-			
-			if(this.eventMappingDummys[type]==""){
-				
-				// this is a dummy eventMapping, that is set with no message.
-				// this means we do not need to create any mapping, 
-				// the event should still work, because we dispatch the event without listeneing for awayjs-events
-				// so we still need to register it on superclass, so it will work if we dispacth it manually
-				super.addEventListener(type, listener);
-				return;
-			}
-			
-			// this is a dummy eventMapping that has a message
-			// that means it is not expected to work, and we do not need to register it on superclass
+
+			// this is a dummy eventMapping
+			// this means that this is a event-type, that is not yet supported
+			// we do not need to register it on superclass
 			// for now we output a warning
 			console.log("Warning - EventDispatcher:  trying to listen for unsupported event: : "+this.eventMappingDummys[type]);
 			return;
@@ -112,6 +116,7 @@ export class EventDispatcher extends AwayEventDispatcher{
 			this.eventMapping[type].addListener.call(this, this.eventMapping[type].adaptedType, this.eventMapping[type].callback);
 			return;
 		}
+		
 		// if we make it here, the event is not handled by this dispatcher
 		// lets output a Warning for now.
 		console.log("EventDispatcher: trying to listen for unknown event: '"+type+"'")

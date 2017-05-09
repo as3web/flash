@@ -5,8 +5,6 @@
  *   instances, primitive types such as uint, and class objects.
  * @return	A string containing the fully qualified class name.
  */
-export const getQualifiedClassName=function(name:any){
-	//todo
-	console.log("getQualifiedClassName is not implemented yet in flash/utils");
-	return "";
+export const getQualifiedClassName=function(value:any){
+	return value.name;
 };

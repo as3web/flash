@@ -3,6 +3,8 @@
  * Flash Player 10 only supports TEXT_FORMAT, RICH_TEXT_FORMAT, and HTML_FORMAT.
  * @internal	Clipboard, ClipboardFormats and ClipboardTransferMode were all added to AIR 1.0. These are also being added, with some exceptions listed in this file, to FP10.
  */
+
+	
 export class ClipboardFormats extends Object
 {
 	static AIR_PREFIX : string;

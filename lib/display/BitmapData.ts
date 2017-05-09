@@ -9,14 +9,20 @@ import { Point } from "../geom/Point"
 import { Matrix  } from "../geom/Matrix"
 import { ColorTransform } from "../geom/ColorTransform"
 import { BitmapFilter } from "../filters/BitmapFilter"
+import { IBitmapDrawable } from "./IBitmapDrawable"
+import { BitmapImage2D } from "@awayjs/graphics"
 
-export class BitmapData
+export class BitmapData implements IBitmapDrawable
 {
-	public width:number;
-	public height:number;
-	public transparent:boolean;
-	private rectangle:Rectangle;
+	private _adaptee:BitmapImage2D;
 
+	// return the adaptee cast to AwayDisplayObjectContainer. just a helper to avoid casting everywhere
+	public get adaptee():BitmapImage2D {
+		return (<BitmapImage2D>this._adaptee);
+	}
+	public set adaptee(adaptee:BitmapImage2D) {
+		this._adaptee=adaptee;
+	}
 	static loadBitmap(id:string):BitmapData{
 		console.log("loadBitmap not implemented yet in flash/BitmapData");
 		return null;
@@ -27,46 +33,58 @@ export class BitmapData
 	{
 
 	}
+
+	public get transparent():boolean{
+		return this._adaptee.transparent;
+	}
+	public set transparent(value:boolean) {
+		this._adaptee.transparent=value;
+	}
+
+	public get width():number{
+		return this._adaptee.width;
+	}
+	public set width(value:number) {
+		this._adaptee.width=value;
+	}
+
+	public get height():number{
+		return this._adaptee.height;
+	}
+	public set height(value:number) {
+		this._adaptee.height=value;
+	}
+	
 	public clone():BitmapData{
 		console.log("clone not implemented yet in flash/BitmapData");
 		return null;
 
 	}
 	public get rect():Rectangle{
-		console.log("clone not implemented yet in flash/BitmapData");
-		return null;
-
+		return this._adaptee.rect;
 	}
 	public getPixel(x:number, y:number):number{
-		console.log("getPixel not implemented yet in flash/BitmapData");
-		return 0;
-
+		return this._adaptee.getPixel(x, y);
 	}
 	public getPixel32(x:number, y:number):number{
-		console.log("getPixel32 not implemented yet in flash/BitmapData");
-		return 0;
-
+		return this._adaptee.getPixel32(x, y);
 	}
 	public setPixel(x:number, y:number, color:number){
-		console.log("setPixel not implemented yet in flash/BitmapData");
-
+		this._adaptee.setPixel(x, y, color);
 	}
 	public setPixel32(x:number, y:number, color:number){
-		console.log("setPixel32 not implemented yet in flash/BitmapData");
-
+		this._adaptee.setPixel32(x, y, color);
 	}
 	public applyFilter (sourceBitmap:BitmapData, sourceRect:Rectangle, destPoint:Point, filter:BitmapFilter):number{
 		console.log("applyFilter not implemented yet in flash/BitmapData");
 		return 0;
-
 	}
 	public colorTransform(rect:Rectangle, colorTransform:ColorTransform){
-		console.log("colorTransform not implemented yet in flash/BitmapData");
-
+		this._adaptee.colorTransform(rect, colorTransform);
 	}
 	public copyChannel(sourceBitmap:BitmapData, sourceRect:Rectangle,
 					   destPoint:Point, sourceChannel:number, destChannel:number){
-		console.log("copyChannel not implemented yet in flash/BitmapData");
+		this._adaptee.copyChannel(sourceBitmap.adaptee, sourceRect, destPoint, sourceChannel, destChannel);
 
 	}
 	public copyPixels(sourceBitmap:BitmapData,
@@ -76,7 +94,7 @@ export class BitmapData
 					  alphaPoint:Point,
 					  mergeAlpha:boolean){
 		console.log("copyPixels not implemented yet in flash/BitmapData");
-
+		//this._adaptee.copyPixels(sourceBitmap.adaptee, sourceRect, destPoint);
 	}
 	public dispose(){
 		console.log("dispose not implemented yet in flash/BitmapData");

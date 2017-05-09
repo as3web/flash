@@ -33,7 +33,6 @@ export {StageAlign} from "./lib/display/StageAlign";
 export {StageScaleMode} from "./lib/display/StageScaleMode";
 export {TriangleCulling} from "./lib/display/TriangleCulling";
 
-export {MethodMaterial} from "@awayjs/materials";
 export {Context3D} from "./lib/display3D/Context3D";
 export {Context3DClearMask} from "./lib/display3D/Context3DClearMask";
 export {Context3DProgramType} from "./lib/display3D/Context3DProgramType";
@@ -150,6 +149,11 @@ export {XMLNodeType}	from "./lib/xml/XMLNodeType";
 
 export * from "./lib/RegisterCode";
 
+// make some extra stuff available from awayjs
+
+export {AssetLibrary} from "@awayjs/core";
+
+
 /* greensock adapter are only temporary here
  totally dummy classes*/
 export { RoundPropsPlugin} from './lib/greensock/plugins/RoundPropsPlugin';
@@ -181,3 +185,4 @@ export { Quad} from './lib/starling/display/Quad';
 export { Image} from './lib/starling/display/Image';
 //export { DisplayObject} from './lib/starling/display/DisplayObject';
 export { Starling} from './lib/starling/core/Starling';
+
