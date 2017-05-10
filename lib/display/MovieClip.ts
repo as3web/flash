@@ -1,7 +1,5 @@
 import {IDisplayObjectAdapter, MovieClip as AwayMovieClip, DisplayObject as AwayDisplayObject, IMovieClipAdapter} from "@awayjs/scene";
 import {Sprite} from "./Sprite";
-import {isNumber} from "util";
-import {isString} from "util";
 
 /**
  * The MovieClip class inherits from the following classes: Sprite, DisplayObjectContainer,
@@ -224,10 +222,10 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 	 */
 	public gotoAndPlay (frame:Object, scene:string=null){
 		if(frame == null) { return; }
-		if(isNumber(frame)) {
+		if(typeof frame === "number") {
 			this.adaptee.currentFrameIndex = Number(frame);
 		}
-		else if(isString(frame)) {
+		else if(typeof frame === "string") {
 			this.adaptee.jumpToLabel(String(frame));
 		}
 		this.adaptee.play();
@@ -247,10 +245,10 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 	 */
 	public gotoAndStop (frame:Object, scene:string=null){
 		if(frame == null) { return; }
-		if(isNumber(frame)) {
+		if(typeof frame === "number") {
 			this.adaptee.currentFrameIndex = Number(frame);
 		}
-		else if(isString(frame)) {
+		else if(typeof frame === "string") {
 			this.adaptee.jumpToLabel(String(frame));
 		}
 		this.adaptee.stop();
