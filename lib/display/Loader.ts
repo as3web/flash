@@ -62,6 +62,7 @@ export class Loader extends DisplayObjectContainer{
 			var awayMC:AwayMovieClip=(<AwayMovieClip>event.asset);
 			awayMC.adapter=(<MovieClip>new MovieClip(awayMC));
 			(<MovieClip>awayMC.adapter).adaptee=awayMC;
+			(<MovieClip>awayMC.adapter).gotoAndStop(0);
 			this._loaderContext.applicationDomain.addDefinition(event.asset.name, awayMC.adapter);
 			
 			// if this is the "Scene 1", we make it a child of the loader

@@ -154,18 +154,6 @@ export * from "./lib/RegisterCode";
 export {AssetLibrary} from "@awayjs/core";
 
 
-/* greensock adapter are only temporary here
- totally dummy classes*/
-export { RoundPropsPlugin} from './lib/greensock/plugins/RoundPropsPlugin';
-export { RectanglePath2D} from './lib/greensock/motionPaths/RectanglePath2D';
-export { Power} from './lib/greensock/easing/Power';
-export { Power1} from './lib/greensock/easing/Power1';
-export { Power2} from './lib/greensock/easing/Power2';
-export { Power3} from './lib/greensock/easing/Power3';
-export { Power4} from './lib/greensock/easing/Power4';
-export { Linear} from './lib/greensock/easing/Linear';
-export { TweenLite} from './lib/greensock/TweenLite';
-
 
 /* starling adapter are only temporary here
  totally dummy classes
