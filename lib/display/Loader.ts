@@ -54,13 +54,13 @@ export class Loader extends DisplayObjectContainer{
 		
 		if(event.asset.isAsset(AwaySprite)) {
 			var awaySprite:AwaySprite=(<AwaySprite>event.asset);
-			awaySprite.adapter=(<Sprite>new Sprite());
+			awaySprite.adapter=(<Sprite>new Sprite(awaySprite));
 			(<Sprite>awaySprite.adapter).adaptee=awaySprite;
 			this._loaderContext.applicationDomain.addDefinition(event.asset.name, awaySprite.adapter);
 		}
 		else if(event.asset.isAsset(AwayMovieClip)) {
 			var awayMC:AwayMovieClip=(<AwayMovieClip>event.asset);
-			awayMC.adapter=(<MovieClip>new MovieClip());
+			awayMC.adapter=(<MovieClip>new MovieClip(awayMC));
 			(<MovieClip>awayMC.adapter).adaptee=awayMC;
 			this._loaderContext.applicationDomain.addDefinition(event.asset.name, awayMC.adapter);
 			

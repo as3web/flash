@@ -139,17 +139,18 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	};
 
 	public isBlockedByScript():boolean{
-		console.log("isBlockedByScript not implemented yet in flash/DisplayObject");
+		//console.log("isBlockedByScript not implemented yet in flash/DisplayObject");
 		return false;
 	}
 
 	public isVisibilityByScript():boolean{
-		console.log("isVisibilityByScript not implemented yet in flash/DisplayObject");
+		//console.log("isVisibilityByScript not implemented yet in flash/DisplayObject");
 		return false;
 	}
 
 	public freeFromScript(){
-		console.log("freeFromScript not implemented yet in flash/DisplayObject");}
+		//console.log("freeFromScript not implemented yet in flash/DisplayObject");
+	}
 
 	public clone(newAdaptee:AwayDisplayObject=null):IDisplayObjectAdapter{
 		//console.log("clone not implemented yet in flash/DisplayObject");
@@ -461,11 +462,11 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 *   property for more information.
 	 */
 	public get filters () : any[]{
-		console.log("filters not implemented yet in flash/DisplayObject");
+		//console.log("filters not implemented yet in flash/DisplayObject");
 		return [];
 	}
 	public set filters (value:any[]) {
-		console.log("filters not implemented yet in flash/DisplayObject");
+		//console.log("filters not implemented yet in flash/DisplayObject");
 	}
 
 	/**
@@ -619,8 +620,7 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 *   the parent movie call the Security.allowDomain() method.
 	 */
 	public get parent () : DisplayObjectContainer{
-		console.log("parent not implemented yet in flash/DisplayObject");
-		return null;
+		return (<DisplayObjectContainer>this.adaptee.parent.adapter);
 	}
 
 	/**

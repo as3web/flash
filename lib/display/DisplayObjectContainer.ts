@@ -136,6 +136,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 		return false;
 	}
 	public set tabChildren (enable:boolean)  {
+		console.log("tabChildren not implemented yet in flash/DisplayObjectContainer");
 		//todo
 	}
 
@@ -350,8 +351,9 @@ export class DisplayObjectContainer extends InteractiveObject{
 	public removeChild (child:DisplayObject) : DisplayObject {
 		child.dispatchEventRecursive(new Event(Event.REMOVED_FROM_STAGE));
 		child.dispatchEvent(new Event(Event.REMOVED));
-		console.log("removeChild not implemented yet in flash/DisplayObjectContainer");
-		return null;
+		this.adaptee.removeChild(child.adaptee);
+		//console.log("removeChild not implemented yet in flash/DisplayObjectContainer");
+		return child;
 	}
 
 	/**
@@ -374,18 +376,33 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * @throws	RangeError Throws if the index does not exist in the child list.
 	 */
 	public removeChildAt (index:number) : DisplayObject {
-		//todo
-		//child.dispatchEventRecursive(Event.REMOVED_FROM_STAGE);
-		//child.dispatchEvent(new Event(Event.REMOVED));
-		console.log("removeChildAt not implemented yet in flash/DisplayObjectContainer");
-		return null;
+		var awayChild:AwayDisplayObject=this.adaptee.removeChildAt(index);
+		var childadapter:DisplayObject=(<DisplayObject>awayChild.adapter);
+
+		childadapter.dispatchEventRecursive(Event.REMOVED_FROM_STAGE);
+		childadapter.dispatchEvent(new Event(Event.REMOVED));
+		//console.log("removeChildAt not implemented yet in flash/DisplayObjectContainer");
+		return childadapter;
 	}
 
 	public removeChildren (beginIndex:number=0, endIndex:number=2147483647)  {
-		//todo
-		//child.dispatchEventRecursive(Event.REMOVED_FROM_STAGE);
-		//child.dispatchEvent(new Event(Event.REMOVED));
-		console.log("removeChildren not implemented yet in flash/DisplayObjectContainer");
+
+		if(endIndex>=this.adaptee.numChildren) {
+			endIndex=this.adaptee.numChildren;
+		}
+
+		for(var i:number /*uint*/ = beginIndex; i < endIndex; i++){
+			var oneChild:AwayDisplayObject=this.adaptee.getChildAt(i);
+			if(oneChild.adapter){
+				(<DisplayObject>oneChild.adapter).dispatchEventRecursive(Event.REMOVED_FROM_STAGE);
+				(<DisplayObject>oneChild.adapter).dispatchEvent(new Event(Event.REMOVED));
+			}
+		}
+
+
+		this.adaptee.removeChildren(beginIndex, endIndex);
+
+		//console.log("removeChildren not implemented yet in flash/DisplayObjectContainer");
 	}
 
 	/**
