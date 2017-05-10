@@ -49,17 +49,17 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 	// --------------------- stuff needed because of implementing the existing IMovieClipAdapter
 	
 	public evalScript(str:string):Function{
-		console.log("evalScript not implemented yet in flash/MovieClip");
+		//console.log("evalScript not implemented yet in flash/MovieClip");
 		return null;
 	}
 
 	public registerScriptObject(child:AwayDisplayObject){
-		console.log("registerScriptObject not implemented yet in flash/MovieClip");
+		//console.log("registerScriptObject not implemented yet in flash/MovieClip");
 
 	}
 
 	public unregisterScriptObject(child:AwayDisplayObject){
-		console.log("unregisterScriptObject not implemented yet in flash/MovieClip");
+		//console.log("unregisterScriptObject not implemented yet in flash/MovieClip");
 
 	}
 

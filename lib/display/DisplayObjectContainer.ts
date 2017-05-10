@@ -59,6 +59,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 				}
 			}
 			else if(oneChild.isAsset(AwayMovieClip)){
+				console.log("Reached MC", oneChild);
 				(<AwayMovieClip>oneChild).update();
 			}
 		}
@@ -379,7 +380,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 		var awayChild:AwayDisplayObject=this.adaptee.removeChildAt(index);
 		var childadapter:DisplayObject=(<DisplayObject>awayChild.adapter);
 
-		childadapter.dispatchEventRecursive(Event.REMOVED_FROM_STAGE);
+		childadapter.dispatchEventRecursive(new Event(Event.REMOVED_FROM_STAGE));
 		childadapter.dispatchEvent(new Event(Event.REMOVED));
 		//console.log("removeChildAt not implemented yet in flash/DisplayObjectContainer");
 		return childadapter;
@@ -394,7 +395,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 		for(var i:number /*uint*/ = beginIndex; i < endIndex; i++){
 			var oneChild:AwayDisplayObject=this.adaptee.getChildAt(i);
 			if(oneChild.adapter){
-				(<DisplayObject>oneChild.adapter).dispatchEventRecursive(Event.REMOVED_FROM_STAGE);
+				(<DisplayObject>oneChild.adapter).dispatchEventRecursive(new Event(Event.REMOVED_FROM_STAGE));
 				(<DisplayObject>oneChild.adapter).dispatchEvent(new Event(Event.REMOVED));
 			}
 		}

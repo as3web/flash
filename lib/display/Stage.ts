@@ -180,6 +180,8 @@ export class Stage extends DisplayObjectContainer{
 		this.initListeners();
 		this._mainSprite=new startClass();
 		this._mainSprite.adaptee.adapter=this._mainSprite;
+
+		this._view.setPartition(this._mainSprite.adaptee, new SceneGraphPartition(this._mainSprite.adaptee));
 		this._view.scene.addChild(this._mainSprite.adaptee);
 		this.adaptee=this._mainSprite.adaptee;
 		console.log("constructed Stage and create the entranceclass");

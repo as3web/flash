@@ -104,7 +104,7 @@ export class ApplicationDomain
 	 *   specified name.
 	 */
 	public getDefinition (name:string) : IDisplayObjectAdapter{
-		return this._definitions[name]
+		return this._definitions[name].clone();
 	}
 
 	public getQualifiedDefinitionNames () : string[]{
