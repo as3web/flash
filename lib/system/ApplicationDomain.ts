@@ -1,5 +1,6 @@
 import {ByteArray} from "@awayjs/core";
 import {IDisplayObjectAdapter} from "@awayjs/scene";
+import {DisplayObject as AwayDisplayObject} from "@awayjs/scene";
 
 /**
  * The ApplicationDomain class is a container for discrete groups of class definitions.
@@ -89,7 +90,7 @@ export class ApplicationDomain
 		return this._parentDomain;
 	}
 
-	public addDefinition (name:string, asset:IDisplayObjectAdapter) : void{
+	public addDefinition (name:string, asset:AwayDisplayObject) : void{
 		this._definitions[name]=asset;
 	}
 
@@ -104,7 +105,9 @@ export class ApplicationDomain
 	 *   specified name.
 	 */
 	public getDefinition (name:string) : IDisplayObjectAdapter{
-		return this._definitions[name].clone();
+		var awayobj:AwayDisplayObject=this._definitions[name].clone();
+		var newAdapter:IDisplayObjectAdapter=this._definitions[name].adapter.clone(awayobj);
+		return newAdapter;
 	}
 
 	public getQualifiedDefinitionNames () : string[]{

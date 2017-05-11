@@ -55,10 +55,12 @@ export class DisplayObjectContainer extends InteractiveObject{
 			var oneChild:AwayDisplayObject=this.adaptee.getChildAt(i);
 			if(oneChild.isAsset(AwaySprite)||oneChild.isAsset(AwayDisplayObjectContainer)){
 				if(oneChild.adapter){
+					(<AwaySprite>oneChild).graphics.endFill();
 					(<DisplayObjectContainer>oneChild.adapter).advanceFrame();
 				}
 			}
 			else if(oneChild.isAsset(AwayMovieClip)){
+				(<AwayMovieClip>oneChild).graphics.endFill();
 				//console.log("Reached MC", oneChild);
 				(<AwayMovieClip>oneChild).update();
 			}

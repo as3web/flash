@@ -63,15 +63,15 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 
 	}
 
-
-	//---------------------------original as3 properties / methods:
-
 	public clone(newAdaptee:AwayMovieClip=null):IDisplayObjectAdapter{
 		//console.log("clone not implemented yet in flash/DisplayObject");
 		var newMovie:MovieClip=new MovieClip();
-		newMovie.adaptee=this.adaptee;
+		newMovie.adaptee=newAdaptee;
 		return newMovie;
 	}
+
+	//---------------------------original as3 properties / methods:
+
 	/**
 	 * Specifies the number of the frame in which the playhead is located in the timeline of
 	 * the MovieClip instance. If the movie clip has multiple scenes, this value is the

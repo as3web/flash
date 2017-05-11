@@ -551,8 +551,8 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * non-rotated any.
 	 */
 	public get mouseX () : number{
-		console.log("mouseX not implemented yet in flash/DisplayObject");
-		return 0;
+		//console.log("mouseX not implemented yet in flash/DisplayObject");
+		return this.stage.mouseX;
 	}
 
 	/**
@@ -562,8 +562,8 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * non-rotated any.
 	 */
 	public get mouseY () : number{
-		console.log("mouseY not implemented yet in flash/DisplayObject");
-		return 0;
+		//console.log("mouseY not implemented yet in flash/DisplayObject");
+		return this.stage.mouseY;
 	}
 
 	/**
@@ -872,6 +872,7 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 
 	}
 	public set transform (value:Transform) {
+		console.log("DisplayObject:setter for transform not yet implemented");
 		//this._adaptee.transform=value;
 	}
 
@@ -999,7 +1000,8 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 *   the targetCoordinateSpace any's coordinate system.
 	 */
 	public getBounds (targetCoordinateSpace:DisplayObject) : Rectangle{
-		return null;//this._adaptee.getBounds();
+		console.log("DisplayObject:getBounds not yet implemented");
+		return new Rectangle();//this._adaptee.getBounds();
 
 	}
 
@@ -1017,7 +1019,8 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 *   the targetCoordinateSpace any's coordinate system.
 	 */
 	public getRect (targetCoordinateSpace:DisplayObject) : Rectangle{
-		return null;//this._adaptee.getBounds();
+		console.log("DisplayObject:getRect not yet implemented");
+		return new Rectangle();//this._adaptee.getBounds();
 
 	}
 
@@ -1037,7 +1040,7 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * @return	A Point any with coordinates relative to the displayobject.
 	 */
 	public globalToLocal (point:Point) : Point{
-		return null;//this._adaptee.getBounds();
+		return this.adaptee.globalToLocal(point);
 
 	}
 
@@ -1059,7 +1062,8 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 *   displayobject.
 	 */
 	public globalToLocal3D (point:Point) : Vector3D{
-		return null;//this._adaptee.getBounds();
+		console.log("DisplayObject:globalToLocal3D not yet implemented");
+		return new Vector3D(); //todo: works with vector3D-input instead of pouibnt: this.adaptee.globalToLocal3D();
 
 	}
 
@@ -1070,7 +1074,7 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * @return	true if the bounding boxes of the displayobjects intersect; false if not.
 	 */
 	public hitTestObject (obj:DisplayObject) : boolean{
-		return false;//this._adaptee.getBounds();
+		return this.adaptee.hitTestObject(obj.adaptee);
 
 	}
 
@@ -1088,8 +1092,7 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 *   false otherwise.
 	 */
 	public hitTestPoint (x:number, y:number, shapeFlag:boolean=false) : boolean{
-		return false;//this._adaptee.getBounds();
-
+		return this.adaptee.hitTestPoint(x,y,shapeFlag);
 	}
 
 	/**
@@ -1111,7 +1114,8 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 *   in two-dimensional space.
 	 */
 	public local3DToGlobal (point3d:Vector3D) : Point{
-		return null;//this._adaptee.getBounds();
+		console.log("DisplayObject:local3DToGlobal not yet implemented");
+		return new Point();//this._adaptee.getBounds();
 
 	}
 
@@ -1132,7 +1136,7 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * @return	A Point any with coordinates relative to the Stage.
 	 */
 	public localToGlobal (point:Point) : Point{
-		return null;//this._adaptee.getBounds();
+		return this.adaptee.localToGlobal(point);
 	}
 }
 

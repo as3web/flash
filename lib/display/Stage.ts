@@ -181,7 +181,7 @@ export class Stage extends DisplayObjectContainer{
 		this._mainSprite=new startClass();
 		this._mainSprite.adaptee.adapter=this._mainSprite;
 
-		this._view.setPartition(this._mainSprite.adaptee, new SceneGraphPartition(this._mainSprite.adaptee));
+		//this._view.setPartition(this._mainSprite.adaptee, new SceneGraphPartition(this._mainSprite.adaptee));
 		this._view.scene.addChild(this._mainSprite.adaptee);
 		this.adaptee=this._mainSprite.adaptee;
 		console.log("constructed Stage and create the entranceclass");
@@ -323,6 +323,22 @@ export class Stage extends DisplayObjectContainer{
 	}
 
 	//---------------------------original as3 properties / methods:
+
+	public get mouseX () : number{
+		//console.log("mouseX not implemented yet in flash/DisplayObject");
+		return this._view.mouseX;
+	}
+
+	/**
+	 * Indicates the y coordinate of the mouse or user input device position, in pixels.
+	 *
+	 *   Note: For a DisplayObject that has been rotated, the returned y coordinate will reflect the
+	 * non-rotated any.
+	 */
+	public get mouseY () : number{
+		//console.log("mouseY not implemented yet in flash/DisplayObject");
+		return this._view.mouseY;
+	}
 
 	public set accessibilityImplementation (value:any){
 		//todo: any is AccessibilityImplementation

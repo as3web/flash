@@ -57,20 +57,20 @@ export class Loader extends DisplayObjectContainer{
 			var awayTxt:AwayTextField=(<AwayTextField>event.asset);
 			awayTxt.adapter=new TextField(awayTxt);
 			(<TextField>awayTxt.adapter).adaptee=awayTxt;
-			this._loaderContext.applicationDomain.addDefinition(event.asset.name, awayTxt.adapter);
+			this._loaderContext.applicationDomain.addDefinition(event.asset.name, awayTxt);
 		}
 		else if(event.asset.isAsset(AwaySprite)) {
 			var awaySprite:AwaySprite=(<AwaySprite>event.asset);
 			awaySprite.adapter=new Sprite(awaySprite);
 			(<Sprite>awaySprite.adapter).adaptee=awaySprite;
-			this._loaderContext.applicationDomain.addDefinition(event.asset.name, awaySprite.adapter);
+			this._loaderContext.applicationDomain.addDefinition(event.asset.name, awaySprite);
 		}
 		else if(event.asset.isAsset(AwayMovieClip)) {
 			var awayMC:AwayMovieClip=(<AwayMovieClip>event.asset);
 			awayMC.adapter=new MovieClip(awayMC);
 			(<MovieClip>awayMC.adapter).adaptee=awayMC;
-			(<MovieClip>awayMC.adapter).gotoAndStop(0);
-			this._loaderContext.applicationDomain.addDefinition(event.asset.name, awayMC.adapter);
+			(<MovieClip>awayMC.adapter).gotoAndPlay(0);
+			this._loaderContext.applicationDomain.addDefinition(event.asset.name, awayMC);
 			
 			// if this is the "Scene 1", we make it a child of the loader
 			if (event.asset.name=="Scene 1"){
