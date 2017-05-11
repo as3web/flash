@@ -1,13 +1,14 @@
 
 import {Loader as AwayLoader} from "@awayjs/core";
 import {LoaderInfo} from "./LoaderInfo";
+import {TextField} from "../text/TextField";
 import {LoaderContext} from "../system/LoaderContext";
 import {DisplayObjectContainer} from "./DisplayObjectContainer";
 import {DisplayObject} from "./DisplayObject";
 import {Sprite} from "./Sprite";
 import {MovieClip} from "./MovieClip";
 import {LoaderEvent, AssetLibrary, AssetEvent} from "@awayjs/core";
-import {MovieClip as AwayMovieClip, Sprite as AwaySprite} from "@awayjs/scene";
+import {MovieClip as AwayMovieClip, Sprite as AwaySprite, TextField as AwayTextField} from "@awayjs/scene";
 import {AWDParser} from "@awayjs/parsers";
 import {URLRequest} from "../net/URLRequest";
 import {Event} from "../events/Event";
@@ -51,16 +52,22 @@ export class Loader extends DisplayObjectContainer{
 		//	todo: update awd to support as3-class-identifier as extra property. 
 		//  atm the name of the exported symbols will be the as3-class name, 
 		//  and all exported symbols are handled as if exposed to as3
-		
-		if(event.asset.isAsset(AwaySprite)) {
+
+		if(event.asset.isAsset(AwayTextField)) {
+			var awayTxt:AwayTextField=(<AwayTextField>event.asset);
+			awayTxt.adapter=new TextField(awayTxt);
+			(<TextField>awayTxt.adapter).adaptee=awayTxt;
+			this._loaderContext.applicationDomain.addDefinition(event.asset.name, awayTxt.adapter);
+		}
+		else if(event.asset.isAsset(AwaySprite)) {
 			var awaySprite:AwaySprite=(<AwaySprite>event.asset);
-			awaySprite.adapter=(<Sprite>new Sprite(awaySprite));
+			awaySprite.adapter=new Sprite(awaySprite);
 			(<Sprite>awaySprite.adapter).adaptee=awaySprite;
 			this._loaderContext.applicationDomain.addDefinition(event.asset.name, awaySprite.adapter);
 		}
 		else if(event.asset.isAsset(AwayMovieClip)) {
 			var awayMC:AwayMovieClip=(<AwayMovieClip>event.asset);
-			awayMC.adapter=(<MovieClip>new MovieClip(awayMC));
+			awayMC.adapter=new MovieClip(awayMC);
 			(<MovieClip>awayMC.adapter).adaptee=awayMC;
 			(<MovieClip>awayMC.adapter).gotoAndStop(0);
 			this._loaderContext.applicationDomain.addDefinition(event.asset.name, awayMC.adapter);

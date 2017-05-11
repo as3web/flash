@@ -59,7 +59,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 				}
 			}
 			else if(oneChild.isAsset(AwayMovieClip)){
-				console.log("Reached MC", oneChild);
+				//console.log("Reached MC", oneChild);
 				(<AwayMovieClip>oneChild).update();
 			}
 		}
