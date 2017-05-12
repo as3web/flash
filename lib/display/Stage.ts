@@ -15,7 +15,7 @@ import {HoverController, TextField, Billboard, Camera, LoaderContainer, MovieCli
 import {MethodMaterial}	from "@awayjs/materials";
 import {DefaultRenderer} from  "@awayjs/renderer";
 import {View, SceneGraphPartition} from "@awayjs/view";
-import {DisplayObject as AwayDisplayObject} from "@awayjs/scene";
+import {DisplayObject as AwayDisplayObject, DisplayObjectContainer as AwayDisplayObjectContainer} from "@awayjs/scene";
 
 
 
@@ -180,10 +180,12 @@ export class Stage extends DisplayObjectContainer{
 		this.initListeners();
 		this._mainSprite=new startClass();
 		this._mainSprite.adaptee.adapter=this._mainSprite;
+		this.adaptee=new AwayDisplayObjectContainer();
+		this.adaptee.adapter=this;
+		this._view.setPartition(this.adaptee, new SceneGraphPartition(this.adaptee));
+		this._view.scene.addChild(this.adaptee);
+		this.addChild(this._mainSprite);
 
-		//this._view.setPartition(this._mainSprite.adaptee, new SceneGraphPartition(this._mainSprite.adaptee));
-		this._view.scene.addChild(this._mainSprite.adaptee);
-		this.adaptee=this._mainSprite.adaptee;
 		console.log("constructed Stage and create the entranceclass");
 	}
 
@@ -230,10 +232,10 @@ export class Stage extends DisplayObjectContainer{
 
 		//create the view
 		this._renderer = new DefaultRenderer();
-		this._renderer.renderableSorter = null;//new RenderableSort2D();
 
 		this._view = new View(this._renderer);
 		this._renderer.antiAlias=8;
+		this._view.renderer.renderableSorter = null;//new RenderableSort2D();
 		this._stageWidth = 1024;
 		this._stageHeight = 768;
 
@@ -262,41 +264,36 @@ export class Stage extends DisplayObjectContainer{
 		this._timer = new RequestAnimationFrame(this.onEnterFrame, this);
 		this._timer.start();
 	}
-
+	private _debugtimer:number=0;
 	/**
 	 * Render loop
 	 */
 	private onEnterFrame(dt: number)
 	{
 		var frameMarker:number = Math.floor(1000/this._fps);
-
 		this._time += Math.min(dt, frameMarker);
 
 		if (this._time >= frameMarker) {
 			this._time -= frameMarker;
 
 			this.dispatchEventRecursive(this._eventOnEnter);
-			this._mainSprite.advanceFrame();
+			this.advanceFrame();
 			this.dispatchEventRecursive(this._eventFrameContructed);
 			// todo: move Framescriptexecution and rest from frame-update logic from Movieclip.update to here
 			this.dispatchEventRecursive(this._eventExitFrame);
 			this.dispatchEventRecursive(this._eventRender);
+
+			if(this._debugtimer%400==0){
+
+				var displayGraph={};
+				this.debugDisplayGraph(displayGraph);
+				console.log("SceneGraph frame :", this._debugtimer, displayGraph);
+
+			}
 			this._view.render();
+			this._debugtimer++;
 		}
 	}
-
-	//	overwrite
-	public dispatchEventRecursive(event:Event) {
-		this.dispatchEvent(event);
-		var i:number=this._view.scene.numChildren;
-		while(i>0){
-			i--;
-			var oneChild:AwayDisplayObject=this._view.scene.getChildAt(i);
-			if(oneChild.adapter){
-				(<DisplayObject>oneChild.adapter).dispatchEventRecursive(event);
-			}
-		}
-	};
 
 	private onResize(event = null)
 	{

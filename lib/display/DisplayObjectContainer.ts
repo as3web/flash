@@ -1,5 +1,5 @@
 import {Point} from "@awayjs/core";
-import {DisplayObjectContainer as AwayDisplayObjectContainer, Sprite as AwaySprite, MovieClip as AwayMovieClip, DisplayObject as AwayDisplayObject} from "@awayjs/scene";
+import {TextField as AwayTextField, DisplayObjectContainer as AwayDisplayObjectContainer, Sprite as AwaySprite, MovieClip as AwayMovieClip, DisplayObject as AwayDisplayObject} from "@awayjs/scene";
 import {DisplayObject} from "./DisplayObject";
 import {InteractiveObject} from "./InteractiveObject";
 import {Event} from "../events/Event";
@@ -63,6 +63,42 @@ export class DisplayObjectContainer extends InteractiveObject{
 				//(<AwayMovieClip>oneChild).graphics.endFill();
 				//console.log("Reached MC", oneChild);
 				(<AwayMovieClip>oneChild).update();
+			}
+		}
+
+	}
+	public debugDisplayGraph(obj:any) {
+		obj.object=this;
+		obj.rectangle=""+this.width+", "+this.height+", "+this.x+", "+this.y;
+		obj.children={};
+		var i:number=0;
+		for(i=0;i<this.adaptee.numChildren;i++){
+			var oneChild:AwayDisplayObject=this.adaptee.getChildAt(i);
+			var childname="child_"+i+" "+(<any>oneChild.adapter).constructor.name;
+			if(oneChild.isAsset(AwaySprite)||oneChild.isAsset(AwayDisplayObjectContainer)){
+				if(oneChild.adapter){
+					obj.children[childname]={};
+					(<AwaySprite>oneChild).graphics.endFill();
+					(<DisplayObjectContainer>oneChild.adapter).debugDisplayGraph(obj.children[childname]);
+				}
+			}
+			else if(oneChild.isAsset(AwayMovieClip)){
+				obj.children[childname]={};
+				obj.children[childname].object=oneChild.adapter;
+				obj.children[childname].name=oneChild.name;
+				obj.children[childname].rectangle=""+oneChild.width+", "+oneChild.height+", "+oneChild.x+", "+oneChild.y;
+				//(<AwayMovieClip>oneChild).graphics.endFill();
+				//console.log("Reached MC", oneChild);
+				//(<AwayMovieClip>oneChild).update();
+			}
+			else if(oneChild.isAsset(AwayTextField)){
+				obj.children[childname]={};
+				obj.children[childname].object=oneChild.adapter;
+				obj.children[childname].text=(<AwayTextField>oneChild).text;
+				obj.children[childname].rectangle=""+oneChild.width+", "+oneChild.height+", "+oneChild.x+", "+oneChild.y;
+				//(<AwayMovieClip>oneChild).graphics.endFill();
+				//console.log("Reached MC", oneChild);
+				//(<AwayMovieClip>oneChild).update();
 			}
 		}
 

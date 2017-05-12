@@ -64,6 +64,7 @@ export class TextField extends InteractiveObject
 			this.adaptee=new AwayTextField();
 			this.adaptee.adapter=this;
 		}
+		//this.adaptee.width=100;//80pro!
 		// register all events for Textfield as dummys right now
 
 		this.eventMappingDummys[TextEvent.TEXT_INPUT]="TextField:TextEvent.TEXT_INPUT";
@@ -80,6 +81,7 @@ export class TextField extends InteractiveObject
 	}
 	public set adaptee(adaptee:AwayTextField) {
 		this._adaptee=adaptee;
+		//this._adaptee.width=100;//80pro!
 	}
 	/**
 	 * When set to true and the text field is not in focus, Flash Player highlights the
@@ -149,7 +151,7 @@ export class TextField extends InteractiveObject
 	}
 	public set autoSize (value:string){
 		//todo
-		//console.log("autoSize not implemented yet in flash/TextField");
+		//console.log("autoSize not implemented yet in flash/TextField",value);
 	}
 
 	/**
@@ -831,9 +833,7 @@ export class TextField extends InteractiveObject
 	 * The height of the text in pixels.
 	 */
 	public get textHeight () : number{
-		//todo
-		//console.log("textHeight not implemented yet in flash/TextField");
-		return 0;
+		return 0;// this.adaptee.textHeight;
 	}
 
 	/**
@@ -852,9 +852,7 @@ export class TextField extends InteractiveObject
 	 * The width of the text in pixels.
 	 */
 	public get textWidth () : number{
-		//todo
-		//console.log("textWidth not implemented yet in flash/TextField");
-		return 0;
+		return 0;//this.adaptee.textWidth;
 	}
 
 	/**
@@ -932,8 +930,7 @@ export class TextField extends InteractiveObject
 	 * @param	newText	The string to append to the existing text.
 	 */
 	public appendText (newText:string) {
-		//todo
-		//console.log("appendText not implemented yet in flash/TextField");
+		this.adaptee.text=this.adaptee.text+newText;
 	}
 
 	public copyRichText () : string{
