@@ -1,6 +1,8 @@
 import {ByteArray} from "@awayjs/core";
 import {IDisplayObjectAdapter, Font} from "@awayjs/scene";
 import {DisplayObject as AwayDisplayObject} from "@awayjs/scene";
+import {MovieClip as AwayMovieClip} from "@awayjs/scene";
+import {MovieClip} from "../display/MovieClip";
 
 /**
  * The ApplicationDomain class is a container for discrete groups of class definitions.
@@ -112,6 +114,8 @@ export class ApplicationDomain
 	public getDefinition (name:string) : IDisplayObjectAdapter{
 		var awayobj:AwayDisplayObject=this._definitions[name].clone();
 		var newAdapter:IDisplayObjectAdapter=this._definitions[name].adapter.clone(awayobj);
+		if(awayobj.isAsset(AwayMovieClip))
+			(<MovieClip>awayobj.adapter).gotoAndPlay(0);
 		return newAdapter;
 	}
 	public getFontDefinition (name:string) : Font{

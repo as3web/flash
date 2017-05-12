@@ -145,13 +145,10 @@ export class TextField extends InteractiveObject
 	 * @throws	ArgumentError The autoSize specified is not a member of flash.text.TextFieldAutoSize.
 	 */
 	public get autoSize () : string{
-		//todo
-		//console.log("autoSize not implemented yet in flash/TextField");
-		return "";
+		return this.adaptee.autoSize;
 	}
 	public set autoSize (value:string){
-		//todo
-		//console.log("autoSize not implemented yet in flash/TextField",value);
+		//this.adaptee.autoSize=value;
 	}
 
 	/**
@@ -833,7 +830,7 @@ export class TextField extends InteractiveObject
 	 * The height of the text in pixels.
 	 */
 	public get textHeight () : number{
-		return 0;// this.adaptee.textHeight;
+		return this.adaptee.textHeight;
 	}
 
 	/**
@@ -852,9 +849,28 @@ export class TextField extends InteractiveObject
 	 * The width of the text in pixels.
 	 */
 	public get textWidth () : number{
-		return 0;//this.adaptee.textWidth;
+		return this.adaptee.textWidth;
 	}
 
+	public get width () : number{
+		return this.adaptee.width;
+	}
+	public set width (value:number){
+		//todo
+		var something:number=0;
+		something++;
+		//console.log("thickness not implemented yet in flash/TextField");
+	}
+
+	public get height () : number{
+		return this.adaptee.height;
+	}
+	public set height (value:number){
+		//todo
+		var something:number=0;
+		something++;
+		//console.log("thickness not implemented yet in flash/TextField");
+	}
 	/**
 	 * The thickness of the glyph edges in this text field. This property applies only
 	 * when flash.text.AntiAliasType is set to flash.text.AntiAliasType.ADVANCED.
