@@ -1,5 +1,5 @@
 import {ByteArray} from "@awayjs/core";
-import {IDisplayObjectAdapter} from "@awayjs/scene";
+import {IDisplayObjectAdapter, Font} from "@awayjs/scene";
 import {DisplayObject as AwayDisplayObject} from "@awayjs/scene";
 
 /**
@@ -36,6 +36,7 @@ export class ApplicationDomain
 
 	private _parentDomain:ApplicationDomain;
 	private _definitions:Object;
+	private _font_definitions:Object;
 	/**
 	 * Creates a new application domain.
 	 * @param	parentDomain	If no parent domain is passed in, this application domain takes the system domain as its parent.
@@ -48,6 +49,7 @@ export class ApplicationDomain
 
 		this._parentDomain=parentDomain;
 		this._definitions={};
+		this._font_definitions={};
 	}
 
 	/**
@@ -94,6 +96,9 @@ export class ApplicationDomain
 		this._definitions[name]=asset;
 	}
 
+	public addFontDefinition (name:string, asset:Font) : void{
+		this._font_definitions[name]=asset;
+	}
 	/**
 	 * Gets a public definition from the specified application domain.
 	 * The definition can be that of a class, a namespace, or a function.
@@ -108,6 +113,9 @@ export class ApplicationDomain
 		var awayobj:AwayDisplayObject=this._definitions[name].clone();
 		var newAdapter:IDisplayObjectAdapter=this._definitions[name].adapter.clone(awayobj);
 		return newAdapter;
+	}
+	public getFontDefinition (name:string) : Font{
+		return this._font_definitions[name];
 	}
 
 	public getQualifiedDefinitionNames () : string[]{
@@ -128,5 +136,8 @@ export class ApplicationDomain
 	 */
 	public hasDefinition (name:string) : boolean{
 		return this._definitions.hasOwnProperty(name);
+	}
+	public hasFontDefinition (name:string) : boolean{
+		return this._font_definitions.hasOwnProperty(name);
 	}
 }

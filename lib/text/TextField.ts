@@ -525,12 +525,12 @@ export class TextField extends InteractiveObject
 	 */
 	public get htmlText () : string{
 		//todo
-		//console.log("htmlText not implemented yet in flash/TextField");
+		console.log("htmlText not implemented yet in flash/TextField");
 		return "";
 	}
 	public set htmlText (value:string){
 		//todo
-		//console.log("htmlText not implemented yet in flash/TextField");
+		console.log("htmlText not implemented yet in flash/TextField");
 	}
 
 	/**
@@ -539,7 +539,7 @@ export class TextField extends InteractiveObject
 	 */
 	public get length () : number{
 		//todo
-		//console.log("length not implemented yet in flash/TextField");
+		console.log("length not implemented yet in flash/TextField");
 		return 0;
 	}
 
@@ -804,13 +804,10 @@ export class TextField extends InteractiveObject
 	 *   To get the text in HTML form, use the htmlText property.
 	 */
 	public get text () : string{
-		//todo
-		//console.log("text not implemented yet in flash/TextField");
-		return "";
+		return this.adaptee.text;
 	}
 	public set text (value:string){
-		//todo
-		//console.log("text not implemented yet in flash/TextField");
+		this.adaptee.text=value;
 	}
 
 	/**

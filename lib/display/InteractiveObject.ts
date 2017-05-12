@@ -506,6 +506,9 @@ export class InteractiveObject extends DisplayObject{
 	{
 		var adaptedEvent:MouseEvent=new MouseEvent(this.eventMappingInvert[event.type]);
 		adaptedEvent.fillFromAway(event);
+		adaptedEvent.target=this;
+		adaptedEvent.currentTarget=this;
+		
 		this.dispatchEvent(adaptedEvent);
 	}
 

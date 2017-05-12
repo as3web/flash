@@ -60,7 +60,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 				}
 			}
 			else if(oneChild.isAsset(AwayMovieClip)){
-				(<AwayMovieClip>oneChild).graphics.endFill();
+				//(<AwayMovieClip>oneChild).graphics.endFill();
 				//console.log("Reached MC", oneChild);
 				(<AwayMovieClip>oneChild).update();
 			}

@@ -12,7 +12,7 @@ import {MovieClip as AwayMovieClip, Sprite as AwaySprite, TextField as AwayTextF
 import {AWDParser} from "@awayjs/parsers";
 import {URLRequest} from "../net/URLRequest";
 import {Event} from "../events/Event";
-import {DisplayObjectContainer as AwayDisplayObjectContainer} from "@awayjs/scene";
+import {Font, DisplayObjectContainer as AwayDisplayObjectContainer} from "@awayjs/scene";
 
 // todo: define all methods (start new with converting as3-Loader to ts ?)
 
@@ -58,6 +58,9 @@ export class Loader extends DisplayObjectContainer{
 			awayTxt.adapter=new TextField(awayTxt);
 			(<TextField>awayTxt.adapter).adaptee=awayTxt;
 			this._loaderContext.applicationDomain.addDefinition(event.asset.name, awayTxt);
+		}
+		else if(event.asset.isAsset(Font)) {
+			this._loaderContext.applicationDomain.addFontDefinition(event.asset.name, (<Font>event.asset));
 		}
 		else if(event.asset.isAsset(AwaySprite)) {
 			var awaySprite:AwaySprite=(<AwaySprite>event.asset);

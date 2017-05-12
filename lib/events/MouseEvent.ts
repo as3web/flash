@@ -555,6 +555,10 @@ export class MouseEvent extends Event
 	public fillFromAway (awayEvent:MouseEventAway){
 		//console.log("cloneFromAway not implemented yet in flash/MouseEvent");
 
+		// todo: set targets correctly
+		this.target = awayEvent.target;
+		//this.currentTarget = awayEvent.currentTarget;
+
 		this.delta = awayEvent.delta;
 
 		this.ctrlKey = awayEvent.ctrlKey;
