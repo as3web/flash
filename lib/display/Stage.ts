@@ -119,7 +119,8 @@ import {DisplayObject as AwayDisplayObject, DisplayObjectContainer as AwayDispla
 
 
 export class Stage extends DisplayObjectContainer{
-	
+
+	private static _colorMaterials:any={};
 	private _scaleMode:StageScaleMode;
 	private _align:StageAlign;
 	private _mainSprite:Sprite;
@@ -150,11 +151,24 @@ export class Stage extends DisplayObjectContainer{
 		this._eventExitFrame=new Event(Event.EXIT_FRAME);
 		this._eventRender=new Event(Event.RENDER);
 
+		this._scaleMode=StageScaleMode.NO_SCALE;
+		this._align=StageAlign.TOP_LEFT;
 		this._stage3Ds=[];
 		//this._stage3Ds[this._stage3Ds.length]=new AwayStage(null, );
 		
-		Graphics.get_material_for_color=function(color:number):MaterialBase{
-			return new MethodMaterial(color);
+		Graphics.get_material_for_color=function(color:number, alpha:number=1):MaterialBase{
+			if(color==0){
+				color=0x000001;
+			}
+			var colorstr:string=color+"_"+Math.round(alpha*100).toString();
+			if(Stage._colorMaterials[colorstr]){
+				return Stage._colorMaterials[colorstr];
+			}
+			var newmat:MaterialBase=new MethodMaterial(color, alpha);
+			newmat.alphaBlending=true;
+			newmat.bothSides = true;
+			Stage._colorMaterials[colorstr]=newmat;
+			return newmat;
 		};
 		/*
 		//todo
@@ -182,15 +196,19 @@ export class Stage extends DisplayObjectContainer{
 
 		DisplayObject.activeStage=this;
 		this.initEninge();
-		this.initListeners();
 		this._mainSprite=new startClass();
 		this._mainSprite.adaptee.adapter=this._mainSprite;
 		this.adaptee=new AwayDisplayObjectContainer();
 		this.adaptee.adapter=this;
+		//this.mouseEnabled=false;
+		//this.mouseChildren=true;
 		this._view.setPartition(this.adaptee, new SceneGraphPartition(this.adaptee));
 		this._view.scene.addChild(this.adaptee);
+		//this._mainSprite.mouseEnabled=false;
+		//this._mainSprite.mouseChildren=true;
 		this.addChild(this._mainSprite);
 
+		this.initListeners();
 		console.log("constructed Stage and create the entranceclass");
 	}
 
@@ -208,6 +226,36 @@ export class Stage extends DisplayObjectContainer{
 	private _resizeCallbackDelegate:(event:any) => void;
 	private resizeCallback(event:any=null):void
 	{
+		// todo: correctly implement all StageScaleModes;
+
+		switch(this.scaleMode){
+			case StageScaleMode.NO_SCALE:
+				this._stageWidth=window.innerWidth;
+				this._stageHeight=window.innerHeight;
+				break;
+			case StageScaleMode.EXACT_FIT:
+			case StageScaleMode.SHOW_ALL:
+			case StageScaleMode.NO_BORDER:
+			default:
+				throw("Stage: only implemented StageAlign is TOP_LEFT");
+				//break;
+		}
+		// todo: correctly implement all alignModes;
+		switch(this.align){
+			case StageAlign.TOP_LEFT:
+				this._view.y         = 0;
+				this._view.x         = 0;
+				break;
+			default:
+				throw("Stage: only implemented StageAlign is TOP_LEFT");
+				//break;
+		}
+		this._view.width     = window.innerWidth;
+		this._view.height    = window.innerHeight;
+		var newHeight:number = this._stageHeight;
+		this._projection.fieldOfView = Math.atan(window.innerHeight/window.innerWidth/2)*360/Math.PI;
+		//this._projection.originX = (0.5 - 0.5*(window.innerHeight/newHeight)*(this._stageWidth/window.innerWidth));
+
 		this.dispatchEvent(new Event(Event.RESIZE));
 	}
 
@@ -241,8 +289,6 @@ export class Stage extends DisplayObjectContainer{
 		this._view = new View(this._renderer);
 		this._renderer.antiAlias=8;
 		this._view.renderer.renderableSorter = null;//new RenderableSort2D();
-		this._stageWidth = 1024;
-		this._stageHeight = 768;
 
 		this._projection = new PerspectiveProjection();
 		this._projection.coordinateSystem = CoordinateSystem.RIGHT_HANDED;
@@ -263,11 +309,11 @@ export class Stage extends DisplayObjectContainer{
 	 */
 	private initListeners()
 	{
-		window.onresize  = (event) => this.onResize(event);
-		this.onResize();
+		window.onresize  = this._resizeCallbackDelegate;// same as
 
 		this._timer = new RequestAnimationFrame(this.onEnterFrame, this);
 		this._timer.start();
+		this._resizeCallbackDelegate(null);
 	}
 	private _debugtimer:number=0;
 	/**
@@ -300,29 +346,6 @@ export class Stage extends DisplayObjectContainer{
 		}
 	}
 
-	private onResize(event = null)
-	{
-		// todo: correctly implement StageScaleMode;
-
-		switch(this.scaleMode){
-			case StageScaleMode.EXACT_FIT:
-				break;
-			case StageScaleMode.NO_BORDER:
-				break;
-			case StageScaleMode.SHOW_ALL:
-				break;
-			case StageScaleMode.NO_SCALE:
-				break;
-		}
-		this._view.y         = 0;
-		this._view.x         = 0;
-		this._view.width     = window.innerWidth;
-		this._view.height    = window.innerHeight;
-		var newHeight:number = this._stageHeight;
-		this._projection.fieldOfView = Math.atan(newHeight/1000/2)*360/Math.PI;
-		this._projection.originX = (0.5 - 0.5*(window.innerHeight/newHeight)*(this._stageWidth/window.innerWidth));
-
-	}
 
 	//---------------------------original as3 properties / methods:
 

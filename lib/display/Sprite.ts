@@ -3,6 +3,7 @@ import {DisplayObjectContainer} from "./DisplayObjectContainer"
 import {Stage} from "./Stage"
 import {DisplayObject} from "./DisplayObject"
 import {Rectangle} from "@awayjs/core";
+import {IDisplayObjectAdapter} from "@awayjs/scene";
 import {Graphics} from "./Graphics";
 export class Sprite extends DisplayObjectContainer{
 
@@ -40,6 +41,12 @@ export class Sprite extends DisplayObjectContainer{
 		this._adaptee=adaptee;
 	}
 
+	public clone(newAdaptee:AwaySprite=null):IDisplayObjectAdapter{
+		//console.log("clone not implemented yet in flash/DisplayObject");
+		var newSprite:Sprite=new Sprite();
+		newSprite.adaptee=newAdaptee;
+		return newSprite;
+	}
 
 	//---------------------------original as3 properties / methods:
 

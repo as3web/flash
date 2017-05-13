@@ -529,11 +529,24 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * any, and that any's mask property becomes null.
 	 */
 	public get mask () : DisplayObject{
-		console.log("mask not implemented yet in flash/DisplayObject");
-		return null;
+		if(this.adaptee.masks==null){
+			return null;
+		}
+		if(this.adaptee.masks.length==0){
+			return null;
+		}
+		return (<DisplayObject>this.adaptee.masks[0].adapter);
 	}
 	public set mask (value:DisplayObject) {
-		console.log("mask not implemented yet in flash/DisplayObject");
+		if(value==null){
+			if(this.adaptee.masks!=null){
+				this.adaptee.masks[0].maskMode=false;
+			}
+			this.adaptee.masks=null;
+			return;
+		}
+		value.adaptee.maskMode=true;
+		this.adaptee.masks=[value.adaptee];
 	}
 
 	public get metaData () : any{
@@ -1000,8 +1013,9 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 *   the targetCoordinateSpace any's coordinate system.
 	 */
 	public getBounds (targetCoordinateSpace:DisplayObject) : Rectangle{
-		console.log("DisplayObject:getBounds not yet implemented");
-		return new Rectangle();//this._adaptee.getBounds();
+		//console.log("DisplayObject:getBounds not yet implemented");
+
+		return new Rectangle(this.adaptee.getBox(targetCoordinateSpace.adaptee).x, this.adaptee.getBox(targetCoordinateSpace.adaptee).y,this.adaptee.getBox(targetCoordinateSpace.adaptee).width,this.adaptee.getBox(targetCoordinateSpace.adaptee).height);
 
 	}
 

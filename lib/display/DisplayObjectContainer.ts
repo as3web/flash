@@ -171,11 +171,11 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 */
 	public get tabChildren () : boolean {
 		//todo
-		console.log("tabChildren not implemented yet in flash/DisplayObjectContainer");
-		return false;
+		throw("tabChildren not implemented yet in flash/DisplayObjectContainer");
+		//return false;
 	}
 	public set tabChildren (enable:boolean)  {
-		console.log("tabChildren not implemented yet in flash/DisplayObjectContainer");
+		throw("tabChildren not implemented yet in flash/DisplayObjectContainer");
 		//todo
 	}
 
@@ -185,9 +185,9 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * @playerversion	Flash 9
 	 */
 	public get textSnapshot () : any {
-		console.log("textSnapshot not implemented yet in flash/DisplayObjectContainer");
+		throw("textSnapshot not implemented yet in flash/DisplayObjectContainer");
 		// todo: flash.text.TextSnapshot;
-		return null;
+		//return null;
 	}
 
 	/**
@@ -270,8 +270,8 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 */
 	public areInaccessibleObjectsUnderPoint (point:Point) : boolean {
 		//todo
-		console.log("areInaccessibleObjectsUnderPoint not implemented yet in flash/DisplayObjectContainer");
-		return false;
+		throw("areInaccessibleObjectsUnderPoint not implemented yet in flash/DisplayObjectContainer");
+		//return false;
 	}
 
 	/**
@@ -288,8 +288,8 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 */
 	public contains (child:DisplayObject) : boolean {
 		//todo
-		console.log("contains not implemented yet in flash/DisplayObjectContainer");
-		return false;
+		throw("contains not implemented yet in flash/DisplayObjectContainer");
+		//return false;
 	}
 
 
@@ -363,10 +363,20 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * @playerversion	Flash 9
 	 * @playerversion	Lite 4
 	 */
-	public getObjectsUnderPoint (point:Point) : Array<any>[] {
-		//todo
-		console.log("getObjectsUnderPoint not implemented yet in flash/DisplayObjectContainer");
-		return [];
+	public getObjectsUnderPoint (point:Point) : any[] {
+		var allChilds:any[]=[];
+
+		var i:number=this.adaptee.numChildren;
+		while(i>0){
+			i--;
+			var oneChild:AwayDisplayObject=this.adaptee.getChildAt(i);
+			if(oneChild.hitTestPoint(point.x, point.y)){
+				allChilds[allChilds.length]=oneChild.adapter;
+			}
+			if(oneChild.adapter instanceof DisplayObjectContainer)
+				allChilds=allChilds.concat((<DisplayObjectContainer>oneChild.adapter).getObjectsUnderPoint(point));
+		}
+		return allChilds;
 	}
 
 	/**
@@ -472,12 +482,12 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 */
 	public setChildIndex (child:DisplayObject, index:number)  {
 		//todo
-		console.log("setChildIndex not implemented yet in flash/DisplayObjectContainer");
+		throw("setChildIndex not implemented yet in flash/DisplayObjectContainer");
 	}
 
 	public stopAllMovieClips ()  {
 		//todo
-		console.log("stopAllMovieClips not implemented yet in flash/DisplayObjectContainer");
+		throw("stopAllMovieClips not implemented yet in flash/DisplayObjectContainer");
 	}
 
 
@@ -493,7 +503,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 */
 	public swapChildren (child1:DisplayObject, child2:DisplayObject) {
 		//todo
-		console.log("swapChildren not implemented yet in flash/DisplayObjectContainer");
+		throw("swapChildren not implemented yet in flash/DisplayObjectContainer");
 
 	}
 
@@ -509,6 +519,6 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 */
 	public swapChildrenAt (index1:number, index2:number)  {
 		//todo
-		console.log("swapChildrenAt not implemented yet in flash/DisplayObjectContainer");
+		throw("swapChildrenAt not implemented yet in flash/DisplayObjectContainer");
 	}
 }

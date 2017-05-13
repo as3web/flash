@@ -610,13 +610,10 @@ export class InteractiveObject extends DisplayObject{
 	 * addEventListener() method to create interactive functionality.
 	 */
 	public get mouseEnabled () : boolean{
-		//todo
-		//console.log("mouseEnabled not implemented yet in flash/InteractiveObject");
-		return false;
+		return this.adaptee.mouseEnabled;
 	}
 	public set mouseEnabled (enabled:boolean){
-		//todo
-		//console.log("mouseEnabled not implemented yet in flash/InteractiveObject");
+		//this.adaptee.mouseEnabled=enabled;
 
 	}
 
