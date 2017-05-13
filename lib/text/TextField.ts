@@ -852,25 +852,6 @@ export class TextField extends InteractiveObject
 		return this.adaptee.textWidth;
 	}
 
-	public get width () : number{
-		return this.adaptee.width;
-	}
-	public set width (value:number){
-		//todo
-		var something:number=0;
-		something++;
-		//console.log("thickness not implemented yet in flash/TextField");
-	}
-
-	public get height () : number{
-		return this.adaptee.height;
-	}
-	public set height (value:number){
-		//todo
-		var something:number=0;
-		something++;
-		//console.log("thickness not implemented yet in flash/TextField");
-	}
 	/**
 	 * The thickness of the glyph edges in this text field. This property applies only
 	 * when flash.text.AntiAliasType is set to flash.text.AntiAliasType.ADVANCED.

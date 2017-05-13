@@ -114,8 +114,10 @@ export class ApplicationDomain
 	public getDefinition (name:string) : IDisplayObjectAdapter{
 		var awayobj:AwayDisplayObject=this._definitions[name].clone();
 		var newAdapter:IDisplayObjectAdapter=this._definitions[name].adapter.clone(awayobj);
-		if(awayobj.isAsset(AwayMovieClip))
-			(<MovieClip>awayobj.adapter).gotoAndPlay(0);
+		if(awayobj.isAsset(AwayMovieClip)){
+			(<AwayMovieClip>awayobj).currentFrameIndex=0;
+
+		}
 		return newAdapter;
 	}
 	public getFontDefinition (name:string) : Font{

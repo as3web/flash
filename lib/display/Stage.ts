@@ -15,6 +15,7 @@ import {HoverController, TextField, Billboard, Camera, LoaderContainer, MovieCli
 import {MethodMaterial}	from "@awayjs/materials";
 import {DefaultRenderer} from  "@awayjs/renderer";
 import {View, SceneGraphPartition} from "@awayjs/view";
+import {Stage as AwayStage} from "@awayjs/stage";
 import {DisplayObject as AwayDisplayObject, DisplayObjectContainer as AwayDisplayObjectContainer} from "@awayjs/scene";
 
 
@@ -122,6 +123,7 @@ export class Stage extends DisplayObjectContainer{
 	private _scaleMode:StageScaleMode;
 	private _align:StageAlign;
 	private _mainSprite:Sprite;
+	private _stage3Ds:AwayStage[];
 
 	private _fps:number = 30;
 	private _view: View;
@@ -148,6 +150,9 @@ export class Stage extends DisplayObjectContainer{
 		this._eventExitFrame=new Event(Event.EXIT_FRAME);
 		this._eventRender=new Event(Event.RENDER);
 
+		this._stage3Ds=[];
+		//this._stage3Ds[this._stage3Ds.length]=new AwayStage(null, );
+		
 		Graphics.get_material_for_color=function(color:number):MaterialBase{
 			return new MethodMaterial(color);
 		};
@@ -772,10 +777,10 @@ export class Stage extends DisplayObjectContainer{
 
 	}
 
-	public get stage3Ds () : any[]{
+	public get stage3Ds () : AwayStage[]{
 		// todo: any is stage3d
 		console.log("stage3Ds not implemented yet in flash/Stage");
-		return [];
+		return this._stage3Ds;
 	}
 
 	/**

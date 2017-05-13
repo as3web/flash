@@ -221,14 +221,12 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 	 * @param	scene	The name of the scene to play. This parameter is optional.
 	 */
 	public gotoAndPlay (frame:Object, scene:string=null){
-		if(frame == null) { return; }
-		if(typeof frame === "number") {
-			this.adaptee.currentFrameIndex = Number(frame);
-		}
-		else if(typeof frame === "string") {
-			this.adaptee.jumpToLabel(String(frame));
-		}
-		this.adaptee.play();
+
+		if (frame == null)
+			return;
+
+		this.play();
+		this._gotoFrame(frame);
 	}
 
 	/**
@@ -244,17 +242,22 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 	 *   not found in this movie clip.
 	 */
 	public gotoAndStop (frame:Object, scene:string=null){
-		if(frame == null) { return; }
-		if(typeof frame === "number") {
-			this.adaptee.currentFrameIndex = Number(frame);
-		}
-		else if(typeof frame === "string") {
-			this.adaptee.jumpToLabel(String(frame));
-		}
-		this.adaptee.stop();
+
+		if (frame == null)
+			return;
+		
+		this.stop();
+		this._gotoFrame(frame);
 	}
 
 
+	private _gotoFrame(frame:any):void
+	{
+		if (typeof frame === "string")
+			this.adaptee.jumpToLabel(<string>frame);
+		else
+			this.adaptee.currentFrameIndex = (<number>frame) - 1;
+	}
 	/**
 	 * Sends the playhead to the next frame and stops it.  This happens after all
 	 * remaining actions in the frame have finished executing.
