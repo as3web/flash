@@ -116,7 +116,6 @@ export class ApplicationDomain
 		var newAdapter:IDisplayObjectAdapter=this._definitions[name].adapter.clone(awayobj);
 		if(awayobj.isAsset(AwayMovieClip)){
 			(<AwayMovieClip>awayobj).currentFrameIndex=0;
-
 		}
 		return newAdapter;
 	}

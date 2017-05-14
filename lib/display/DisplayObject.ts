@@ -102,7 +102,7 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	//---------------------------stuff added to make it work:
 
 
-	private _stage:Stage;
+	protected _stage:Stage;
 
 
 	private static _activeStage:Stage=null;

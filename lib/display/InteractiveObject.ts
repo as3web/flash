@@ -609,12 +609,13 @@ export class InteractiveObject extends DisplayObject{
 	 * No event is dispatched by setting this property. You must use the
 	 * addEventListener() method to create interactive functionality.
 	 */
+	//private _mouseEnabled:boolean=true;
+
 	public get mouseEnabled () : boolean{
 		return this.adaptee.mouseEnabled;
 	}
 	public set mouseEnabled (enabled:boolean){
-		//this.adaptee.mouseEnabled=enabled;
-
+		this.adaptee.mouseEnabled=enabled;
 	}
 
 	/**

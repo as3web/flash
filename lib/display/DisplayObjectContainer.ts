@@ -69,7 +69,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	}
 	public debugDisplayGraph(obj:any) {
 		obj.object=this;
-		obj.rectangle=""+this.width+", "+this.height+", "+this.x+", "+this.y;
+		obj.rectangle="x:"+this.x+", y:"+this.y+", width:"+this.width+", height:"+this.height;
 		obj.children={};
 		var i:number=0;
 		for(i=0;i<this.adaptee.numChildren;i++){
@@ -142,10 +142,10 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * @playerversion	Lite 4
 	 */
 	public get mouseChildren () : boolean {
-		return (<AwayDisplayObjectContainer>this.adaptee).mouseChildren;
+		return this.adaptee.mouseChildren;
 	}
 	public set mouseChildren (enable:boolean)  {
-		(<AwayDisplayObjectContainer>this.adaptee).mouseChildren=enable;
+		this.adaptee.mouseChildren=enable;
 	}
 
 	/**
@@ -481,8 +481,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * @throws	ArgumentError Throws if the child parameter is not a child of this object.
 	 */
 	public setChildIndex (child:DisplayObject, index:number)  {
-		//todo
-		throw("setChildIndex not implemented yet in flash/DisplayObjectContainer");
+		this.adaptee.addChildAt(child.adaptee, index);
 	}
 
 	public stopAllMovieClips ()  {

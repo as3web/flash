@@ -195,18 +195,25 @@ export class Stage extends DisplayObjectContainer{
 			callback:this._mouseLeaveCallbackDelegate});
 
 		DisplayObject.activeStage=this;
+		this._stage=this;
 		this.initEninge();
 		this._mainSprite=new startClass();
 		this._mainSprite.adaptee.adapter=this._mainSprite;
 		this.adaptee=new AwayDisplayObjectContainer();
 		this.adaptee.adapter=this;
-		//this.mouseEnabled=false;
-		//this.mouseChildren=true;
+		this.adaptee.x=0;
+		this.adaptee.y=0;
+		this.mouseEnabled=false;
+		this.mouseChildren=true;
 		this._view.setPartition(this.adaptee, new SceneGraphPartition(this.adaptee));
 		this._view.scene.addChild(this.adaptee);
 		//this._mainSprite.mouseEnabled=false;
 		//this._mainSprite.mouseChildren=true;
 		this.addChild(this._mainSprite);
+		this._mainSprite.graphics.clear();
+		this._mainSprite.graphics.beginFill(0xffffff,0);
+		this._mainSprite.graphics.drawRect(0,0,window.innerWidth, window.innerHeight);
+		this._mainSprite.graphics.endFill;
 
 		this.initListeners();
 		console.log("constructed Stage and create the entranceclass");
@@ -253,7 +260,17 @@ export class Stage extends DisplayObjectContainer{
 		this._view.width     = window.innerWidth;
 		this._view.height    = window.innerHeight;
 		var newHeight:number = this._stageHeight;
-		this._projection.fieldOfView = Math.atan(window.innerHeight/window.innerWidth/2)*360/Math.PI;
+		var aspectRatio:number=window.innerWidth/window.innerHeight;
+		this._mainSprite.graphics.clear();
+		this._mainSprite.graphics.beginFill(0xffffff,0.00001);
+		this._mainSprite.graphics.drawRect(0,0,window.innerWidth, window.innerHeight);
+		this._mainSprite.graphics.endFill();
+		if(aspectRatio>=1){
+			this._projection.fieldOfView = Math.atan(window.innerHeight/1000/2)*360/Math.PI;
+		}
+		else{
+			this._projection.fieldOfView = Math.atan(window.innerWidth/1000/2)*360/Math.PI;
+		}
 		//this._projection.originX = (0.5 - 0.5*(window.innerHeight/newHeight)*(this._stageWidth/window.innerWidth));
 
 		this.dispatchEvent(new Event(Event.RESIZE));
@@ -334,7 +351,7 @@ export class Stage extends DisplayObjectContainer{
 			this.dispatchEventRecursive(this._eventExitFrame);
 			this.dispatchEventRecursive(this._eventRender);
 
-			if(this._debugtimer%400==0){
+			if(this._debugtimer%150==0){
 
 				var displayGraph={};
 				this.debugDisplayGraph(displayGraph);
