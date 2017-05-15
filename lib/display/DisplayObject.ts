@@ -565,7 +565,8 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 */
 	public get mouseX () : number{
 		//console.log("mouseX not implemented yet in flash/DisplayObject");
-		return this.stage.mouseX;
+		//todo: theres probably a faster option than this
+		return this.adaptee.globalToLocal(new Point(this.stage.mouseX, 0)).x;
 	}
 
 	/**
@@ -575,8 +576,8 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * non-rotated any.
 	 */
 	public get mouseY () : number{
-		//console.log("mouseY not implemented yet in flash/DisplayObject");
-		return this.stage.mouseY;
+		//todo: theres probably a faster option than this
+		return this.adaptee.globalToLocal(new Point(0, this.stage.mouseY)).y;
 	}
 
 	/**
@@ -665,10 +666,10 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * same as  my_video.rotation = 90.
 	 */
 	public get rotation () : number{
-		return this.adaptee.rotation;
+		return this.adaptee.rotationZ;
 	}
 	public set rotation (value:number) {
-		this.adaptee.rotation=value;
+		this.adaptee.rotationZ=value;
 	}
 
 	/**

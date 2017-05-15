@@ -457,11 +457,12 @@ export class InteractiveObject extends DisplayObject{
 
 	private initKeyUpListener(type:string, callback:(event:any) => void):void
 	{
+		//todo: this overwrites other key-luistener on document :(
 		document.onkeydown = callback;
 	}
 	private removeKeyUpListener(type:string, callback:(event:any) => void):void
 	{
-		window.onkeydown = null;
+		document.onkeydown = null;
 	}
 	private _keyUpCallbackDelegate:(event:any) => void;
 	private keyUpCallback(event:any=null):void
@@ -476,11 +477,12 @@ export class InteractiveObject extends DisplayObject{
 
 	private initKeyDownListener(type:string, callback:(event:any) => void):void
 	{
+		//todo: this overwrites other key-luistener on document :(
 		document.onkeydown = callback;
 	}
 	private removeKeyDownListener(type:string, callback:(event:any) => void):void
 	{
-		window.onkeydown = null;
+		document.onkeydown = null;
 	}
 	private _keyDownCallbackDelegate:(event:any) => void;
 	private keyDownCallback(event:any=null):void
