@@ -481,7 +481,28 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * @throws	ArgumentError Throws if the child parameter is not a child of this object.
 	 */
 	public setChildIndex (child:DisplayObject, index:number)  {
-		this.adaptee.addChildAt(child.adaptee, index);
+
+		var allChildren=[];
+		for(var i:number /*uint*/ = 0; i < this.adaptee.numChildren; i++){
+			allChildren[allChildren.length]=this.adaptee.getChildAt(i);
+		}
+		for(i = 0; i < allChildren.length; i++){
+
+			this.adaptee.removeChild(allChildren[i]);
+		}
+		var newChildCnt=0;
+		for(i = 0; i < allChildren.length; i++){
+			if(i==index){
+				this.adaptee.addChild(child.adaptee);
+			}
+			else{
+				var oldChild=allChildren[newChildCnt++];
+				if(oldChild.id!=child.adaptee.id){
+					this.adaptee.addChild(oldChild);
+				}
+
+			}
+		}
 	}
 
 	public stopAllMovieClips ()  {
@@ -501,8 +522,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * @throws	ArgumentError Throws if either child parameter is not a child of this object.
 	 */
 	public swapChildren (child1:DisplayObject, child2:DisplayObject) {
-		//todo
-		throw("swapChildren not implemented yet in flash/DisplayObjectContainer");
+		this.adaptee.swapChildren(child1.adaptee, child2.adaptee);
 
 	}
 
