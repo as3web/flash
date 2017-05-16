@@ -203,17 +203,22 @@ export class Stage extends DisplayObjectContainer{
 		this.adaptee.adapter=this;
 		this.adaptee.x=0;
 		this.adaptee.y=0;
-		this.mouseEnabled=false;
+
+		this.mouseEnabled=true;
 		this.mouseChildren=true;
+
 		this._view.setPartition(this.adaptee, new SceneGraphPartition(this.adaptee));
 		this._view.scene.addChild(this.adaptee);
-		//this._mainSprite.mouseEnabled=false;
-		//this._mainSprite.mouseChildren=true;
+
+		this._mainSprite.mouseEnabled=true;
+		this._mainSprite.mouseChildren=true;
 		this.addChild(this._mainSprite);
+
 		this._mainSprite.graphics.clear();
 		this._mainSprite.graphics.beginFill(0xffffff,0);
 		this._mainSprite.graphics.drawRect(0,0,window.innerWidth, window.innerHeight);
 		this._mainSprite.graphics.endFill;
+		
 
 		this.initListeners();
 		console.log("constructed Stage and create the entranceclass");
@@ -259,12 +264,12 @@ export class Stage extends DisplayObjectContainer{
 		}
 		this._view.width     = window.innerWidth;
 		this._view.height    = window.innerHeight;
-		var newHeight:number = this._stageHeight;
 		var aspectRatio:number=window.innerWidth/window.innerHeight;
+		/*
 		this._mainSprite.graphics.clear();
 		this._mainSprite.graphics.beginFill(0xffffff,0.00001);
 		this._mainSprite.graphics.drawRect(0,0,window.innerWidth, window.innerHeight);
-		this._mainSprite.graphics.endFill();
+		this._mainSprite.graphics.endFill();*/
 		if(aspectRatio>=1){
 			this._projection.fieldOfView = Math.atan(window.innerHeight/1000/2)*360/Math.PI;
 		}
@@ -996,7 +1001,7 @@ export class Stage extends DisplayObjectContainer{
 	public set focusRect (value:any) {};
 	public set loaderInfo (value:any) {};
 	public set mask (value:DisplayObject){};
-	public set mouseEnabled (value:boolean){};
+	//public set mouseEnabled (value:boolean){};
 	public set opaqueBackground (value:number){};
 	public set name (value:string){};
 	public set rotation (value:number){};
