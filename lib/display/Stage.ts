@@ -196,9 +196,6 @@ export class Stage extends DisplayObjectContainer{
 
 		DisplayObject.activeStage=this;
 		this._stage=this;
-		this.initEninge();
-		this._mainSprite=new startClass();
-		this._mainSprite.adaptee.adapter=this._mainSprite;
 		this.adaptee=new AwayDisplayObjectContainer();
 		this.adaptee.adapter=this;
 		this.adaptee.x=0;
@@ -207,8 +204,11 @@ export class Stage extends DisplayObjectContainer{
 		this.mouseEnabled=true;
 		this.mouseChildren=true;
 
+		this.initEninge();
 		this._view.setPartition(this.adaptee, new SceneGraphPartition(this.adaptee));
 		this._view.scene.addChild(this.adaptee);
+		this._mainSprite=new startClass();
+		this._mainSprite.adaptee.adapter=this._mainSprite;
 
 		this._mainSprite.mouseEnabled=true;
 		this._mainSprite.mouseChildren=true;
