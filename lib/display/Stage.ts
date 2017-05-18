@@ -202,14 +202,14 @@ export class Stage extends DisplayObjectContainer{
 		this.adaptee.x=0;
 		this.adaptee.y=0;
 
-		this.mouseEnabled=false;
+		this.mouseEnabled=true;
 		this.mouseChildren=true;
 
 		this.initEninge();
 		this._view.setPartition(this.adaptee, new SceneGraphPartition(this.adaptee));
 		this._view.scene.addChild(this.adaptee);
-		this._view.mousePicker.onlyMouseEnabled=false;
-		MouseManager.getInstance().as3Stage=this.adaptee;
+		//this._view.mousePicker.onlyMouseEnabled=false;
+		//MouseManager.getInstance().as3Stage=this.adaptee;
 		this._mainSprite=new startClass();
 		this._mainSprite.adaptee.adapter=this._mainSprite;
 
