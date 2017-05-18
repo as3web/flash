@@ -550,6 +550,11 @@ export class MouseEvent extends Event
 	constructor (type:string, bubbles:boolean=true, cancelable:boolean=false, localX:number=null, localY:number=null, relatedObject:InteractiveObject=null, ctrlKey:boolean=false, altKey:boolean=false, shiftKey:boolean=false, buttonDown:boolean=false, delta:number=0){
 		super(type, bubbles, cancelable);
 	}
+	public fillFromJS (jsEvent:any){
+
+		this._stageX = (jsEvent.clientX != null)? jsEvent.clientX : jsEvent.changedTouches[0].clientX;
+		this._stageY = (jsEvent.clientY != null)? jsEvent.clientY : jsEvent.changedTouches[0].clientY;
+	}
 
 	/* added to clone events from away to as3web. */
 	public fillFromAway (awayEvent:MouseEventAway){

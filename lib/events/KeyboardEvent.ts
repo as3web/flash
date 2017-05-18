@@ -61,12 +61,12 @@ export class KeyboardEvent extends Event
 	 * Indicates whether the Alt key is active (true) or inactive (false) on Windows;
 	 * indicates whether the Option key is active on Mac OS.
 	 */
+	private _altKey:boolean;
 	public get altKey () : boolean{
-		console.log("altKey not implemented yet in flash/KeyboardEvent");
-		return false;
+		return this._altKey;
 	}
 	public set altKey (value:boolean){
-		console.log("altKey not implemented yet in flash/KeyboardEvent");
+		this._altKey=value;
 	}
 
 	/**
@@ -77,24 +77,24 @@ export class KeyboardEvent extends Event
 	 * Note: When an input method editor (IME) is running,
 	 * charCode does not report accurate character codes.
 	 */
+	private _charCode:number;
 	public get charCode () : number{
-		console.log("charCode not implemented yet in flash/KeyboardEvent");
-		return 0;
+		return this._charCode;
 	}
 	public set charCode (value:number){
-		console.log("charCode not implemented yet in flash/KeyboardEvent");
+		this._charCode=value;
 	}
 
 	/**
 	 * On Windows and Linux, indicates whether the Ctrl key is active (true) or inactive (false);
 	 * On Mac OS, indicates whether either the Ctrl key or the Command key is active.
 	 */
+	private _ctrlKey:boolean;
 	public get ctrlKey () : boolean{
-		console.log("ctrlKey not implemented yet in flash/KeyboardEvent");
-		return false;
+		return this._ctrlKey;
 	}
 	public set ctrlKey (value:boolean){
-		console.log("ctrlKey not implemented yet in flash/KeyboardEvent");
+		this._ctrlKey=value;
 	}
 
 	/**
@@ -130,12 +130,12 @@ export class KeyboardEvent extends Event
 	 * Indicates whether the Shift key modifier is active (true) or inactive
 	 * (false).
 	 */
+	private _shiftKey:boolean;
 	public get shiftKey () : boolean{
-		console.log("shiftKey not implemented yet in flash/KeyboardEvent");
-		return false;
+		return this._shiftKey;
 	}
 	public set shiftKey (value:boolean){
-		console.log("shiftKey not implemented yet in flash/KeyboardEvent");
+		this._shiftKey=value;
 	}
 
 	/**

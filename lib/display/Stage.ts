@@ -14,10 +14,11 @@ import {HoverController, TextField, Billboard, Camera, LoaderContainer, MovieCli
 
 import {MethodMaterial}	from "@awayjs/materials";
 import {DefaultRenderer} from  "@awayjs/renderer";
-import {View, SceneGraphPartition} from "@awayjs/view";
+import {View, MouseManager, SceneGraphPartition} from "@awayjs/view";
 import {Stage as AwayStage} from "@awayjs/stage";
 import {DisplayObject as AwayDisplayObject, DisplayObjectContainer as AwayDisplayObjectContainer} from "@awayjs/scene";
 
+import {MouseEvent} from "../events/MouseEvent";
 
 
 /**
@@ -201,12 +202,14 @@ export class Stage extends DisplayObjectContainer{
 		this.adaptee.x=0;
 		this.adaptee.y=0;
 
-		this.mouseEnabled=true;
+		this.mouseEnabled=false;
 		this.mouseChildren=true;
 
 		this.initEninge();
 		this._view.setPartition(this.adaptee, new SceneGraphPartition(this.adaptee));
 		this._view.scene.addChild(this.adaptee);
+		this._view.mousePicker.onlyMouseEnabled=false;
+		MouseManager.getInstance().as3Stage=this.adaptee;
 		this._mainSprite=new startClass();
 		this._mainSprite.adaptee.adapter=this._mainSprite;
 
@@ -218,8 +221,65 @@ export class Stage extends DisplayObjectContainer{
 		this._mainSprite.graphics.beginFill(0xffffff,0);
 		this._mainSprite.graphics.drawRect(0,0,window.innerWidth, window.innerHeight);
 		this._mainSprite.graphics.endFill;
-		
+/*
+		this._mouseCallbackStageDelegate = (event:any) => this.mouseCallbackStage(event);
 
+		this.eventMappingInvert["mousewheel"]=MouseEvent.MOUSE_WHEEL;
+		this.eventMapping[MouseEvent.MOUSE_WHEEL]= (<IEventMapper>{
+			adaptedType:"mousewheel",
+			addListener:this.initMouseListenerStage,
+			removeListener:this.removeMouseListenerStage,
+			callback:this._resizeCallbackDelegate});
+
+		this.eventMappingInvert["mouseup"]=MouseEvent.MOUSE_UP;
+		this.eventMapping[MouseEvent.MOUSE_UP]=(<IEventMapper>{
+			adaptedType:"mouseup",
+			addListener:this.initMouseListenerStage,
+			removeListener:this.removeMouseListenerStage,
+			callback:this._resizeCallbackDelegate});
+
+		this.eventMappingInvert["mouseover"]=MouseEvent.MOUSE_OVER;
+		this.eventMapping[MouseEvent.MOUSE_OVER]=(<IEventMapper>{
+			adaptedType:"mouseover",
+			addListener:this.initMouseListenerStage,
+			removeListener:this.removeMouseListenerStage,
+			callback:this._resizeCallbackDelegate});
+
+		this.eventMappingInvert["mouseout"]=MouseEvent.MOUSE_OUT;
+		this.eventMapping[MouseEvent.MOUSE_OUT]=(<IEventMapper>{
+			adaptedType:"mouseout",
+			addListener:this.initMouseListenerStage,
+			removeListener:this.removeMouseListenerStage,
+			callback:this._resizeCallbackDelegate});
+
+		this.eventMappingInvert["mousemove"]=MouseEvent.MOUSE_MOVE;
+		this.eventMapping[MouseEvent.MOUSE_MOVE]=(<IEventMapper>{
+			adaptedType:"mousemove",
+			addListener:this.initMouseListenerStage,
+			removeListener:this.removeMouseListenerStage,
+			callback:this._resizeCallbackDelegate});
+
+		this.eventMappingInvert["mousedown"]=MouseEvent.MOUSE_DOWN;
+		this.eventMapping[MouseEvent.MOUSE_DOWN]=(<IEventMapper>{
+			adaptedType:"mousedown",
+			addListener:this.initMouseListenerStage,
+			removeListener:this.removeMouseListenerStage,
+			callback:this._resizeCallbackDelegate});
+
+		this.eventMappingInvert["dblclick"]=MouseEvent.DOUBLE_CLICK;
+		this.eventMapping[MouseEvent.DOUBLE_CLICK]=(<IEventMapper>{
+			adaptedType:"dblclick",
+			addListener:this.initMouseListenerStage,
+			removeListener:this.removeMouseListenerStage,
+			callback:this._resizeCallbackDelegate});
+
+		this.eventMappingInvert["click"]=MouseEvent.CLICK;
+		this.eventMapping[MouseEvent.CLICK]=(<IEventMapper>{
+			adaptedType:"click",
+			addListener:this.initMouseListenerStage,
+			removeListener:this.removeMouseListenerStage,
+			callback:this._resizeCallbackDelegate});
+*/
 		this.initListeners();
 		console.log("constructed Stage and create the entranceclass");
 	}
@@ -298,7 +358,27 @@ export class Stage extends DisplayObjectContainer{
 		this.dispatchEvent(new Event(Event.MOUSE_LEAVE));
 	}
 
-	
+
+	// ---------- event mapping functions for MouseEvents:
+
+	private initMouseListenerStage(type:string, callback:(event:any) => void):void
+	{
+		this._view.htmlElement.addEventListener(type, callback);
+	}
+	private removeMouseListenerStage(type:string, callback:(event:any) => void):void
+	{
+		this._view.htmlElement.removeEventListener(type, callback);
+	}
+	private _mouseCallbackStageDelegate:(event:any) => void;
+	private mouseCallbackStage(event:any):void
+	{
+		var adaptedEvent:MouseEvent=new MouseEvent(this.eventMappingInvert[event.type]);
+		adaptedEvent.fillFromJS(event);
+		adaptedEvent.target=this;
+		adaptedEvent.currentTarget=this;
+
+		this.dispatchEvent(adaptedEvent);
+	}
 	//---------------------------stuff added to make it work:
 
 

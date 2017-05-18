@@ -366,15 +366,15 @@ export class DisplayObjectContainer extends InteractiveObject{
 	public getObjectsUnderPoint (point:Point) : any[] {
 		var allChilds:any[]=[];
 
-		var i:number=this.adaptee.numChildren;
-		while(i>0){
-			i--;
+		var i:number=0;//this.adaptee.numChildren;
+		while(i<this.adaptee.numChildren){
 			var oneChild:AwayDisplayObject=this.adaptee.getChildAt(i);
 			if(oneChild.hitTestPoint(point.x, point.y)){
 				allChilds[allChilds.length]=oneChild.adapter;
 			}
 			if(oneChild.adapter instanceof DisplayObjectContainer)
 				allChilds=allChilds.concat((<DisplayObjectContainer>oneChild.adapter).getObjectsUnderPoint(point));
+			i++;
 		}
 		return allChilds;
 	}

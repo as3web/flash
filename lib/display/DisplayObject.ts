@@ -1,4 +1,4 @@
-import {Transform, Point, Vector3D, Rectangle} from "@awayjs/core";
+import {Transform, Point, ColorTransform, Vector3D, Rectangle} from "@awayjs/core";
 import {EventDispatcher} from "../events/EventDispatcher";
 import {Event} from "../events/Event";
 import {DisplayObject as AwayDisplayObject, IDisplayObjectAdapter} from "@awayjs/scene";
@@ -890,6 +890,20 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 		//this._adaptee.transform=value;
 	}
 
+	public setColorTransform (tTransform:ColorTransform) {
+
+		var new_ct:ColorTransform = this.transform.colorTransform || (this.transform.colorTransform = new ColorTransform());
+		new_ct._rawData[0] = tTransform._rawData[0];
+		new_ct._rawData[1] = tTransform._rawData[1];
+		new_ct._rawData[2] = tTransform._rawData[2];
+		new_ct._rawData[3] = tTransform._rawData[3];
+		new_ct._rawData[4] = tTransform._rawData[4];
+		new_ct._rawData[5] = tTransform._rawData[5];
+		new_ct._rawData[6] = tTransform._rawData[6];
+		new_ct._rawData[7] = tTransform._rawData[7];
+
+		this.transform.invalidateColorTransform();
+	}
 	/**
 	 * Whether or not the displayobject is visible. displayobjects that are not visible
 	 * are disabled. For example, if visible=false for an Interactiveany instance,
