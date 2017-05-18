@@ -491,13 +491,18 @@ export class DisplayObjectContainer extends InteractiveObject{
 			this.adaptee.removeChild(allChildren[i]);
 		}
 		var newChildCnt=0;
+		var oldChild;
 		for(i = 0; i < allChildren.length; i++){
 			if(i==index){
 				this.adaptee.addChild(child.adaptee);
 			}
 			else{
-				var oldChild=allChildren[newChildCnt++];
+				oldChild=allChildren[newChildCnt++];
 				if(oldChild.id!=child.adaptee.id){
+					this.adaptee.addChild(oldChild);
+				}
+				else{
+					oldChild = allChildren[newChildCnt++];
 					this.adaptee.addChild(oldChild);
 				}
 

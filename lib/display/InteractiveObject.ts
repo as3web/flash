@@ -458,22 +458,23 @@ export class InteractiveObject extends DisplayObject{
 	private initKeyUpListener(type:string, callback:(event:any) => void):void
 	{
 		//todo: this overwrites other key-luistener on document :(
-		document.onkeypress  = callback;
+		document.addEventListener("keyup", callback);
+		document.addEventListener("keypress", callback);
 	}
 	private removeKeyUpListener(type:string, callback:(event:any) => void):void
 	{
-		document.onkeypress = null;
+		document.removeEventListener("keyup", callback);
 	}
 	private _keyUpCallbackDelegate:(event:any) => void;
 	private keyUpCallback(event:any=null):void
 	{
+		event.preventDefault();
 		var newkeyBoardEvent:KeyboardEvent=new KeyboardEvent(KeyboardEvent.KEY_UP);
 		newkeyBoardEvent.keyCode = event.keyCode;
 		newkeyBoardEvent.charCode = event.charCode;
 		newkeyBoardEvent.shiftKey = event.shiftKey;
 		newkeyBoardEvent.ctrlKey = event.ctrlKey;
 		newkeyBoardEvent.altKey = event.altKey;
-		// todo: set other values like alt/shift etc
 		this.dispatchEvent(newkeyBoardEvent);
 	}
 
@@ -481,19 +482,21 @@ export class InteractiveObject extends DisplayObject{
 
 	private initKeyDownListener(type:string, callback:(event:any) => void):void
 	{
-		//todo: this overwrites other key-listener on document
-		document.onkeydown = callback;
+		document.removeEventListener("keydown", callback);
+		document.removeEventListener("keypress", callback);
 	}
 	private removeKeyDownListener(type:string, callback:(event:any) => void):void
 	{
-		document.onkeydown = null;
+		document.removeEventListener("keydown", callback);
+		document.removeEventListener("keypress", callback);
 	}
 	private _keyDownCallbackDelegate:(event:any) => void;
 	private keyDownCallback(event:any=null):void
 	{
+		event.preventDefault();
 		var newkeyBoardEvent:KeyboardEvent=new KeyboardEvent(KeyboardEvent.KEY_DOWN);
 		newkeyBoardEvent.keyCode = event.keyCode;
-		newkeyBoardEvent.charCode = event.keyCode;
+		newkeyBoardEvent.charCode = event.charCode;
 		newkeyBoardEvent.shiftKey = event.shiftKey;
 		newkeyBoardEvent.ctrlKey = event.ctrlKey;
 		newkeyBoardEvent.altKey = event.altKey;
