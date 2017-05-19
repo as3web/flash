@@ -208,7 +208,6 @@ export class Stage extends DisplayObjectContainer{
 		this.initEninge();
 		this._view.setPartition(this.adaptee, new SceneGraphPartition(this.adaptee));
 		this._view.scene.addChild(this.adaptee);
-		//this._view.mousePicker.onlyMouseEnabled=false;
 		//MouseManager.getInstance().as3Stage=this.adaptee;
 		this._mainSprite=new startClass();
 		this._mainSprite.adaptee.adapter=this._mainSprite;
@@ -282,6 +281,10 @@ export class Stage extends DisplayObjectContainer{
 */
 		this.initListeners();
 		console.log("constructed Stage and create the entranceclass");
+	}
+
+	public set onlyMouseEnabled(value:boolean) {
+		this._view.mousePicker.onlyMouseEnabled = value;
 	}
 
 	// ---------- event mapping functions Event.RESIZE
