@@ -1,6 +1,6 @@
 {
   "name": "@as3web/flash",
-  "version": "0.1.35",
+  "version": "0.1.36",
   "description": "Typescript classes mimicing the functionality of the flash package in AS3",
   "main": "bundle/as3web-flash.umd.js",
   "types": "dist/index.d.ts",
