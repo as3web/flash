@@ -23,8 +23,10 @@ export class URLLoader extends EventDispatcher{
 	public set adaptee(value:URLLoaderAway){
 		this._adaptee=value;
 	};
-	
-	public data:any=null;
+
+	public get data():any{
+		return this.adaptee.data;
+	}
 	private initCompleteListener(type:string, callback:(event:any) => void):void
 	{
 		this.adaptee.addEventListener(type, callback);

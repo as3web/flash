@@ -202,7 +202,7 @@ export class Stage extends DisplayObjectContainer{
 		this.adaptee.x=0;
 		this.adaptee.y=0;
 
-		this.mouseEnabled=true;
+		//this.mouseEnabled=false;
 		this.mouseChildren=true;
 
 		this.initEninge();

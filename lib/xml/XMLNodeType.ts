@@ -1,6 +1,4 @@
-//
-// C:\Users\80prozent\AppData\Local\FlashDevelop\Apps\flexairsdk\4.6.0+25.0.0\frameworks\libs\player\18.0\playerglobal.swc\flash\xml\XMLNodeType
-//
+
 
 /**
  * The XMLNodeType class contains constants used with
