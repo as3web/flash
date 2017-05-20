@@ -273,11 +273,8 @@ export class LoaderInfo extends EventDispatcher
 	 *     For more information related to security, see the Flash Player Developer Center Topic:
 	 *   Security.
 	 */
-	public get content () : DisplayObject{
-		console.log("content not implemented yet in flash/LoaderInfo");
-		return null;
-		
-	}
+	public content : DisplayObject;
+	
 
 	/**
 	 * The MIME type of the loaded file. The value is null if not enough of the file has loaded

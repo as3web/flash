@@ -1,8 +1,9 @@
-import {Billboard} from "@awayjs/scene";
+import {Billboard, IDisplayObjectAdapter} from "@awayjs/scene";
 import { DisplayObject } from "./DisplayObject";
 import { BitmapData } from "./BitmapData";
 import {MethodMaterial} from "@awayjs/materials";
-import {Single2DTexture} from "@awayjs/graphics";
+import {Single2DTexture, Style, Sampler2D} from "@awayjs/graphics";
+import {Matrix} from "@awayjs/core"
 
 /**
  * The Bitmap class represents display objects that represent bitmap images. These can be images
@@ -40,8 +41,20 @@ export class Bitmap extends DisplayObject
 	 */
 	constructor (bitmapData:BitmapData=null, pixelSnapping:string="auto", smoothing:boolean=false){
 		super();
-		this.adaptee=new Billboard(new MethodMaterial(), pixelSnapping, smoothing);
-		this.adaptee.material.addTexture(new Single2DTexture(this._bitmapData.adaptee));		
+		if(bitmapData){
+			this._bitmapData=bitmapData;
+			var newMaterial=new MethodMaterial();
+			newMaterial.ambientMethod.texture = new Single2DTexture(this._bitmapData.adaptee);
+			newMaterial.alphaBlending=true;
+			this.adaptee=new Billboard(newMaterial, pixelSnapping, smoothing);
+		/*	this.adaptee.style=new Style();
+			this.adaptee.style.uvMatrix=new Matrix(1,0,0,-1,0,0);
+			//billboard.style.uvMatrix.scale(1,1);
+			newMaterial.animateUVs=true;*/
+		}
+		else{
+			this.adaptee=new Billboard(new MethodMaterial(0xff0000));//);
+		}
 		
 	}
 
@@ -52,6 +65,21 @@ export class Bitmap extends DisplayObject
 	public set adaptee(adaptee:Billboard) {
 		this._adaptee=adaptee;
 	}
+
+	public clone(newAdaptee:Billboard=null):IDisplayObjectAdapter{
+		//console.log("clone not implemented yet in flash/DisplayObject");
+		var newBitmap:Bitmap=new Bitmap();
+		newBitmap.adaptee=newAdaptee;
+/*
+		newBitmap.adaptee.style=new Style();
+		newBitmap.adaptee.style.uvMatrix=new Matrix(1,0,0,-1,0,0);
+		newBitmap.adaptee.material.animateUVs=true;
+		*/
+		//newBitmap.adaptee.material.style.sampler=new Sampler2D(true, true, true);
+		//newBitmap.adaptee.style.sampler=newBitmap.adaptee.material.style.sampler;
+		return newBitmap;
+	}
+
 	/**
 	 * The BitmapData object being referenced.
 	 */

@@ -624,16 +624,14 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * current displayobject in the display list hierarchy.
 	 *
 	 *   You can use parent to move up multiple levels in the display list as in the following:
-	 * <codeblock>
-	 *
-	 *   this.parent.parent.alpha = 20;
-	 *
-	 *   </codeblock>
 	 * @console.logs	SecurityError The parent displayobject belongs to a security sandbox
 	 *   to which you do not have access. You can avoid this situation by having
 	 *   the parent movie call the Security.allowDomain() method.
 	 */
 	public get parent () : DisplayObjectContainer{
+		if(this.adaptee.parent==null){
+			return null;
+		}
 		return (<DisplayObjectContainer>this.adaptee.parent.adapter);
 	}
 

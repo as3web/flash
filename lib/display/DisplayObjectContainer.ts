@@ -1,5 +1,5 @@
 import {Point} from "@awayjs/core";
-import {TextField as AwayTextField, DisplayObjectContainer as AwayDisplayObjectContainer, Sprite as AwaySprite, MovieClip as AwayMovieClip, DisplayObject as AwayDisplayObject} from "@awayjs/scene";
+import {Billboard, TextField as AwayTextField, DisplayObjectContainer as AwayDisplayObjectContainer, Sprite as AwaySprite, MovieClip as AwayMovieClip, DisplayObject as AwayDisplayObject} from "@awayjs/scene";
 import {DisplayObject} from "./DisplayObject";
 import {InteractiveObject} from "./InteractiveObject";
 import {Event} from "../events/Event";
@@ -53,8 +53,13 @@ export class DisplayObjectContainer extends InteractiveObject{
 		while(i>0){
 			i--;
 			var oneChild:AwayDisplayObject=this.adaptee.getChildAt(i);
-			if(oneChild.isAsset(AwaySprite)||oneChild.isAsset(AwayDisplayObjectContainer)){
+			if(oneChild.isAsset(AwayDisplayObjectContainer)){
 				if(oneChild.adapter){
+					(<DisplayObjectContainer>oneChild.adapter).advanceFrame();
+				}
+			}
+			else if(oneChild.isAsset(AwaySprite)) {
+				if (oneChild.adapter) {
 					(<AwaySprite>oneChild).graphics.endFill();
 					(<DisplayObjectContainer>oneChild.adapter).advanceFrame();
 				}
@@ -62,6 +67,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 			else if(oneChild.isAsset(AwayMovieClip)){
 				//(<AwayMovieClip>oneChild).graphics.endFill();
 				//console.log("Reached MC", oneChild);
+				(<AwayMovieClip>oneChild).graphics.endFill();
 				(<AwayMovieClip>oneChild).update();
 			}
 		}
@@ -78,15 +84,23 @@ export class DisplayObjectContainer extends InteractiveObject{
 			if(oneChild.isAsset(AwaySprite)||oneChild.isAsset(AwayDisplayObjectContainer)){
 				if(oneChild.adapter){
 					obj.children[childname]={};
-					(<AwaySprite>oneChild).graphics.endFill();
 					(<DisplayObjectContainer>oneChild.adapter).debugDisplayGraph(obj.children[childname]);
 				}
+			}
+			else if(oneChild.isAsset(Billboard)){
+				obj.children[childname]={};
+				obj.children[childname].object=oneChild.adapter;
+				obj.children[childname].name=oneChild.name;
+				obj.children[childname].rectangle="x:"+oneChild.x+", y:"+oneChild.y+", width:"+oneChild.width+", height:"+oneChild.height;
+				//(<AwayMovieClip>oneChild).graphics.endFill();
+				//console.log("Reached MC", oneChild);
+				//(<AwayMovieClip>oneChild).update();
 			}
 			else if(oneChild.isAsset(AwayMovieClip)){
 				obj.children[childname]={};
 				obj.children[childname].object=oneChild.adapter;
 				obj.children[childname].name=oneChild.name;
-				obj.children[childname].rectangle=""+oneChild.width+", "+oneChild.height+", "+oneChild.x+", "+oneChild.y;
+				obj.children[childname].rectangle="x:"+oneChild.x+", y:"+oneChild.y+", width:"+oneChild.width+", height:"+oneChild.height;
 				//(<AwayMovieClip>oneChild).graphics.endFill();
 				//console.log("Reached MC", oneChild);
 				//(<AwayMovieClip>oneChild).update();
@@ -95,7 +109,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 				obj.children[childname]={};
 				obj.children[childname].object=oneChild.adapter;
 				obj.children[childname].text=(<AwayTextField>oneChild).text;
-				obj.children[childname].rectangle=""+oneChild.width+", "+oneChild.height+", "+oneChild.x+", "+oneChild.y;
+				obj.children[childname].rectangle="x:"+oneChild.x+", y:"+oneChild.y+", width:"+oneChild.width+", height:"+oneChild.height;
 				//(<AwayMovieClip>oneChild).graphics.endFill();
 				//console.log("Reached MC", oneChild);
 				//(<AwayMovieClip>oneChild).update();
