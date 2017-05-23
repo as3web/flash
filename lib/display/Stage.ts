@@ -16,7 +16,7 @@ import {MethodMaterial}	from "@awayjs/materials";
 import {DefaultRenderer} from  "@awayjs/renderer";
 import {View, MouseManager, SceneGraphPartition} from "@awayjs/view";
 import {Stage as AwayStage} from "@awayjs/stage";
-import {DisplayObject as AwayDisplayObject, DisplayObjectContainer as AwayDisplayObjectContainer} from "@awayjs/scene";
+import {DisplayObject as AwayDisplayObject, Sprite as AwaySprite, DisplayObjectContainer as AwayDisplayObjectContainer} from "@awayjs/scene";
 
 import {MouseEvent} from "../events/MouseEvent";
 
@@ -119,7 +119,7 @@ import {MouseEvent} from "../events/MouseEvent";
 
 
 
-export class Stage extends DisplayObjectContainer{
+export class Stage extends Sprite{
 
 	private static _colorMaterials:any={};
 	private _scaleMode:StageScaleMode;
@@ -139,7 +139,7 @@ export class Stage extends DisplayObjectContainer{
 
 	// no need to create new events on each frame. we can reuse them
 	private _eventOnEnter: Event;
-	private _eventFrameContructed: Event;
+	private _eventFrameConstructed: Event;
 	private _eventExitFrame: Event;
 	private _eventRender: Event;
 
@@ -148,7 +148,7 @@ export class Stage extends DisplayObjectContainer{
 		super();
 
 		this._eventOnEnter=new Event(Event.ENTER_FRAME);
-		this._eventFrameContructed=new Event(Event.FRAME_CONSTRUCTED);
+		this._eventFrameConstructed=new Event(Event.FRAME_CONSTRUCTED);
 		this._eventExitFrame=new Event(Event.EXIT_FRAME);
 		this._eventRender=new Event(Event.RENDER);
 
@@ -156,7 +156,8 @@ export class Stage extends DisplayObjectContainer{
 		this._align=StageAlign.TOP_LEFT;
 		this._stage3Ds=[];
 		//this._stage3Ds[this._stage3Ds.length]=new AwayStage(null, );
-		
+
+		//todo: better implement this in graphics (this function provides the drawing api with materials for a color / alpha)
 		Graphics.get_material_for_color=function(color:number, alpha:number=1):MaterialBase{
 			if(color==0){
 				color=0x000001;
@@ -187,7 +188,7 @@ export class Stage extends DisplayObjectContainer{
 			removeListener:this.removeResizeListener,
 			callback:this._resizeCallbackDelegate});
 
-		// mouse leave event listens on document
+		// mouse leave event listens on window
 		this._mouseLeaveCallbackDelegate = (event:any) => this.mouseLeaveCallback(event);
 		this.eventMapping[Event.MOUSE_LEAVE]=(<IEventMapper>{
 			adaptedType:"",
@@ -195,91 +196,46 @@ export class Stage extends DisplayObjectContainer{
 			removeListener:this.removeMouseLeaveListener,
 			callback:this._mouseLeaveCallbackDelegate});
 
+		// set this as active stage.
+		// this makes sure all DisplayObject.constructor can set a reference to stage,
+		// befor constructors of Sprite or MovieClips are processed
 		DisplayObject.activeStage=this;
 		this._stage=this;
-		this.adaptee=new AwayDisplayObjectContainer();
+
+		// create the adaptee
+
+		this.adaptee=new AwaySprite();
 		this.adaptee.adapter=this;
-		this.adaptee.x=0;
-		this.adaptee.y=0;
 
-		//this.mouseEnabled=false;
-		this.mouseChildren=true;
-
+		// init awayengine
 		this.initEninge();
+
+		// create new Partition for the adaptee and make it child of the awayjs-scene
 		this._view.setPartition(this.adaptee, new SceneGraphPartition(this.adaptee));
 		this._view.scene.addChild(this.adaptee);
-		//MouseManager.getInstance().as3Stage=this.adaptee;
+
+		// helps with mouse-events:
+		this._view.mousePicker.onlyMouseEnabled=false;
+
+		// create the entrance-class
+		// this is the moment the converted as3-code is executed
 		this._mainSprite=new startClass();
 		this._mainSprite.adaptee.adapter=this._mainSprite;
 
-		this._mainSprite.mouseEnabled=true;
-		this._mainSprite.mouseChildren=true;
+		// make sure we have a background, so any mousedowns on stage are registered even if no object is hit
+		// it might make more sense to put this bg on the stage, but if i try to draw into the stage,
+		// the shape is the only thing that shows up, the _mainSprite is than no longer rendered
+		this._mainSprite.graphics.clearDrawing();
+		this._mainSprite.graphics.beginFill(0xffff00, 0.5);
+		this._mainSprite.graphics.drawRect(0,0,window.innerWidth, window.innerHeight);
+		this._mainSprite.graphics.endFill();
+
+
 		this.addChild(this._mainSprite);
 
-		this._mainSprite.graphics.clear();
-		this._mainSprite.graphics.beginFill(0xffffff,0);
-		this._mainSprite.graphics.drawRect(0,0,window.innerWidth, window.innerHeight);
-		this._mainSprite.graphics.endFill;
-/*
-		this._mouseCallbackStageDelegate = (event:any) => this.mouseCallbackStage(event);
-
-		this.eventMappingInvert["mousewheel"]=MouseEvent.MOUSE_WHEEL;
-		this.eventMapping[MouseEvent.MOUSE_WHEEL]= (<IEventMapper>{
-			adaptedType:"mousewheel",
-			addListener:this.initMouseListenerStage,
-			removeListener:this.removeMouseListenerStage,
-			callback:this._resizeCallbackDelegate});
-
-		this.eventMappingInvert["mouseup"]=MouseEvent.MOUSE_UP;
-		this.eventMapping[MouseEvent.MOUSE_UP]=(<IEventMapper>{
-			adaptedType:"mouseup",
-			addListener:this.initMouseListenerStage,
-			removeListener:this.removeMouseListenerStage,
-			callback:this._resizeCallbackDelegate});
-
-		this.eventMappingInvert["mouseover"]=MouseEvent.MOUSE_OVER;
-		this.eventMapping[MouseEvent.MOUSE_OVER]=(<IEventMapper>{
-			adaptedType:"mouseover",
-			addListener:this.initMouseListenerStage,
-			removeListener:this.removeMouseListenerStage,
-			callback:this._resizeCallbackDelegate});
-
-		this.eventMappingInvert["mouseout"]=MouseEvent.MOUSE_OUT;
-		this.eventMapping[MouseEvent.MOUSE_OUT]=(<IEventMapper>{
-			adaptedType:"mouseout",
-			addListener:this.initMouseListenerStage,
-			removeListener:this.removeMouseListenerStage,
-			callback:this._resizeCallbackDelegate});
-
-		this.eventMappingInvert["mousemove"]=MouseEvent.MOUSE_MOVE;
-		this.eventMapping[MouseEvent.MOUSE_MOVE]=(<IEventMapper>{
-			adaptedType:"mousemove",
-			addListener:this.initMouseListenerStage,
-			removeListener:this.removeMouseListenerStage,
-			callback:this._resizeCallbackDelegate});
-
-		this.eventMappingInvert["mousedown"]=MouseEvent.MOUSE_DOWN;
-		this.eventMapping[MouseEvent.MOUSE_DOWN]=(<IEventMapper>{
-			adaptedType:"mousedown",
-			addListener:this.initMouseListenerStage,
-			removeListener:this.removeMouseListenerStage,
-			callback:this._resizeCallbackDelegate});
-
-		this.eventMappingInvert["dblclick"]=MouseEvent.DOUBLE_CLICK;
-		this.eventMapping[MouseEvent.DOUBLE_CLICK]=(<IEventMapper>{
-			adaptedType:"dblclick",
-			addListener:this.initMouseListenerStage,
-			removeListener:this.removeMouseListenerStage,
-			callback:this._resizeCallbackDelegate});
-
-		this.eventMappingInvert["click"]=MouseEvent.CLICK;
-		this.eventMapping[MouseEvent.CLICK]=(<IEventMapper>{
-			adaptedType:"click",
-			addListener:this.initMouseListenerStage,
-			removeListener:this.removeMouseListenerStage,
-			callback:this._resizeCallbackDelegate});
-*/
+		// inits the resize listener
 		this.initListeners();
+
 		console.log("constructed Stage and create the entranceclass");
 	}
 
@@ -291,11 +247,11 @@ export class Stage extends DisplayObjectContainer{
 
 	private initResizeListener(type:string, callback:(event:any) => void):void
 	{
-		window.onresize = callback;
+		window.addEventListener("resize", callback);
 	}
 	private removeResizeListener(type:string, callback:(event:any) => void):void
 	{
-		window.onresize = null;
+		window.removeEventListener("resize", callback);
 	}
 
 	private _resizeCallbackDelegate:(event:any) => void;
@@ -328,17 +284,20 @@ export class Stage extends DisplayObjectContainer{
 		this._view.width     = window.innerWidth;
 		this._view.height    = window.innerHeight;
 		var aspectRatio:number=window.innerWidth/window.innerHeight;
-		/*
-		this._mainSprite.graphics.clear();
-		this._mainSprite.graphics.beginFill(0xffffff,0.00001);
+
+		this._mainSprite.graphics.clearDrawing();
+		this._mainSprite.graphics.beginFill(0xffffff,0);
 		this._mainSprite.graphics.drawRect(0,0,window.innerWidth, window.innerHeight);
-		this._mainSprite.graphics.endFill();*/
+		this._mainSprite.graphics.endFill();
+		this._projection.preserveFocalLength = true;
+		/*
 		if(aspectRatio>=1){
 			this._projection.fieldOfView = Math.atan(window.innerHeight/1000/2)*360/Math.PI;
 		}
 		else{
 			this._projection.fieldOfView = Math.atan(window.innerWidth/1000/2)*360/Math.PI;
 		}
+		*/
 		//this._projection.originX = (0.5 - 0.5*(window.innerHeight/newHeight)*(this._stageWidth/window.innerWidth));
 
 		this.dispatchEvent(new Event(Event.RESIZE));
@@ -348,11 +307,11 @@ export class Stage extends DisplayObjectContainer{
 
 	private initMouseLeaveListener(type:string, callback:(event:any) => void):void
 	{
-		window.onmouseleave = callback;
+		window.addEventListener("mouseleave", callback);
 	}
 	private removeMouseLeaveListener(type:string, callback:(event:any) => void):void
 	{
-		window.onmouseleave = null;
+		window.removeEventListener("mouseleave", callback);
 	}
 
 	private _mouseLeaveCallbackDelegate:(event:any) => void;
@@ -362,26 +321,6 @@ export class Stage extends DisplayObjectContainer{
 	}
 
 
-	// ---------- event mapping functions for MouseEvents:
-
-	private initMouseListenerStage(type:string, callback:(event:any) => void):void
-	{
-		this._view.htmlElement.addEventListener(type, callback);
-	}
-	private removeMouseListenerStage(type:string, callback:(event:any) => void):void
-	{
-		this._view.htmlElement.removeEventListener(type, callback);
-	}
-	private _mouseCallbackStageDelegate:(event:any) => void;
-	private mouseCallbackStage(event:any):void
-	{
-		var adaptedEvent:MouseEvent=new MouseEvent(this.eventMappingInvert[event.type]);
-		adaptedEvent.fillFromJS(event);
-		adaptedEvent.target=this;
-		adaptedEvent.currentTarget=this;
-
-		this.dispatchEvent(adaptedEvent);
-	}
 	//---------------------------stuff added to make it work:
 
 
@@ -414,10 +353,11 @@ export class Stage extends DisplayObjectContainer{
 	 */
 	private initListeners()
 	{
-		window.onresize  = this._resizeCallbackDelegate;// same as
+		window.addEventListener("resize", this._resizeCallbackDelegate);
 
 		this._timer = new RequestAnimationFrame(this.onEnterFrame, this);
 		this._timer.start();
+
 		this._resizeCallbackDelegate(null);
 	}
 	private _debugtimer:number=0;
@@ -434,10 +374,15 @@ export class Stage extends DisplayObjectContainer{
 
 			this.dispatchEventRecursive(this._eventOnEnter);
 			this.advanceFrame();
-			this.dispatchEventRecursive(this._eventFrameContructed);
+			this.dispatchEventRecursive(this._eventFrameConstructed);
 			// todo: move Framescriptexecution and rest from frame-update logic from Movieclip.update to here
 			this.dispatchEventRecursive(this._eventExitFrame);
 			this.dispatchEventRecursive(this._eventRender);
+
+
+			this._view.render();
+			this._debugtimer++;
+
 
 			if(this._debugtimer%150==0){
 
@@ -446,8 +391,6 @@ export class Stage extends DisplayObjectContainer{
 				console.log("SceneGraph frame :", this._debugtimer, displayGraph);
 
 			}
-			this._view.render();
-			this._debugtimer++;
 		}
 	}
 

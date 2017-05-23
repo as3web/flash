@@ -60,7 +60,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 			}
 			else if(oneChild.isAsset(AwaySprite)) {
 				if (oneChild.adapter) {
-					(<AwaySprite>oneChild).graphics.endFill();
+					//(<AwaySprite>oneChild).graphics.endFill();
 					(<DisplayObjectContainer>oneChild.adapter).advanceFrame();
 				}
 			}
