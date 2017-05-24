@@ -128,6 +128,7 @@ export class Stage extends Sprite{
 	private _stage3Ds:AwayStage[];
 
 	private _fps:number = 30;
+	private _currentFps:number = 0;
 	private _view: View;
 	private _renderer: DefaultRenderer;
 	private _timer: RequestAnimationFrame;
@@ -136,6 +137,7 @@ export class Stage extends Sprite{
 	private _hoverControl: HoverController;
 	private _stageWidth: number;
 	private _stageHeight: number;
+	private _fpsTextField:HTMLDivElement;
 
 	// no need to create new events on each frame. we can reuse them
 	private _eventOnEnter: Event;
@@ -143,6 +145,7 @@ export class Stage extends Sprite{
 	private _eventExitFrame: Event;
 	private _eventRender: Event;
 
+	private SHOW_FRAME_RATE:boolean = true;
 
 	constructor(startClass) {
 		super();
@@ -233,10 +236,31 @@ export class Stage extends Sprite{
 
 		this.addChild(this._mainSprite);
 
+		if( this.SHOW_FRAME_RATE ) {
+			this._fpsTextField = <HTMLDivElement> document.createElement( 'div' ); // disable in RC
+			this._fpsTextField.style.cssFloat   = 'none';
+			this._fpsTextField.style.position   = 'fixed';
+			this._fpsTextField.style.top        = '5px';
+			this._fpsTextField.style.width      = '100px';
+			this._fpsTextField.style.height     = '20px';
+			this._fpsTextField.style.right       = '5px';
+			this._fpsTextField.style.textAlign  = 'center';
+			this._fpsTextField.style.color      = '#ff0000';
+			this._fpsTextField.style.fontSize   = '16';
+			this._fpsTextField.innerHTML        = "";
+			document.body.appendChild( this._fpsTextField );
+			setInterval(() => this.updateFPS(), 1000);
+		}
+
 		// inits the resize listener
 		this.initListeners();
 
 		console.log("constructed Stage and create the entranceclass");
+	}
+
+	private updateFPS(): void {
+		this._fpsTextField.innerText = this._currentFps.toFixed(2) + '/' + this._fps + " fps";
+		this._currentFps = 0;
 	}
 
 	public set onlyMouseEnabled(value:boolean) {
@@ -381,6 +405,7 @@ export class Stage extends Sprite{
 
 
 			this._view.render();
+			this._currentFps++;
 			this._debugtimer++;
 
 
