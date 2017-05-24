@@ -91,9 +91,9 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 		this.eventMappingExtern[Event.FRAME_CONSTRUCTED]="";
 		this.eventMappingExtern[Event.EXIT_FRAME]="";
 		this.eventMappingExtern[Event.RENDER]="";
-		this.eventMappingExtern[Event.REMOVED_FROM_STAGE]="";
+		//this.eventMappingExtern[Event.REMOVED_FROM_STAGE]="";
 		this.eventMappingExtern[Event.REMOVED]="";
-		this.eventMappingExtern[Event.ADDED_TO_STAGE]="";
+		//this.eventMappingExtern[Event.ADDED_TO_STAGE]="";
 		this.eventMappingExtern[Event.ADDED]="";
 	}
 

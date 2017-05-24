@@ -139,6 +139,7 @@ export class Stage extends Sprite{
 	private _stageHeight: number;
 	private _fpsTextField:HTMLDivElement;
 
+	private _events:any[];
 	// no need to create new events on each frame. we can reuse them
 	private _eventOnEnter: Event;
 	private _eventFrameConstructed: Event;
@@ -154,6 +155,8 @@ export class Stage extends Sprite{
 		this._eventFrameConstructed=new Event(Event.FRAME_CONSTRUCTED);
 		this._eventExitFrame=new Event(Event.EXIT_FRAME);
 		this._eventRender=new Event(Event.RENDER);
+		
+		this._events=[this._eventOnEnter, this._eventExitFrame];
 
 		this._scaleMode=StageScaleMode.NO_SCALE;
 		this._align=StageAlign.TOP_LEFT;
@@ -396,12 +399,12 @@ export class Stage extends Sprite{
 		if (this._time >= frameMarker) {
 			this._time -= frameMarker;
 
-			this.dispatchEventRecursive(this._eventOnEnter);
-			this.advanceFrame();
-			this.dispatchEventRecursive(this._eventFrameConstructed);
+			//this.dispatchEventRecursive(this._eventOnEnter);
+			this.advanceFrame(this._events);
+			//this.dispatchEventRecursive(this._eventFrameConstructed);
 			// todo: move Framescriptexecution and rest from frame-update logic from Movieclip.update to here
-			this.dispatchEventRecursive(this._eventExitFrame);
-			this.dispatchEventRecursive(this._eventRender);
+			//this.dispatchEventRecursive(this._eventExitFrame);
+			//this.dispatchEventRecursive(this._eventRender);
 
 
 			this._view.render();

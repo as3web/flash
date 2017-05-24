@@ -48,29 +48,27 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 the DisplayObjectContainer should call this function on all children if they extend DisplayObjectContainer themself.
 	 if any child is a MovieClip this function will not be called on its childrens adapter.
 	 */
-	public advanceFrame() {
+	public advanceFrame(events:any[]) {
 		var i:number=this.adaptee.numChildren;
+		this.dispatchEvent(events[0]);//ENTER_FRAME
 		while(i>0){
 			i--;
 			var oneChild:AwayDisplayObject=this.adaptee.getChildAt(i);
 			if(oneChild.isAsset(AwayDisplayObjectContainer)){
 				if(oneChild.adapter){
-					(<DisplayObjectContainer>oneChild.adapter).advanceFrame();
+					(<DisplayObjectContainer>oneChild.adapter).advanceFrame(events);
 				}
 			}
 			else if(oneChild.isAsset(AwaySprite)) {
 				if (oneChild.adapter) {
-					//(<AwaySprite>oneChild).graphics.endFill();
-					(<DisplayObjectContainer>oneChild.adapter).advanceFrame();
+					(<DisplayObjectContainer>oneChild.adapter).advanceFrame(events);
 				}
 			}
 			else if(oneChild.isAsset(AwayMovieClip)){
-				//(<AwayMovieClip>oneChild).graphics.endFill();
-				//console.log("Reached MC", oneChild);
-				(<AwayMovieClip>oneChild).graphics.endFill();
-				(<AwayMovieClip>oneChild).update();
+				(<AwayMovieClip>oneChild).update(events);
 			}
 		}
+		this.dispatchEvent(events[1]);//EXIT_FRAME
 
 	}
 	public debugDisplayGraph(obj:any) {
@@ -118,6 +116,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 
 	}
 
+	/*
 	//	overwrite 
 	public dispatchEventRecursive(event:Event) {
 		this.dispatchEvent(event);
@@ -133,6 +132,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 			}
 		}
 	};
+	*/
 
 	
 
@@ -224,7 +224,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 */
 	public addChild (child:DisplayObject) : DisplayObject {
 		
-		child.dispatchEventRecursive(new Event(Event.ADDED_TO_STAGE));
+		//child.dispatchEventRecursive(new Event(Event.ADDED_TO_STAGE));
 		child.dispatchEvent(new Event(Event.ADDED));
 
 		this.adaptee.addChild((<DisplayObject>child).adaptee);
@@ -255,7 +255,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 *   the caller is a child (or grandchild etc.) of the child being added.
 	 */
 	public addChildAt (child:DisplayObject, index:number) : DisplayObject {
-		child.dispatchEventRecursive(new Event(Event.ADDED_TO_STAGE));
+		//child.dispatchEventRecursive(new Event(Event.ADDED_TO_STAGE));
 		child.dispatchEvent(new Event(Event.ADDED));
 		(<AwayDisplayObjectContainer>this.adaptee).addChildAt(child.adaptee, index);
 		return child;
@@ -412,7 +412,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * @throws	ArgumentError Throws if the child parameter is not a child of this object.
 	 */
 	public removeChild (child:DisplayObject) : DisplayObject {
-		child.dispatchEventRecursive(new Event(Event.REMOVED_FROM_STAGE));
+		//child.dispatchEventRecursive(new Event(Event.REMOVED_FROM_STAGE));
 		child.dispatchEvent(new Event(Event.REMOVED));
 		this.adaptee.removeChild(child.adaptee);
 		//console.log("removeChild not implemented yet in flash/DisplayObjectContainer");
@@ -442,7 +442,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 		var awayChild:AwayDisplayObject=this.adaptee.removeChildAt(index);
 		var childadapter:DisplayObject=(<DisplayObject>awayChild.adapter);
 
-		childadapter.dispatchEventRecursive(new Event(Event.REMOVED_FROM_STAGE));
+		//childadapter.dispatchEventRecursive(new Event(Event.REMOVED_FROM_STAGE));
 		childadapter.dispatchEvent(new Event(Event.REMOVED));
 		//console.log("removeChildAt not implemented yet in flash/DisplayObjectContainer");
 		return childadapter;
@@ -457,7 +457,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 		for(var i:number /*uint*/ = beginIndex; i < endIndex; i++){
 			var oneChild:AwayDisplayObject=this.adaptee.getChildAt(i);
 			if(oneChild.adapter){
-				(<DisplayObject>oneChild.adapter).dispatchEventRecursive(new Event(Event.REMOVED_FROM_STAGE));
+				//(<DisplayObject>oneChild.adapter).dispatchEventRecursive(new Event(Event.REMOVED_FROM_STAGE));
 				(<DisplayObject>oneChild.adapter).dispatchEvent(new Event(Event.REMOVED));
 			}
 		}
