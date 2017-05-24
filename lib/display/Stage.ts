@@ -155,7 +155,7 @@ export class Stage extends Sprite{
 		this._eventFrameConstructed=new Event(Event.FRAME_CONSTRUCTED);
 		this._eventExitFrame=new Event(Event.EXIT_FRAME);
 		this._eventRender=new Event(Event.RENDER);
-		
+
 		this._events=[this._eventOnEnter, this._eventExitFrame];
 
 		this._scaleMode=StageScaleMode.NO_SCALE;
@@ -168,6 +168,9 @@ export class Stage extends Sprite{
 			if(color==0){
 				color=0x000001;
 			}
+			/*if(color==0xffffff){
+				color=0xcccccc;
+			}*/
 			var colorstr:string=color+"_"+Math.round(alpha*100).toString();
 			if(Stage._colorMaterials[colorstr]){
 				return Stage._colorMaterials[colorstr];

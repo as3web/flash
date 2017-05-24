@@ -6,6 +6,9 @@ import {Event} from "../events/Event";
 
 export class DisplayObjectContainer extends InteractiveObject{
 
+
+	private _eventRemoved:Event;
+	private _eventAdded:Event;
 	/**
 	 * The DisplayObjectContainer class is the base class for all objects that can serve as display object containers on
 	 * the display list. The display list manages all objects displayed in the Flash runtimes.
@@ -23,7 +26,6 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 *
 	 *   <p class="- topic/p ">For more information, see the "Display Programming" chapter of the <i class="+ topic/ph hi-d/i ">ActionScript 3.0 Developer's Guide</i>.</p>
 
-
 	 /**
 	 * Calling the new DisplayObjectContainer() constructor throws an
 	 * ArgumentError exception. You can, however, call constructors for
@@ -33,6 +35,8 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 */
 	constructor(adaptee:AwayDisplayObjectContainer=null){
 		super();
+		this._eventRemoved=new Event(Event.REMOVED);
+		this._eventAdded=new Event(Event.ADDED);
 	}
 	//---------------------------stuff added to make it work:
 
@@ -49,11 +53,11 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 if any child is a MovieClip this function will not be called on its childrens adapter.
 	 */
 	public advanceFrame(events:any[]) {
-		var i:number=this.adaptee.numChildren;
+		var i:number=this.adaptee._children.length;
 		this.dispatchEvent(events[0]);//ENTER_FRAME
 		while(i>0){
 			i--;
-			var oneChild:AwayDisplayObject=this.adaptee.getChildAt(i);
+			var oneChild:AwayDisplayObject=this.adaptee._children[i];
 			if(oneChild.isAsset(AwayDisplayObjectContainer)){
 				if(oneChild.adapter){
 					(<DisplayObjectContainer>oneChild.adapter).advanceFrame(events);
@@ -225,7 +229,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	public addChild (child:DisplayObject) : DisplayObject {
 		
 		//child.dispatchEventRecursive(new Event(Event.ADDED_TO_STAGE));
-		child.dispatchEvent(new Event(Event.ADDED));
+		child.dispatchEvent(this._eventAdded);
 
 		this.adaptee.addChild((<DisplayObject>child).adaptee);
 		return child;
@@ -256,7 +260,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 */
 	public addChildAt (child:DisplayObject, index:number) : DisplayObject {
 		//child.dispatchEventRecursive(new Event(Event.ADDED_TO_STAGE));
-		child.dispatchEvent(new Event(Event.ADDED));
+		child.dispatchEvent(this._eventAdded);
 		(<AwayDisplayObjectContainer>this.adaptee).addChildAt(child.adaptee, index);
 		return child;
 	}
@@ -382,7 +386,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 
 		var i:number=0;//this.adaptee.numChildren;
 		while(i<this.adaptee.numChildren){
-			var oneChild:AwayDisplayObject=this.adaptee.getChildAt(i);
+			var oneChild:AwayDisplayObject=this.adaptee._children[i];
 			if(oneChild.hitTestPoint(point.x, point.y)){
 				allChilds[allChilds.length]=oneChild.adapter;
 			}
@@ -413,7 +417,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 */
 	public removeChild (child:DisplayObject) : DisplayObject {
 		//child.dispatchEventRecursive(new Event(Event.REMOVED_FROM_STAGE));
-		child.dispatchEvent(new Event(Event.REMOVED));
+		child.dispatchEvent(this._eventRemoved);
 		this.adaptee.removeChild(child.adaptee);
 		//console.log("removeChild not implemented yet in flash/DisplayObjectContainer");
 		return child;
@@ -455,10 +459,10 @@ export class DisplayObjectContainer extends InteractiveObject{
 		}
 
 		for(var i:number /*uint*/ = beginIndex; i < endIndex; i++){
-			var oneChild:AwayDisplayObject=this.adaptee.getChildAt(i);
+			var oneChild:AwayDisplayObject=this.adaptee._children[i];
 			if(oneChild.adapter){
 				//(<DisplayObject>oneChild.adapter).dispatchEventRecursive(new Event(Event.REMOVED_FROM_STAGE));
-				(<DisplayObject>oneChild.adapter).dispatchEvent(new Event(Event.REMOVED));
+				(<DisplayObject>oneChild.adapter).dispatchEvent(this._eventRemoved);
 			}
 		}
 
@@ -498,7 +502,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 
 		var allChildren=[];
 		for(var i:number /*uint*/ = 0; i < this.adaptee.numChildren; i++){
-			allChildren[allChildren.length]=this.adaptee.getChildAt(i);
+			allChildren[allChildren.length]=this.adaptee._children[i];
 		}
 		for(i = 0; i < allChildren.length; i++){
 
