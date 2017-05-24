@@ -387,7 +387,7 @@ export class Stage extends Sprite{
 			if(this._debugtimer%150==0){
 
 				var displayGraph={};
-				this.debugDisplayGraph(displayGraph);
+			//	this.debugDisplayGraph(displayGraph);
 				console.log("SceneGraph frame :", this._debugtimer, displayGraph);
 
 			}

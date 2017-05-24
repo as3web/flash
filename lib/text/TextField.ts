@@ -81,21 +81,38 @@ export class TextField extends InteractiveObject
 	}
 	public set adaptee(adaptee:AwayTextField) {
 		this._adaptee=adaptee;
-		//this._adaptee.width=100;//80pro!
 	}
+
+	public get width():number
+	{
+		return this.adaptee.textFieldWidth;
+	}
+
+	public set width(val:number)
+	{
+		this.adaptee.textFieldWidth = val;
+	}
+
+	public get height():number
+	{
+		return this.adaptee.textFieldHeight;
+	}
+
+	public set height(val:number)
+	{
+		this.adaptee.textFieldHeight = val;
+	}
+
 	/**
 	 * When set to true and the text field is not in focus, Flash Player highlights the
 	 * selection in the text field in gray. When set to false and the text field is not in
 	 * focus, Flash Player does not highlight the selection in the text field.
 	 */
 	public get alwaysShowSelection () : boolean{
-		//todo
-		//console.log("alwaysShowSelection not implemented yet in flash/TextField");
-		return false;
+		return this.adaptee.alwaysShowSelection;
 	}
 	public set alwaysShowSelection (value:boolean){
-		//todo
-		//console.log("alwaysShowSelection not implemented yet in flash/TextField");
+		this.adaptee.alwaysShowSelection=value;
 	}
 
 	/**
@@ -112,13 +129,10 @@ export class TextField extends InteractiveObject
 	 * fonts that are larger than 48 points.
 	 */
 	public get antiAliasType () : string{
-		//todo
-		//console.log("antiAliasType not implemented yet in flash/TextField");
-		return "";
+		return "";//this.adaptee.antiAliasType;
 	}
 	public set antiAliasType (antiAliasType:string){
-		//todo
-		//console.log("antiAliasType not implemented yet in flash/TextField");
+		//this.adaptee.antiAliasType=value;
 	}
 
 	/**
@@ -148,7 +162,7 @@ export class TextField extends InteractiveObject
 		return this.adaptee.autoSize;
 	}
 	public set autoSize (value:string){
-		//this.adaptee.autoSize=value;
+		this.adaptee.autoSize=value;
 	}
 
 	/**
@@ -157,13 +171,10 @@ export class TextField extends InteractiveObject
 	 * Use the backgroundColor property to set the background color of a text field.
 	 */
 	public get background () : boolean{
-		//todo
-		//console.log("background not implemented yet in flash/TextField");
-		return false;
+		return this.adaptee.background;
 	}
 	public set background (value:boolean){
-		//todo
-		//console.log("background not implemented yet in flash/TextField");
+		this.adaptee.background=value;
 	}
 
 	/**
@@ -173,13 +184,10 @@ export class TextField extends InteractiveObject
 	 * true.
 	 */
 	public get backgroundColor () : number{
-		//todo
-		//console.log("backgroundColor not implemented yet in flash/TextField");
-		return 0;
+		return this.adaptee.backgroundColor;
 	}
 	public set backgroundColor (value:number){
-		//todo
-		//console.log("backgroundColor not implemented yet in flash/TextField");
+		this.adaptee.backgroundColor=value;
 	}
 
 	/**
@@ -188,13 +196,10 @@ export class TextField extends InteractiveObject
 	 * to set the border color.
 	 */
 	public get border () : boolean{
-		//todo
-		//console.log("border not implemented yet in flash/TextField");
-		return false;
+		return this.adaptee.border;
 	}
 	public set border (value:boolean){
-		//todo
-		//console.log("border not implemented yet in flash/TextField");
+		this.adaptee.border=value;
 	}
 
 	/**
@@ -204,13 +209,10 @@ export class TextField extends InteractiveObject
 	 * true.
 	 */
 	public get borderColor () : number{
-		//todo
-		//console.log("borderColor not implemented yet in flash/TextField");
-		return 0;
+		return this.adaptee.borderColor;
 	}
 	public set borderColor (value:number){
-		//todo
-		//console.log("borderColor not implemented yet in flash/TextField");
+		this.adaptee.borderColor=value;
 	}
 
 	/**
@@ -224,8 +226,7 @@ export class TextField extends InteractiveObject
 	 */
 	public get bottomScrollV () : number{
 		//todo
-		//console.log("bottomScrollV not implemented yet in flash/TextField");
-		return 0;
+		throw("bottomScrollV not implemented yet in flash/TextField");
 	}
 
 	/**
@@ -238,8 +239,7 @@ export class TextField extends InteractiveObject
 	 */
 	public get caretIndex () : number{
 		//todo
-		//console.log("caretIndex not implemented yet in flash/TextField");
-		return 0;
+		throw("caretIndex not implemented yet in flash/TextField");
 	}
 
 	/**
@@ -254,12 +254,11 @@ export class TextField extends InteractiveObject
 	 */
 	public get condenseWhite () : boolean{
 		//todo
-		//console.log("condenseWhite not implemented yet in flash/TextField");
-		return false;
+		throw("condenseWhite not implemented yet in flash/TextField");
 	}
 	public set condenseWhite (value:boolean){
 		//todo
-		//console.log("condenseWhite not implemented yet in flash/TextField");
+		throw("condenseWhite not implemented yet in flash/TextField");
 	}
 
 	/**
@@ -297,13 +296,10 @@ export class TextField extends InteractiveObject
 	 * a password on an unattended computer.
 	 */
 	public get displayAsPassword () : boolean{
-		//todo
-		//console.log("displayAsPassword not implemented yet in flash/TextField");
-		return false;
+		return this.adaptee.displayAsPassword;
 	}
 	public set displayAsPassword (value:boolean){
-		//todo
-		//console.log("displayAsPassword not implemented yet in flash/TextField");
+		this.adaptee.displayAsPassword=value;
 	}
 
 	/**
@@ -347,12 +343,11 @@ export class TextField extends InteractiveObject
 	 */
 	public get gridFitType () : string{
 		//todo
-		//console.log("gridFitType not implemented yet in flash/TextField");
-		return "";
+		throw("gridFitType not implemented yet in flash/TextField");
 	}
 	public set gridFitType (gridFitType:string){
 		//todo
-		//console.log("gridFitType not implemented yet in flash/TextField");
+		throw("gridFitType not implemented yet in flash/TextField");
 	}
 
 	/**
@@ -524,12 +519,12 @@ export class TextField extends InteractiveObject
 	 */
 	public get htmlText () : string{
 		//todo
-		console.log("htmlText not implemented yet in flash/TextField");
+		console.log("get htmlText not implemented yet in flash/TextField");
 		return "";
 	}
 	public set htmlText (value:string){
 		//todo
-		console.log("htmlText not implemented yet in flash/TextField");
+		console.log("set htmlText not implemented yet in flash/TextField");
 	}
 
 	/**
@@ -539,7 +534,7 @@ export class TextField extends InteractiveObject
 	public get length () : number{
 		//todo
 		console.log("length not implemented yet in flash/TextField");
-		return 0;
+		return this.adaptee.length;
 	}
 
 	/**
@@ -550,12 +545,12 @@ export class TextField extends InteractiveObject
 	 */
 	public get maxChars () : number{
 		//todo
-		//console.log("maxChars not implemented yet in flash/TextField");
+		console.log("maxChars not implemented yet in flash/TextField");
 		return 0;
 	}
 	public set maxChars (value:number){
 		//todo
-		//console.log("maxChars not implemented yet in flash/TextField");
+		console.log("maxChars not implemented yet in flash/TextField");
 	}
 
 	/**
@@ -604,11 +599,12 @@ export class TextField extends InteractiveObject
 	public get multiline () : boolean{
 		//todo
 		//console.log("multiline not implemented yet in flash/TextField");
-		return false;
+		return this.adaptee.multiline;
 	}
 	public set multiline (value:boolean){
 		//todo
 		//console.log("multiline not implemented yet in flash/TextField");
+		this.adaptee.multiline=value;
 	}
 
 	/**
@@ -618,8 +614,8 @@ export class TextField extends InteractiveObject
 	 */
 	public get numLines () : number{
 		//todo
-		//console.log("numLines not implemented yet in flash/TextField");
-		return 0;
+		console.log("numLines not implemented yet in flash/TextField");
+		return this.adaptee.numLines;
 	}
 
 	/**
@@ -651,12 +647,12 @@ export class TextField extends InteractiveObject
 	 */
 	public get restrict () : string{
 		//todo
-		//console.log("restrict not implemented yet in flash/TextField");
-		return "";
+		throw("restrict not implemented yet in flash/TextField");
+		//return "";
 	}
 	public set restrict (value:string){
 		//todo
-		//console.log("restrict not implemented yet in flash/TextField");
+		throw("restrict not implemented yet in flash/TextField");
 	}
 
 	/**
@@ -674,12 +670,12 @@ export class TextField extends InteractiveObject
 	 */
 	public get scrollH () : number{
 		//todo
-		//console.log("scrollH not implemented yet in flash/TextField");
+		console.log("scrollH not implemented yet in flash/TextField");
 		return 0;
 	}
 	public set scrollH (value:number){
 		//todo
-		//console.log("scrollH not implemented yet in flash/TextField");
+		console.log("scrollH not implemented yet in flash/TextField");
 	}
 
 	/**
@@ -696,12 +692,12 @@ export class TextField extends InteractiveObject
 	 */
 	public get scrollV () : number{
 		//todo
-		//console.log("scrollV not implemented yet in flash/TextField");
+		console.log("scrollV not implemented yet in flash/TextField");
 		return 0;
 	}
 	public set scrollV (value:number){
 		//todo
-		//console.log("scrollV not implemented yet in flash/TextField");
+		console.log("scrollV not implemented yet in flash/TextField");
 	}
 
 	/**
@@ -724,12 +720,13 @@ export class TextField extends InteractiveObject
 	}
 	public set selectable (value:boolean){
 		//todo
+		this.adaptee.selectable=value;
 		//console.log("selectable not implemented yet in flash/TextField");
 	}
 
 	public get selectedText () : string{
 		//todo
-		//console.log("selectedText not implemented yet in flash/TextField");
+		console.log("selectedText not implemented yet in flash/TextField");
 		return "";
 	}
 
@@ -740,7 +737,7 @@ export class TextField extends InteractiveObject
 	 */
 	public get selectionBeginIndex () : number{
 		//todo
-		//console.log("selectionBeginIndex not implemented yet in flash/TextField");
+		console.log("selectionBeginIndex not implemented yet in flash/TextField");
 		return 0;
 	}
 
@@ -751,7 +748,7 @@ export class TextField extends InteractiveObject
 	 */
 	public get selectionEndIndex () : number{
 		//todo
-		//console.log("selectionEndIndex not implemented yet in flash/TextField");
+		console.log("selectionEndIndex not implemented yet in flash/TextField");
 		return 0;
 	}
 
@@ -765,12 +762,12 @@ export class TextField extends InteractiveObject
 	 */
 	public get sharpness () : number{
 		//todo
-		//console.log("sharpness not implemented yet in flash/TextField");
+		console.log("sharpness not implemented yet in flash/TextField");
 		return 0;
 	}
 	public set sharpness (value:number){
 		//todo
-		//console.log("sharpness not implemented yet in flash/TextField");
+		console.log("sharpness not implemented yet in flash/TextField");
 	}
 
 	/**
@@ -787,12 +784,12 @@ export class TextField extends InteractiveObject
 	 */
 	public get styleSheet () : StyleSheet{
 		//todo
-		//console.log("styleSheet not implemented yet in flash/TextField");
+		console.log("styleSheet not implemented yet in flash/TextField");
 		return null;
 	}
 	public set styleSheet (value:StyleSheet){
 		//todo
-		//console.log("styleSheet not implemented yet in flash/TextField");
+		console.log("styleSheet not implemented yet in flash/TextField");
 	}
 
 	/**
@@ -818,12 +815,13 @@ export class TextField extends InteractiveObject
 	 */
 	public get textColor () : number{
 		//todo
-		//console.log("textColor not implemented yet in flash/TextField");
-		return 0;
+		console.log("textColor not implemented yet in flash/TextField");
+		return this.adaptee.textColor;
 	}
 	public set textColor (value:number){
 		//todo
-		//console.log("textColor not implemented yet in flash/TextField");
+		console.log("textColor not implemented yet in flash/TextField");
+		this.adaptee.textColor=value;
 	}
 
 	/**
@@ -841,7 +839,7 @@ export class TextField extends InteractiveObject
 	 */
 	public get textInteractionMode () : string{
 		//todo
-		//console.log("textInteractionMode not implemented yet in flash/TextField");
+		console.log("textInteractionMode not implemented yet in flash/TextField");
 		return "";
 	}
 
@@ -862,12 +860,12 @@ export class TextField extends InteractiveObject
 	 */
 	public get thickness () : number{
 		//todo
-		//console.log("thickness not implemented yet in flash/TextField");
+		console.log("thickness not implemented yet in flash/TextField");
 		return 0;
 	}
 	public set thickness (value:number){
 		//todo
-		//console.log("thickness not implemented yet in flash/TextField");
+		console.log("thickness not implemented yet in flash/TextField");
 	}
 
 	/**
@@ -879,12 +877,12 @@ export class TextField extends InteractiveObject
 	 */
 	public get type () : string{
 		//todo
-		//console.log("type not implemented yet in flash/TextField");
+		console.log("type not implemented yet in flash/TextField");
 		return "";
 	}
 	public set type (value:string){
 		//todo
-		//console.log("type not implemented yet in flash/TextField");
+		console.log("type not implemented yet in flash/TextField");
 	}
 
 	/**
@@ -895,12 +893,12 @@ export class TextField extends InteractiveObject
 	 */
 	public get useRichTextClipboard () : boolean{
 		//todo
-		//console.log("useRichTextClipboard not implemented yet in flash/TextField");
+		console.log("useRichTextClipboard not implemented yet in flash/TextField");
 		return false;
 	}
 	public set useRichTextClipboard (value:boolean){
 		//todo
-		//console.log("useRichTextClipboard not implemented yet in flash/TextField");
+		console.log("useRichTextClipboard not implemented yet in flash/TextField");
 	}
 
 	/**
@@ -912,11 +910,12 @@ export class TextField extends InteractiveObject
 	public get wordWrap () : boolean{
 		//todo
 		//console.log("wordWrap not implemented yet in flash/TextField");
-		return false;
+		return this.adaptee.wordWrap;
 	}
 	public set wordWrap (value:boolean){
 		//todo
 		//console.log("wordWrap not implemented yet in flash/TextField");
+		this.adaptee.wordWrap=value;
 	}
 
 	/**
@@ -927,12 +926,12 @@ export class TextField extends InteractiveObject
 	 * @param	newText	The string to append to the existing text.
 	 */
 	public appendText (newText:string) {
-		this.adaptee.text=this.adaptee.text+newText;
+		this.adaptee.appendText(newText);
 	}
 
 	public copyRichText () : string{
 		//todo
-		//console.log("copyRichText not implemented yet in flash/TextField");
+		console.log("copyRichText not implemented yet in flash/TextField");
 		return "";
 	}
 
@@ -945,7 +944,7 @@ export class TextField extends InteractiveObject
 	 */
 	public getCharBoundaries (charIndex:number) : Rectangle{
 		//todo
-		//console.log("getCharBoundaries not implemented yet in flash/TextField");
+		console.log("getCharBoundaries not implemented yet in flash/TextField");
 		return null;
 	}
 
@@ -959,7 +958,7 @@ export class TextField extends InteractiveObject
 	 */
 	public getCharIndexAtPoint (x:number, y:number) : number{
 		//todo
-		//console.log("getCharIndexAtPoint not implemented yet in flash/TextField");
+		console.log("getCharIndexAtPoint not implemented yet in flash/TextField");
 		return 0;
 	}
 
@@ -972,7 +971,7 @@ export class TextField extends InteractiveObject
 	 */
 	public getFirstCharInParagraph (charIndex:number) : number{
 		//todo
-		//console.log("getFirstCharInParagraph not implemented yet in flash/TextField");
+		console.log("getFirstCharInParagraph not implemented yet in flash/TextField");
 		return 0;
 	}
 
@@ -992,7 +991,7 @@ export class TextField extends InteractiveObject
 	 */
 	public getImageReference (id:string) : DisplayObject{
 		//todo
-		//console.log("getImageReference not implemented yet in flash/TextField");
+		console.log("getImageReference not implemented yet in flash/TextField");
 		return null;
 	}
 
@@ -1006,7 +1005,7 @@ export class TextField extends InteractiveObject
 	 */
 	public getLineIndexAtPoint (x:number, y:number) : number{
 		//todo
-		//console.log("getLineIndexAtPoint not implemented yet in flash/TextField");
+		console.log("getLineIndexAtPoint not implemented yet in flash/TextField");
 		return 0;
 	}
 
@@ -1019,7 +1018,7 @@ export class TextField extends InteractiveObject
 	 */
 	public getLineIndexOfChar (charIndex:number) : number{
 		//todo
-		//console.log("getLineIndexOfChar not implemented yet in flash/TextField");
+		console.log("getLineIndexOfChar not implemented yet in flash/TextField");
 		return 0;
 	}
 
@@ -1031,7 +1030,7 @@ export class TextField extends InteractiveObject
 	 */
 	public getLineLength (lineIndex:number) : number{
 		//todo
-		//console.log("getLineLength not implemented yet in flash/TextField");
+		console.log("getLineLength not implemented yet in flash/TextField");
 		return 0;
 	}
 
@@ -1043,7 +1042,7 @@ export class TextField extends InteractiveObject
 	 */
 	public getLineMetrics (lineIndex:number) : TextLineMetrics{
 		//todo
-		//console.log("getLineMetrics not implemented yet in flash/TextField");
+		console.log("getLineMetrics not implemented yet in flash/TextField");
 		return null;
 	}
 
@@ -1057,7 +1056,7 @@ export class TextField extends InteractiveObject
 	 */
 	public getLineOffset (lineIndex:number) : number{
 		//todo
-		//console.log("getLineOffset not implemented yet in flash/TextField");
+		console.log("getLineOffset not implemented yet in flash/TextField");
 		return 0;
 	}
 
@@ -1070,7 +1069,7 @@ export class TextField extends InteractiveObject
 	 */
 	public getLineText (lineIndex:number) : string{
 		//todo
-		//console.log("getLineText not implemented yet in flash/TextField");
+		console.log("getLineText not implemented yet in flash/TextField");
 		return "";
 	}
 
@@ -1085,13 +1084,13 @@ export class TextField extends InteractiveObject
 	 */
 	public getParagraphLength (charIndex:number) : number{
 		//todo
-		//console.log("getParagraphLength not implemented yet in flash/TextField");
+		console.log("getParagraphLength not implemented yet in flash/TextField");
 		return 0;
 	}
 
 	public getRawText () : string{
 		//todo
-		//console.log("getRawText not implemented yet in flash/TextField");
+		console.log("getRawText not implemented yet in flash/TextField");
 		return "";
 	}
 
@@ -1125,19 +1124,19 @@ export class TextField extends InteractiveObject
 
 	public getTextRuns (beginIndex:number=0, endIndex:number=2147483647) : any[]{
 		//todo
-		//console.log("getTextRuns not implemented yet in flash/TextField");
+		console.log("getTextRuns not implemented yet in flash/TextField");
 		return [];
 	}
 
 	public getXMLText (beginIndex:number=0, endIndex:number=2147483647) : string{
 		//todo
-		//console.log("getXMLText not implemented yet in flash/TextField");
+		console.log("getXMLText not implemented yet in flash/TextField");
 		return "";
 	}
 
 	public insertXMLText (beginIndex:number, endIndex:number, richText:string, pasting:boolean=false) {
 		//todo
-		//console.log("insertXMLText not implemented yet in flash/TextField");
+		console.log("insertXMLText not implemented yet in flash/TextField");
 	}
 
 	/**
@@ -1159,13 +1158,13 @@ export class TextField extends InteractiveObject
 	 */
 	public static isFontCompatible (fontName:string, fontStyle:string) : boolean{
 		//todo
-		//console.log("isFontCompatible not implemented yet in flash/TextField");
+		console.log("isFontCompatible not implemented yet in flash/TextField");
 		return false;
 	}
 
 	public pasteRichText (richText:string) : boolean{
 		//todo
-		//console.log("pasteRichText not implemented yet in flash/TextField");
+		console.log("pasteRichText not implemented yet in flash/TextField");
 		return false;
 	}
 
@@ -1181,7 +1180,7 @@ export class TextField extends InteractiveObject
 	 */
 	public replaceSelectedText (value:string) {
 		//todo
-		//console.log("replaceSelectedText not implemented yet in flash/TextField");
+		console.log("replaceSelectedText not implemented yet in flash/TextField");
 	}
 
 	/**
@@ -1198,7 +1197,7 @@ export class TextField extends InteractiveObject
 	 */
 	public replaceText (beginIndex:number, endIndex:number, newText:string) {
 		//todo
-		//console.log("replaceText not implemented yet in flash/TextField");
+		console.log("replaceText not implemented yet in flash/TextField");
 	}
 
 	/**
@@ -1214,7 +1213,7 @@ export class TextField extends InteractiveObject
 	 */
 	public setSelection (beginIndex:number, endIndex:number) {
 		//todo
-		//console.log("setSelection not implemented yet in flash/TextField");
+		console.log("setSelection not implemented yet in flash/TextField");
 	}
 
 	/**
