@@ -168,6 +168,13 @@ export class Stage extends Sprite{
 			if(color==0){
 				color=0x000001;
 			}
+			if(color==0xFF8100){
+				alpha=1;
+			}
+			/*if(alpha==0){
+				alpha=1;
+			}*/
+			//alpha=0.5;
 			/*if(color==0xffffff){
 				color=0xcccccc;
 			}*/
@@ -418,7 +425,7 @@ export class Stage extends Sprite{
 			if(this._debugtimer%150==0){
 
 				var displayGraph={};
-			//	this.debugDisplayGraph(displayGraph);
+				this.debugDisplayGraph(displayGraph);
 				console.log("SceneGraph frame :", this._debugtimer, displayGraph);
 
 			}
