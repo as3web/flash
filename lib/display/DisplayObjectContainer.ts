@@ -261,7 +261,27 @@ export class DisplayObjectContainer extends InteractiveObject{
 	public addChildAt (child:DisplayObject, index:number) : DisplayObject {
 		//child.dispatchEventRecursive(new Event(Event.ADDED_TO_STAGE));
 		child.dispatchEvent(this._eventAdded);
-		(<AwayDisplayObjectContainer>this.adaptee).addChildAt(child.adaptee, index);
+		// todo: this should be done much more efficient (in awayjs)
+		var allChildren=[];
+		for(var i:number /*uint*/ = 0; i < this.adaptee.numChildren; i++){
+			if(child.adaptee.id != this.adaptee._children[i].id){
+				allChildren[allChildren.length]=this.adaptee._children[i];
+			}
+		}
+		for(i = 0; i < allChildren.length; i++){
+
+			this.adaptee.removeChild(allChildren[i]);
+		}
+		var newChildCnt=0;
+		for(i = 0; i < allChildren.length+1; i++){
+			if(i==index){
+				this.adaptee.addChild(child.adaptee);
+			}
+			else{
+				this.adaptee.addChild(allChildren[newChildCnt++]);
+			}
+		}
+		//(<AwayDisplayObjectContainer>this.adaptee).addChildAt(child.adaptee, index);
 		return child;
 	}
 
@@ -387,11 +407,13 @@ export class DisplayObjectContainer extends InteractiveObject{
 		var i:number=0;//this.adaptee.numChildren;
 		while(i<this.adaptee.numChildren){
 			var oneChild:AwayDisplayObject=this.adaptee._children[i];
-			if(oneChild.hitTestPoint(point.x, point.y)){
-				allChilds[allChilds.length]=oneChild.adapter;
+			if(oneChild.visible){
+				if(oneChild.hitTestPoint(point.x, point.y)){
+					allChilds[allChilds.length]=oneChild.adapter;
+				}
+				if(oneChild.adapter instanceof DisplayObjectContainer)
+					allChilds=allChilds.concat((<DisplayObjectContainer>oneChild.adapter).getObjectsUnderPoint(point));
 			}
-			if(oneChild.adapter instanceof DisplayObjectContainer)
-				allChilds=allChilds.concat((<DisplayObjectContainer>oneChild.adapter).getObjectsUnderPoint(point));
 			i++;
 		}
 		return allChilds;
@@ -500,6 +522,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 */
 	public setChildIndex (child:DisplayObject, index:number)  {
 
+		// todo: this should be done much more efficient (in awayjs)
 		var allChildren=[];
 		for(var i:number /*uint*/ = 0; i < this.adaptee.numChildren; i++){
 			allChildren[allChildren.length]=this.adaptee._children[i];
