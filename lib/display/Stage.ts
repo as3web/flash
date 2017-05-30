@@ -420,7 +420,7 @@ export class Stage extends Sprite{
 			this._view.render();
 			this._currentFps++;
 			this._debugtimer++;
-
+/*
 
 			if(this._debugtimer%150==0){
 
@@ -429,6 +429,7 @@ export class Stage extends Sprite{
 				console.log("SceneGraph frame :", this._debugtimer, displayGraph);
 
 			}
+			*/
 		}
 	}
 
