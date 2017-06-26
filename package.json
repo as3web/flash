@@ -13,7 +13,7 @@
   "scripts": {
     "rimraf": "rimraf",
     "rollup": "rollup -c",
-    "uglifyjs": "uglifyjs ./bundle/as3web-flash.umd.js -o ./bundle/as3web-flash.umd.min.js --in-source-map ./bundle/as3web-flash.umd.js.map --source-map ./bundle/as3web-flash.umd.min.js.map --mangle",
+    "uglifyjs": "uglifyjs ./bundle/as3web-flash.umd.js -o ./bundle/as3web-flash.umd.min.js --in-source-map ./bundle/as3web-flash.umd.js.map --source-map --output ./bundle/as3web-flash.umd.min.js.map --mangle",
     "tsc": "tsc",
     "clean": "npm cache clean && npm run rimraf -- node_modules dist bundle",
     "clean:dist": "npm run rimraf -- dist bundle",
@@ -38,13 +38,13 @@
   "dependencies": {
     "@awayjs/core": "^0.6.0",
     "@awayjs/graphics": "^0.1.0",
-    "@awayjs/scene": "^0.8.0",
     "@awayjs/materials": "^0.3.0",
-    "@awayjs/view": "^0.2.0",
-    "@awayjs/renderer": "^0.8.0",
-    "@awayjs/stage": "^0.8.0",
-    "@awayjs/player": "^0.5.16",
     "@awayjs/parsers": "^0.5.31",
+    "@awayjs/player": "^0.5.16",
+    "@awayjs/renderer": "^0.8.0",
+    "@awayjs/scene": "^0.8.0",
+    "@awayjs/stage": "^0.8.0",
+    "@awayjs/view": "^0.2.0",
     "tslib": "github:microsoft/tslib"
   },
   "devDependencies": {
@@ -52,6 +52,6 @@
     "rollup": "^0.36.4",
     "rollup-plugin-includepaths": "^0.2.1",
     "typescript": "2.2.0-dev.20161123",
-    "uglifyjs": "^2.4.10"
+    "uglify-js": "^3.0.15"
   }
 }

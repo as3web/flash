@@ -908,13 +908,9 @@ export class TextField extends InteractiveObject
 	 * value is false.
 	 */
 	public get wordWrap () : boolean{
-		//todo
-		//console.log("wordWrap not implemented yet in flash/TextField");
 		return this.adaptee.wordWrap;
 	}
 	public set wordWrap (value:boolean){
-		//todo
-		//console.log("wordWrap not implemented yet in flash/TextField");
 		this.adaptee.wordWrap=value;
 	}
 

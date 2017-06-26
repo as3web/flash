@@ -1,5 +1,7 @@
 
 import {Loader as AwayLoader} from "@awayjs/core";
+import {LoaderContainer as AwayLoaderContainer} from "@awayjs/scene";
+import {AWDParser} from "@awayjs/parsers";
 import {LoaderInfo} from "./LoaderInfo";
 import {Bitmap} from "./Bitmap";
 import {BitmapData} from "./BitmapData";
@@ -11,7 +13,6 @@ import {Sprite} from "./Sprite";
 import {MovieClip} from "./MovieClip";
 import {LoaderEvent, AssetLibrary, AssetEvent} from "@awayjs/core";
 import {MovieClip as AwayMovieClip, Sprite as AwaySprite, TextField as AwayTextField} from "@awayjs/scene";
-import {AWDParser} from "@awayjs/parsers";
 import {URLRequest} from "../net/URLRequest";
 import {Event} from "../events/Event";
 import {Font, DisplayObjectContainer as AwayDisplayObjectContainer} from "@awayjs/scene";
@@ -22,13 +23,15 @@ import {MethodMaterial} from "@awayjs/materials";
 
 export class Loader extends DisplayObjectContainer{
 
+	private _loader:AwayLoader;
+
 	private _loaderInfoAS:LoaderInfo;
 	private _loaderContext:LoaderContext;
 	
 	constructor(){
 		super();
 
-
+		AwayLoader.enableParser(AWDParser);
 		this._onLoaderCompleteDelegate = (event:LoaderEvent) => this.onLoaderComplete(event);
 		this._onAssetCompleteDelegate = (event:AssetEvent) => this.onAssetComplete(event);
 		
@@ -46,8 +49,12 @@ export class Loader extends DisplayObjectContainer{
 		var newEvent=new Event(Event.COMPLETE);
 		newEvent.currentTarget=this._loaderInfoAS;
 		this._loaderInfoAS.dispatchEvent(newEvent);
-		AssetLibrary.removeEventListener(LoaderEvent.LOAD_COMPLETE, this._onLoaderCompleteDelegate);
-		AssetLibrary.removeEventListener(AssetEvent.ASSET_COMPLETE, this._onAssetCompleteDelegate);
+
+		this._loader.removeEventListener(LoaderEvent.LOAD_COMPLETE, this._onLoaderCompleteDelegate);
+		this._loader.removeEventListener(AssetEvent.ASSET_COMPLETE, this._onAssetCompleteDelegate);
+		this._loader=null;
+		//AssetLibrary.removeEventListener(LoaderEvent.LOAD_COMPLETE, this._onLoaderCompleteDelegate);
+		//AssetLibrary.removeEventListener(AssetEvent.ASSET_COMPLETE, this._onAssetCompleteDelegate);
 		
 	}
 
@@ -106,9 +113,14 @@ export class Loader extends DisplayObjectContainer{
 		url.url=url.url.replace(".swf", ".awd");
 		this._loaderContext=context;
 		this._loaderInfoAS.applicationDomain=context.applicationDomain;
-		AssetLibrary.addEventListener(LoaderEvent.LOAD_COMPLETE, this._onLoaderCompleteDelegate);
-		AssetLibrary.addEventListener(AssetEvent.ASSET_COMPLETE, this._onAssetCompleteDelegate);
-		AssetLibrary.load(url);
+
+		this._loader = new AwayLoader();
+		this._loader.addEventListener(LoaderEvent.LOAD_COMPLETE, this._onLoaderCompleteDelegate);
+		this._loader.addEventListener(AssetEvent.ASSET_COMPLETE, this._onAssetCompleteDelegate);
+		this._loader.load(url);
+		//AssetLibrary.addEventListener(LoaderEvent.LOAD_COMPLETE, this._onLoaderCompleteDelegate);
+		//AssetLibrary.addEventListener(AssetEvent.ASSET_COMPLETE, this._onAssetCompleteDelegate);
+		//AssetLibrary.load(url);
 	}
 
 	public get contentLoaderInfo():LoaderInfo
