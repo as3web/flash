@@ -9,7 +9,7 @@ import {StageScaleMode} from "./StageScaleMode"
 import {EventDispatcher, Transform, Point, Vector3D, Rectangle} from "@awayjs/core";
 
 import {AssetEvent, LoaderEvent, ParserEvent, URLRequest, RequestAnimationFrame, CoordinateSystem, PerspectiveProjection} from "@awayjs/core";
-import {Graphics, MaterialBase} from "@awayjs/graphics";
+import {Graphics, GradientFillStyle, TextureAtlas,  MaterialBase} from "@awayjs/graphics";
 import {HoverController, TextField, Billboard, Camera, LoaderContainer, MovieClip} from "@awayjs/scene";
 
 import {MethodMaterial}	from "@awayjs/materials";
@@ -122,6 +122,7 @@ import {MouseEvent} from "../events/MouseEvent";
 export class Stage extends Sprite{
 
 	private static _colorMaterials:any={};
+	private static _textureMaterials:any={};
 	private _scaleMode:StageScaleMode;
 	private _align:StageAlign;
 	private _mainSprite:Sprite;
@@ -187,6 +188,30 @@ export class Stage extends Sprite{
 			newmat.bothSides = true;
 			Stage._colorMaterials[colorstr]=newmat;
 			return newmat;
+		};
+		Graphics.get_material_for_gradient=function(gradient:GradientFillStyle):MaterialBase{
+			var texObj=TextureAtlas.getTextureForGradient(gradient);
+			/*if(alpha==0){
+			 alpha=1;
+			 }*/
+			//alpha=0.5;
+			/*if(color==0xffffff){
+			 color=0xcccccc;
+			 }*/
+			if(Stage._textureMaterials[texObj.texture]){
+				texObj.material=Stage._textureMaterials[texObj.texture];
+				return texObj;
+			}
+			var newmat:MethodMaterial=new MethodMaterial();
+			//newmat.addTexture(texObj.texture);
+
+			
+			newmat.ambientMethod.texture = texObj.texture;
+			newmat.alphaBlending=true;
+			newmat.bothSides = true;
+			Stage._colorMaterials[texObj.texture]=newmat;
+			texObj.material=newmat;
+			return texObj;
 		};
 		/*
 		//todo
