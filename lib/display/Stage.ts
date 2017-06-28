@@ -15,7 +15,7 @@ import {HoverController, TextField, Billboard, Camera, LoaderContainer, MovieCli
 import {MethodMaterial}	from "@awayjs/materials";
 import {DefaultRenderer} from  "@awayjs/renderer";
 import {View, MouseManager, SceneGraphPartition} from "@awayjs/view";
-import {Stage as AwayStage} from "@awayjs/stage";
+import {Stage as AwayStage, StageManager} from "@awayjs/stage";
 import {DisplayObject as AwayDisplayObject, Sprite as AwaySprite, DisplayObjectContainer as AwayDisplayObjectContainer} from "@awayjs/scene";
 
 import {MouseEvent} from "../events/MouseEvent";
@@ -131,6 +131,7 @@ export class Stage extends Sprite{
 	private _fps:number = 30;
 	private _currentFps:number = 0;
 	private _view: View;
+	private _rendererStage:AwayStage;
 	private _renderer: DefaultRenderer;
 	private _timer: RequestAnimationFrame;
 	private _time: number = 0;
@@ -390,7 +391,9 @@ export class Stage extends Sprite{
 	private initEninge(){
 
 		//create the view
-		this._renderer = new DefaultRenderer();
+		this._rendererStage = StageManager.getInstance().getStageAt(0);
+		this._rendererStage.color = 0xFFFFFFFF;
+		this._renderer = new DefaultRenderer(this._rendererStage);
 
 		this._view = new View(this._renderer);
 		this._renderer.antiAlias=8;
@@ -434,6 +437,8 @@ export class Stage extends Sprite{
 		if (this._time >= frameMarker) {
 			this._time -= frameMarker;
 
+			this._rendererStage.clear();
+
 			//this.dispatchEventRecursive(this._eventOnEnter);
 			this.advanceFrame(this._events);
 			//this.dispatchEventRecursive(this._eventFrameConstructed);
@@ -456,6 +461,11 @@ export class Stage extends Sprite{
 			}
 			*/
 		}
+	}
+
+	public get rendererStage():AwayStage
+	{
+		return this._rendererStage;
 	}
 
 
