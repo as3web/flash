@@ -31,7 +31,7 @@ export class BitmapData implements IBitmapDrawable
 
 	constructor (width:number, height:number, transparent:boolean=false, fillColor:number=0xffffff)
 	{
-
+		this._adaptee = new BitmapImage2D(width, height, transparent, fillColor, false);
 	}
 
 	public get transparent():boolean{
@@ -109,10 +109,11 @@ export class BitmapData implements IBitmapDrawable
 		console.log("draw not implemented yet in flash/BitmapData");
 
 	}
-	public fillRect (rect:Rectangle, color:number){
-		console.log("fillRect not implemented yet in flash/BitmapData");
-
+	public fillRect (rect:Rectangle, color:number)
+	{
+		this._adaptee.fillRect(rect, color);
 	}
+
 	public floodFill (x:number, y:number, color:number){
 		console.log("floodFill not implemented yet in flash/BitmapData");
 
