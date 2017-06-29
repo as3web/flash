@@ -128,7 +128,7 @@ export class Stage extends Sprite{
 	private _mainSprite:Sprite;
 	private _stage3Ds:AwayStage[];
 
-	private _fps:number = 30;
+	private _fps:number = 10;
 	private _currentFps:number = 0;
 	private _view: View;
 	private _rendererStage:AwayStage;
@@ -148,7 +148,7 @@ export class Stage extends Sprite{
 	private _eventExitFrame: Event;
 	private _eventRender: Event;
 
-	private SHOW_FRAME_RATE:boolean = true;
+	private SHOW_FRAME_RATE:boolean = false;
 
 	constructor(startClass) {
 		super();
@@ -260,7 +260,7 @@ export class Stage extends Sprite{
 
 		// helps with mouse-events:
 		this._view.mousePicker.onlyMouseEnabled=false;
-
+		//this._view.renderer.stage.container.style.display="none";
 		// create the entrance-class
 		// this is the moment the converted as3-code is executed
 		this._mainSprite=new startClass();
@@ -368,6 +368,9 @@ export class Stage extends Sprite{
 		this.dispatchEvent(new Event(Event.RESIZE));
 	}
 
+	public show (){
+		//this._view.renderer.stage.container.style.display="initial";
+	}
 	// ---------- event mapping functions Event.MOUSE_LEAVE
 
 	private initMouseLeaveListener(type:string, callback:(event:any) => void):void

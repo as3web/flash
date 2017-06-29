@@ -11,12 +11,13 @@ import {DisplayObjectContainer} from "./DisplayObjectContainer";
 import {DisplayObject} from "./DisplayObject";
 import {Sprite} from "./Sprite";
 import {MovieClip} from "./MovieClip";
-import {LoaderEvent, AssetLibrary, AssetEvent} from "@awayjs/core";
+import {LoaderEvent, AssetLibrary, AssetEvent, WaveAudio} from "@awayjs/core";
 import {MovieClip as AwayMovieClip, Sprite as AwaySprite, TextField as AwayTextField} from "@awayjs/scene";
 import {URLRequest} from "../net/URLRequest";
 import {Event} from "../events/Event";
 import {Font, DisplayObjectContainer as AwayDisplayObjectContainer} from "@awayjs/scene";
 import {BitmapImage2D} from "@awayjs/graphics";
+import {Sound} from "../media/Sound";
 import {Billboard} from "@awayjs/scene";
 import {MethodMaterial} from "@awayjs/materials";
 // todo: define all methods (start new with converting as3-Loader to ts ?)
@@ -84,6 +85,15 @@ export class Loader extends DisplayObjectContainer{
 			// we should only do this for bitmaps loaded from jpg or png
 			this.addChild(this._loaderInfoAS.content);
 		}
+		else if(event.asset.isAsset(WaveAudio)) {
+
+			var waveaudio:WaveAudio=(<WaveAudio>event.asset);
+			/*var newAudio=new Sound();
+			newAudio.adaptee=(<WaveAudio>event.asset);
+			newAudio.play();*/
+			//newbitmapdata.adaptee=(<BitmapImage2D>event.asset);
+			this._loaderContext.applicationDomain.addAudioDefinition(event.asset.name, (<WaveAudio>event.asset));
+		}
 		else if(event.asset.isAsset(Font)) {
 			this._loaderContext.applicationDomain.addFontDefinition(event.asset.name, (<Font>event.asset));
 		}
@@ -109,7 +119,7 @@ export class Loader extends DisplayObjectContainer{
 	}
 
 	public load(url:URLRequest, context:LoaderContext=null){
-		//console.log("start loading the url:"+url.url);
+		console.log("start loading the url:"+url.url);
 		url.url=url.url.replace(".swf", ".awd");
 		this._loaderContext=context;
 		this._loaderInfoAS.applicationDomain=context.applicationDomain;

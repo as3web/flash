@@ -9,6 +9,7 @@ import { SoundChannel } from "./SoundChannel";
 import { SoundTransform } from "./SoundTransform";
 import {ByteArray} from "../utils/ByteArray";
 import { ID3Info } from "./ID3Info";
+import { WaveAudio } from "@awayjs/core";
 
 /**
  * Dispatched when data is received as a load operation progresses.
@@ -92,6 +93,14 @@ export class Sound extends EventDispatcher
 		super();
 		console.log("sound is not implemented yet in flash/Sound");
 	}
+
+	public get adaptee():WaveAudio {
+		return (<WaveAudio>this._adaptee);
+	}
+	public set adaptee(adaptee:WaveAudio) {
+		this._adaptee=adaptee;
+	}
+
 	/**
 	 * Returns the currently available number of bytes in this sound object. This property is
 	 * usually useful only for externally loaded files.
@@ -353,7 +362,8 @@ export class Sound extends EventDispatcher
 	 * @refpath
 	 */
 	public play (startTime:number=0, loops:number=0, sndTransform:SoundTransform=null) : SoundChannel{
-		console.log("play not implemented yet in flash/Sound");
+		this.adaptee.play(startTime, loops>0);
+		//console.log("play not implemented yet in flash/Sound");
 		return null;
 	}
 

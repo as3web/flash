@@ -2,7 +2,9 @@ import {ByteArray} from "@awayjs/core";
 import {IDisplayObjectAdapter, Font} from "@awayjs/scene";
 import {DisplayObject as AwayDisplayObject} from "@awayjs/scene";
 import {MovieClip as AwayMovieClip} from "@awayjs/scene";
+import {WaveAudio} from "@awayjs/core";
 import {MovieClip} from "../display/MovieClip";
+import {Sound} from "../media/Sound";
 
 /**
  * The ApplicationDomain class is a container for discrete groups of class definitions.
@@ -39,6 +41,7 @@ export class ApplicationDomain
 	private _parentDomain:ApplicationDomain;
 	private _definitions:Object;
 	private _font_definitions:Object;
+	private _audio_definitions:Object;
 	/**
 	 * Creates a new application domain.
 	 * @param	parentDomain	If no parent domain is passed in, this application domain takes the system domain as its parent.
@@ -52,6 +55,7 @@ export class ApplicationDomain
 		this._parentDomain=parentDomain;
 		this._definitions={};
 		this._font_definitions={};
+		this._audio_definitions={};
 	}
 
 	/**
@@ -98,6 +102,9 @@ export class ApplicationDomain
 		this._definitions[name]=asset;
 	}
 
+	public addAudioDefinition (name:string, asset:WaveAudio) : void{
+		this._audio_definitions[name]=asset;
+	}
 	public addFontDefinition (name:string, asset:Font) : void{
 		this._font_definitions[name]=asset;
 	}
@@ -122,6 +129,12 @@ export class ApplicationDomain
 	public getFontDefinition (name:string) : Font{
 		return this._font_definitions[name];
 	}
+	public getAudioDefinition (name:string) : Sound{
+		var sound:Sound=new Sound();
+		sound.adaptee=this._audio_definitions[name];
+		//sound.adaptee.adapter=sound;
+		return sound;
+	}
 
 	public getQualifiedDefinitionNames () : string[]{
 		var allDefinitionsnames:string[]=[];
@@ -144,5 +157,8 @@ export class ApplicationDomain
 	}
 	public hasFontDefinition (name:string) : boolean{
 		return this._font_definitions.hasOwnProperty(name);
+	}
+	public hasAudioDefinition (name:string) : boolean{
+		return this._audio_definitions.hasOwnProperty(name);
 	}
 }
