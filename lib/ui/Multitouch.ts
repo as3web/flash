@@ -22,26 +22,26 @@ export class Multitouch {
 	 * none at all (contact is handled as a mouse event). To set this property, use values from the flash.ui.MultitouchInputMode class.
 	 */
 	public static get inputMode () : string{
-		console.log("inputMode not implemented yet in flash/Multitouch");
+		//console.log("inputMode not implemented yet in flash/Multitouch");
 		return "";
 	}
 	public static set inputMode (value:string){
-		console.log("inputMode not implemented yet in flash/Multitouch");
+		//console.log("inputMode not implemented yet in flash/Multitouch");
 	}
 
 	public static get mapTouchToMouse () : boolean{
-		console.log("mapTouchToMouse not implemented yet in flash/Multitouch");
+		//console.log("mapTouchToMouse not implemented yet in flash/Multitouch");
 		return false;
 	}
 	public static set mapTouchToMouse (value:boolean){
-		console.log("mapTouchToMouse not implemented yet in flash/Multitouch");
+		//console.log("mapTouchToMouse not implemented yet in flash/Multitouch");
 	}
 
 	/**
 	 * The maximum number of concurrent touch points supported by the current environment.
 	 */
 	public static get maxTouchPoints () : number{
-		console.log("maxTouchPoints not implemented yet in flash/Multitouch");
+		//console.log("maxTouchPoints not implemented yet in flash/Multitouch");
 		return 0;
 	}
 
@@ -55,7 +55,7 @@ export class Multitouch {
 	 * event handling.
 	 */
 	public static get supportedGestures () : string[]{
-		console.log("supportedGestures not implemented yet in flash/Multitouch");
+		//console.log("supportedGestures not implemented yet in flash/Multitouch");
 		return [];
 	}
 
@@ -66,7 +66,7 @@ export class Multitouch {
 	 * true even if the hardware does not support gesture events.
 	 */
 	public static get supportsGestureEvents () : boolean{
-		console.log("supportsGestureEvents not implemented yet in flash/Multitouch");
+		//console.log("supportsGestureEvents not implemented yet in flash/Multitouch");
 		return false;
 	}
 
@@ -75,7 +75,7 @@ export class Multitouch {
 	 * Touch events are listed in the TouchEvent class.
 	 */
 	public static get supportsTouchEvents () : boolean{
-		console.log("supportsTouchEvents not implemented yet in flash/Multitouch");
+		//console.log("supportsTouchEvents not implemented yet in flash/Multitouch");
 		return false;
 	}
 

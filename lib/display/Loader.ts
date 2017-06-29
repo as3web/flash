@@ -45,7 +45,7 @@ export class Loader extends DisplayObjectContainer{
 
 	private _onLoaderCompleteDelegate:(event:LoaderEvent) => void;
 	private onLoaderComplete(event: LoaderEvent){
-		console.log("loaded url!");
+		//console.log("loaded url!");
 		var newEvent=new Event(Event.COMPLETE);
 		newEvent.currentTarget=this._loaderInfoAS;
 		this._loaderInfoAS.dispatchEvent(newEvent);
@@ -109,7 +109,7 @@ export class Loader extends DisplayObjectContainer{
 	}
 
 	public load(url:URLRequest, context:LoaderContext=null){
-		console.log("start loading the url:"+url.url);
+		//console.log("start loading the url:"+url.url);
 		url.url=url.url.replace(".swf", ".awd");
 		this._loaderContext=context;
 		this._loaderInfoAS.applicationDomain=context.applicationDomain;

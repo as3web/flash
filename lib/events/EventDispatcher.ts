@@ -102,7 +102,7 @@ export class EventDispatcher extends AwayEventDispatcher{
 			// this means that this is a event-type, that is not yet supported
 			// we do not need to register it on superclass
 			// for now we output a warning
-			console.log("Warning - EventDispatcher:  trying to listen for unsupported event: : "+this.eventMappingDummys[type]);
+			//console.log("Warning - EventDispatcher:  trying to listen for unsupported event: : "+this.eventMappingDummys[type]);
 			return;
 		}
 		if(this.eventMapping.hasOwnProperty(type)){
@@ -119,7 +119,7 @@ export class EventDispatcher extends AwayEventDispatcher{
 		
 		// if we make it here, the event is not handled by this dispatcher
 		// lets output a Warning for now.
-		console.log("EventDispatcher: trying to listen for unknown event: '"+type+"'")
+		//console.log("EventDispatcher: trying to listen for unknown event: '"+type+"'")
 	}
 
 	/**

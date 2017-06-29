@@ -316,7 +316,7 @@ export class LoaderInfo extends EventDispatcher
 	 * @throws	Error If the file is not downloaded sufficiently to retrieve the requested information.
 	 */
 	public get height () : number{
-		console.log("height not implemented yet in flash/LoaderInfo");
+		//console.log("height not implemented yet in flash/LoaderInfo");
 		return 0;
 		
 	}
@@ -510,7 +510,7 @@ export class LoaderInfo extends EventDispatcher
 	 * @throws	Error If the file is not downloaded sufficiently to retrieve the requested information.
 	 */
 	public get width () : number{
-		console.log("width not implemented yet in flash/LoaderInfo");
+		//console.log("width not implemented yet in flash/LoaderInfo");
 		return 0;
 		
 	}
