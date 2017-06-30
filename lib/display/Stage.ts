@@ -346,6 +346,8 @@ export class Stage extends Sprite{
 				throw("Stage: only implemented StageAlign is TOP_LEFT");
 				//break;
 		}
+		this._rendererStage.width     = window.innerWidth;
+		this._rendererStage.height    = window.innerHeight;
 		this._view.width     = window.innerWidth;
 		this._view.height    = window.innerHeight;
 		var aspectRatio:number=window.innerWidth/window.innerHeight;
