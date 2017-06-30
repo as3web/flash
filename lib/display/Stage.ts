@@ -128,7 +128,7 @@ export class Stage extends Sprite{
 	private _mainSprite:Sprite;
 	private _stage3Ds:AwayStage[];
 
-	private _fps:number = 10;
+	private _fps:number = 30;
 	private _currentFps:number = 0;
 	private _view: View;
 	private _rendererStage:AwayStage;
@@ -713,14 +713,11 @@ export class Stage extends Sprite{
 	 *   For more information, see the "Security" chapter in the ActionScript 3.0 Developer's Guide.
 	 */
 	public get frameRate () : number{
-		//todo
-		console.log("frameRate not implemented yet in flash/Stage");
-		return 0;
+		return this._fps;
 	}
 
 	public set frameRate (value:number) {
-		//todo
-		console.log("frameRate not implemented yet in flash/Stage");
+		this._fps=value;
 	}
 
 	/**
