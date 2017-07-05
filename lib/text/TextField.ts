@@ -83,26 +83,6 @@ export class TextField extends InteractiveObject
 		this._adaptee=adaptee;
 	}
 
-	public get width():number
-	{
-		return this.adaptee.textFieldWidth;
-	}
-
-	public set width(val:number)
-	{
-		this.adaptee.textFieldWidth = val;
-	}
-
-	public get height():number
-	{
-		return this.adaptee.textFieldHeight;
-	}
-
-	public set height(val:number)
-	{
-		this.adaptee.textFieldHeight = val;
-	}
-
 	/**
 	 * When set to true and the text field is not in focus, Flash Player highlights the
 	 * selection in the text field in gray. When set to false and the text field is not in
