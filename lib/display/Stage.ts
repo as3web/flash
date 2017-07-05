@@ -123,6 +123,7 @@ export class Stage extends Sprite{
 
 	private static _colorMaterials:any={};
 	private static _textureMaterials:any={};
+	private static _useTextureAtlasForColors:boolean=true;
 	private _scaleMode:StageScaleMode;
 	private _align:StageAlign;
 	private _mainSprite:Sprite;
@@ -166,31 +167,47 @@ export class Stage extends Sprite{
 		//this._stage3Ds[this._stage3Ds.length]=new AwayStage(null, );
 
 		//todo: better implement this in graphics (this function provides the drawing api with materials for a color / alpha)
-		Graphics.get_material_for_color=function(color:number, alpha:number=1):MaterialBase{
+		Graphics.get_material_for_color=function(color:number, alpha:number=1):any{
 			if(color==0){
 				color=0x000001;
 			}
 			if(color==0xFF8100){
 				alpha=1;
 			}
-			/*if(alpha==0){
-				alpha=1;
-			}*/
-			//alpha=0.5;
-			/*if(color==0xffffff){
-				color=0xcccccc;
-			}*/
+			//alpha=1;
+			var texObj:any={};
+
+			if(Stage._useTextureAtlasForColors){
+				texObj=TextureAtlas.getTextureForColor(color, alpha);
+				if(Stage._colorMaterials[texObj.texture.id]){
+					texObj.material=Stage._colorMaterials[texObj.texture.id];
+					texObj.material.invalidate();
+					return texObj;
+				}
+				var newmat:MethodMaterial=new MethodMaterial();
+				newmat.ambientMethod.texture = texObj.texture;
+				newmat.alphaBlending=true;
+				newmat.bothSides = true;
+				Stage._colorMaterials[texObj.texture.id]=newmat;
+				texObj.material=newmat;
+				texObj.material.invalidate();
+				return texObj;
+			}
+
 			var colorstr:string=color+"_"+Math.round(alpha*100).toString();
 			if(Stage._colorMaterials[colorstr]){
-				return Stage._colorMaterials[colorstr];
+				texObj.material=Stage._colorMaterials[colorstr];
+				//texObj.material.invalidate();
+				return texObj;
 			}
-			var newmat:MaterialBase=new MethodMaterial(color, alpha);
+			var newmat:MethodMaterial=new MethodMaterial(color, alpha);
 			newmat.alphaBlending=true;
 			newmat.bothSides = true;
+			texObj.material=newmat;
 			Stage._colorMaterials[colorstr]=newmat;
-			return newmat;
+			return texObj;
 		};
-		Graphics.get_material_for_gradient=function(gradient:GradientFillStyle):MaterialBase{
+		Graphics.get_material_for_gradient=function(gradient:GradientFillStyle):any{
 			var texObj=TextureAtlas.getTextureForGradient(gradient);
 			/*if(alpha==0){
 			 alpha=1;
@@ -211,7 +228,7 @@ export class Stage extends Sprite{
 			newmat.ambientMethod.texture = texObj.texture;
 			newmat.alphaBlending=true;
 			newmat.bothSides = true;
-			Stage._colorMaterials[texObj.texture.id]=newmat;
+			Stage._textureMaterials[texObj.texture.id]=newmat;
 			texObj.material=newmat;
 			texObj.material.invalidate();
 			return texObj;
@@ -456,8 +473,8 @@ export class Stage extends Sprite{
 
 			this._view.render();
 			this._currentFps++;
+			/*
 			this._debugtimer++;
-/*
 
 			if(this._debugtimer%150==0){
 
@@ -465,8 +482,8 @@ export class Stage extends Sprite{
 				this.debugDisplayGraph(displayGraph);
 				console.log("SceneGraph frame :", this._debugtimer, displayGraph);
 
-			}
-			*/
+			}*/
+			
 		}
 	}
 

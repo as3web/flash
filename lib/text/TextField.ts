@@ -1251,8 +1251,8 @@ export class TextField extends InteractiveObject
 	 * @throws	RangeError The beginIndex or endIndex specified is out of range.
 	 */
 	public setTextFormat (format:TextFormat, beginIndex:number=-1, endIndex:number=-1) {
-		//todo
-		//console.log("setTextFormat not implemented yet in flash/TextField");
+		//todo implement for multi-formats
+		this.adaptee.textFormat=format;
 	}
 
 }
