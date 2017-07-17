@@ -276,7 +276,7 @@ export class Stage extends Sprite{
 		this._view.scene.addChild(this.adaptee);
 
 		// helps with mouse-events:
-		this._view.mousePicker.onlyMouseEnabled=false;
+		//this._view.mousePicker.onlyMouseEnabled=false;
 		//this._view.renderer.stage.container.style.display="none";
 		// create the entrance-class
 		// this is the moment the converted as3-code is executed
