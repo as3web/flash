@@ -187,6 +187,7 @@ export class Stage extends Sprite{
 				var newmat:MethodMaterial=new MethodMaterial();
 				newmat.ambientMethod.texture = texObj.texture;
 				newmat.alphaBlending=true;
+				newmat.useColorTransform = true;
 				newmat.bothSides = true;
 				Stage._colorMaterials[texObj.texture.id]=newmat;
 				texObj.material=newmat;
@@ -202,6 +203,7 @@ export class Stage extends Sprite{
 			}
 			var newmat:MethodMaterial=new MethodMaterial(color, alpha);
 			newmat.alphaBlending=true;
+			newmat.useColorTransform = true;
 			newmat.bothSides = true;
 			texObj.material=newmat;
 			Stage._colorMaterials[colorstr]=newmat;
@@ -226,6 +228,7 @@ export class Stage extends Sprite{
 
 			
 			newmat.ambientMethod.texture = texObj.texture;
+			newmat.useColorTransform = true;
 			newmat.alphaBlending=true;
 			newmat.bothSides = true;
 			Stage._textureMaterials[texObj.texture.id]=newmat;
