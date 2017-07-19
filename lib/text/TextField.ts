@@ -323,11 +323,12 @@ export class TextField extends InteractiveObject
 	 */
 	public get gridFitType () : string{
 		//todo
-		throw("gridFitType not implemented yet in flash/TextField");
+		return "";
+		//throw("gridFitType not implemented yet in flash/TextField");
 	}
 	public set gridFitType (gridFitType:string){
 		//todo
-		throw("gridFitType not implemented yet in flash/TextField");
+		//throw("gridFitType not implemented yet in flash/TextField");
 	}
 
 	/**
@@ -513,7 +514,6 @@ export class TextField extends InteractiveObject
 	 */
 	public get length () : number{
 		//todo
-		console.log("length not implemented yet in flash/TextField");
 		return this.adaptee.length;
 	}
 
