@@ -401,22 +401,27 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * @playerversion	Flash 9
 	 * @playerversion	Lite 4
 	 */
-	public getObjectsUnderPoint (point:Point) : any[] {
-		var allChilds:any[]=[];
+	public getObjectsUnderPoint(point:Point):DisplayObject[]
+	{
+		var children:DisplayObject[] = [];
 
-		var i:number=0;//this.adaptee.numChildren;
-		while(i<this.adaptee.numChildren){
-			var oneChild:AwayDisplayObject=this.adaptee._children[i];
-			if(oneChild.visible){
-				if(oneChild.hitTestPoint(point.x, point.y)){
-					allChilds[allChilds.length]=oneChild.adapter;
-				}
-				if(oneChild.adapter instanceof DisplayObjectContainer)
-					allChilds=allChilds.concat((<DisplayObjectContainer>oneChild.adapter).getObjectsUnderPoint(point));
+		this._getObjectsUnderPointInternal(point, children);
+
+		return children;
+	}
+
+	protected _getObjectsUnderPointInternal(point:Point, children:DisplayObject[])
+	{
+		var numChildren:number = this.adaptee.numChildren;
+		var child:AwayDisplayObject;
+		for(var i:number = 0; i < numChildren; i++){
+			child = this.adaptee._children[i];
+			if(child.visible){
+				if(child.hitTestPoint(point.x, point.y))
+					children.push(<DisplayObject> child.adapter);
+				(<DisplayObjectContainer> child.adapter)._getObjectsUnderPointInternal(point, children);
 			}
-			i++;
 		}
-		return allChilds;
 	}
 
 	/**
