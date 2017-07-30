@@ -87,12 +87,7 @@ export class BitmapData implements IBitmapDrawable
 		this._adaptee.copyChannel(sourceBitmap.adaptee, sourceRect, destPoint, sourceChannel, destChannel);
 
 	}
-	public copyPixels(sourceBitmap:BitmapData,
-					  sourceRect:Rectangle,
-					  destPoint:Point,
-					  alphaBitmap:BitmapData,
-					  alphaPoint:Point,
-					  mergeAlpha:boolean){
+	public copyPixels(sourceBitmap:BitmapData, sourceRect:Rectangle, destPoint:Point, alphaBitmapData:BitmapData = null, alphaPoint:Point = null, mergeAlpha:boolean = false){
 		console.log("copyPixels not implemented yet in flash/BitmapData");
 		//this._adaptee.copyPixels(sourceBitmap.adaptee, sourceRect, destPoint);
 	}
@@ -100,12 +95,7 @@ export class BitmapData implements IBitmapDrawable
 		console.log("dispose not implemented yet in flash/BitmapData");
 
 	}
-	public draw(source:any,
-				matrix:Matrix,
-				colorTransform:ColorTransform=null,
-				blendMode:any="",
-				clipRect:Rectangle=null,
-				smooth:boolean=false){
+	public draw(source:any, matrix:Matrix, colorTransform:ColorTransform = null, blendMode:any = "", clipRect:Rectangle = null, smooth:boolean = false){
 		console.log("draw not implemented yet in flash/BitmapData");
 
 	}
