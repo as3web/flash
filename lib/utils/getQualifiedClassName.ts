@@ -6,5 +6,9 @@
  * @return	A string containing the fully qualified class name.
  */
 export const getQualifiedClassName=function(value:any){
-	return value.name;
+	if(value.name)
+		return value.name;
+	else{
+		return value.constructor.name;
+	}
 };
