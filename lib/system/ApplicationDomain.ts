@@ -118,13 +118,27 @@ export class ApplicationDomain
 	 * @throws	ReferenceError No public definition exists with the
 	 *   specified name.
 	 */
-	public getDefinition (name:string) : IDisplayObjectAdapter{
-		var awayobj:AwayDisplayObject=this._definitions[name].clone();
-		var newAdapter:IDisplayObjectAdapter=this._definitions[name].adapter.clone(awayobj);
-		if(awayobj.isAsset(AwayMovieClip)){
-			(<AwayMovieClip>awayobj).currentFrameIndex=0;
+	public getDefinition (name:string) : any{
+
+		if(this._definitions[name]){
+			var awayobj:AwayDisplayObject=this._definitions[name].clone();
+			var newAdapter:IDisplayObjectAdapter=this._definitions[name].adapter.clone(awayobj);
+			if(awayobj.isAsset(AwayMovieClip)){
+				(<AwayMovieClip>awayobj).currentFrameIndex=0;
+			}
+			return newAdapter;
 		}
-		return newAdapter;
+		else if(this._font_definitions[name]){
+			return this._font_definitions[name];
+		}
+		else if(this._audio_definitions[name]){
+			var sound:Sound=new Sound();
+			sound.adaptee=this._audio_definitions[name];
+			//sound.adaptee.adapter=sound;
+			return sound;
+		}
+
+		return null;
 	}
 	public getFontDefinition (name:string) : Font{
 		return this._font_definitions[name];
