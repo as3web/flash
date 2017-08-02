@@ -56,8 +56,10 @@ export class BitmapData implements IBitmapDrawable
 	}
 	
 	public clone():BitmapData{
-		console.log("clone not implemented yet in flash/BitmapData");
-		return null;
+		//console.log("BitmapData: todo: make sure clone is working correctly");
+		var clone:BitmapData=new BitmapData(this.adaptee.width, this.adaptee.height, this.adaptee.transparent);
+
+		return clone;
 
 	}
 	public get rect():Rectangle{
