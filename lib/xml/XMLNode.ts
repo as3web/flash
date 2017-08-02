@@ -27,6 +27,9 @@ export class XMLNode
 	 */
 	public firstChild : XMLNode;
 
+	public removeChild(child:any){
+
+	}
 	/**
 	 * An XMLNode value that references the last child in the node's child list. The
 	 * XMLNode.lastChild property is null if the node does not have children.
