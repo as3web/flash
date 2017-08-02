@@ -47,6 +47,7 @@ export class Bitmap extends DisplayObject
 			newMaterial.ambientMethod.texture = new Single2DTexture(this._bitmapData.adaptee);
 			newMaterial.alphaBlending=true;
 			this.adaptee=new Billboard(newMaterial, pixelSnapping, smoothing);
+			this.adaptee.adapter=this;
 		/*	this.adaptee.style=new Style();
 			this.adaptee.style.uvMatrix=new Matrix(1,0,0,-1,0,0);
 			//billboard.style.uvMatrix.scale(1,1);
@@ -54,6 +55,7 @@ export class Bitmap extends DisplayObject
 		}
 		else{
 			this.adaptee=new Billboard(new MethodMaterial(0xff0000));//);
+			this.adaptee.adapter=this;
 		}
 		
 	}
