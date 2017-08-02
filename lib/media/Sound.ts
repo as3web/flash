@@ -91,7 +91,7 @@ export class Sound extends EventDispatcher
 	 */
 	constructor (stream:URLRequest=null, context:SoundLoaderContext=null){
 		super();
-		console.log("sound is not implemented yet in flash/Sound");
+		//console.log("sound is not implemented yet in flash/Sound");
 	}
 
 	public get adaptee():WaveAudio {
