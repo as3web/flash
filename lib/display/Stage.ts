@@ -289,7 +289,7 @@ export class Stage extends Sprite{
 		// make sure we have a background, so any mousedowns on stage are registered even if no object is hit
 		// it might make more sense to put this bg on the stage, but if i try to draw into the stage,
 		// the shape is the only thing that shows up, the _mainSprite is than no longer rendered
-		this._mainSprite.graphics.clearDrawing();
+		this._mainSprite.graphics.clear();
 		this._mainSprite.graphics.beginFill(0xffff00, 0.5);
 		this._mainSprite.graphics.drawRect(0,0,window.innerWidth, window.innerHeight);
 		this._mainSprite.graphics.endFill();
@@ -372,7 +372,7 @@ export class Stage extends Sprite{
 		this._view.height    = window.innerHeight;
 		var aspectRatio:number=window.innerWidth/window.innerHeight;
 
-		this._mainSprite.graphics.clearDrawing();
+		this._mainSprite.graphics.clear();
 		this._mainSprite.graphics.beginFill(0xffffff,0);
 		this._mainSprite.graphics.drawRect(0,0,window.innerWidth, window.innerHeight);
 		this._mainSprite.graphics.endFill();
