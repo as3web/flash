@@ -89,13 +89,12 @@ export class BitmapData implements IBitmapDrawable
 		this._adaptee.copyChannel(sourceBitmap.adaptee, sourceRect, destPoint, sourceChannel, destChannel);
 
 	}
-	public copyPixels(sourceBitmap:BitmapData, sourceRect:Rectangle, destPoint:Point, alphaBitmapData:BitmapData = null, alphaPoint:Point = null, mergeAlpha:boolean = false){
-		console.log("copyPixels not implemented yet in flash/BitmapData");
-		//this._adaptee.copyPixels(sourceBitmap.adaptee, sourceRect, destPoint);
+	public copyPixels(sourceBitmap:any, sourceRect:Rectangle, destPoint:Point, alphaBitmapData:BitmapData = null, alphaPoint:Point = null, mergeAlpha:boolean = false){
+		this._adaptee.copyPixels(sourceBitmap.adaptee, sourceRect, destPoint);
 	}
 	public dispose(){
-		console.log("dispose not implemented yet in flash/BitmapData");
-
+		this._adaptee.dispose();
+		this._adaptee = null;
 	}
 	public draw(source:any, matrix:Matrix, colorTransform:ColorTransform = null, blendMode:any = "", clipRect:Rectangle = null, smooth:boolean = false){
 		console.log("draw not implemented yet in flash/BitmapData");
@@ -129,6 +128,12 @@ export class BitmapData implements IBitmapDrawable
 		return false;
 
 	}
+
+	public lock():void
+	{
+		this._adaptee.lock();
+	}
+
 	public merge(sourceBitmap:BitmapData,
 				 sourceRect:Rectangle,
 				 destPoint:Point,
@@ -189,5 +194,10 @@ export class BitmapData implements IBitmapDrawable
 		console.log("threshold not implemented yet in flash/BitmapData");
 		return 0;
 
+	}
+
+	public unlock():void
+	{
+		this._adaptee.unlock();
 	}
 }
