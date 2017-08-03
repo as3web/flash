@@ -2,7 +2,7 @@ import {Billboard, IDisplayObjectAdapter} from "@awayjs/scene";
 import { DisplayObject } from "./DisplayObject";
 import { BitmapData } from "./BitmapData";
 import {MethodMaterial} from "@awayjs/materials";
-import {Single2DTexture, Style, Sampler2D} from "@awayjs/graphics";
+import {Single2DTexture, BitmapImage2D, Style, Sampler2D} from "@awayjs/graphics";
 import {Matrix} from "@awayjs/core"
 
 /**
@@ -86,6 +86,15 @@ export class Bitmap extends DisplayObject
 	 * The BitmapData object being referenced.
 	 */
 	public get bitmapData () : BitmapData{
+		if(!this._bitmapData){
+			var image2d:BitmapImage2D=<BitmapImage2D>this.adaptee.material.getTextureAt(0).getImageAt(0);
+			if(!image2d){
+				console.log("Error: can not create bitmapData for Bitmap, because the adaptee-billboard has no valid BitmapImage2D")
+			}
+			var newbitmapdata=new BitmapData(image2d.width, image2d.height);
+			newbitmapdata.adaptee=image2d;
+			this._bitmapData=newbitmapdata;
+		}
 		return this._bitmapData;
 	}
 	public set bitmapData (value:BitmapData){
