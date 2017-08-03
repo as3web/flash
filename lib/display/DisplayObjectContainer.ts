@@ -482,10 +482,10 @@ export class DisplayObjectContainer extends InteractiveObject{
 	public removeChildren (beginIndex:number=0, endIndex:number=2147483647)  {
 
 		if(endIndex>=this.adaptee.numChildren) {
-			endIndex=this.adaptee.numChildren;
+			endIndex=this.adaptee.numChildren-1;
 		}
 
-		for(var i:number /*uint*/ = beginIndex; i < endIndex; i++){
+		for(var i:number /*uint*/ = beginIndex; i <= endIndex; i++){
 			var oneChild:AwayDisplayObject=this.adaptee._children[i];
 			if(oneChild.adapter){
 				//(<DisplayObject>oneChild.adapter).dispatchEventRecursive(new Event(Event.REMOVED_FROM_STAGE));
@@ -494,7 +494,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 		}
 
 
-		this.adaptee.removeChildren(beginIndex, endIndex);
+		this.adaptee.removeChildren(beginIndex, endIndex+1);
 
 		//console.log("removeChildren not implemented yet in flash/DisplayObjectContainer");
 	}
