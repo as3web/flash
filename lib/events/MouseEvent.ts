@@ -549,6 +549,14 @@ export class MouseEvent extends Event
 	 */
 	constructor (type:string, bubbles:boolean=true, cancelable:boolean=false, localX:number=null, localY:number=null, relatedObject:InteractiveObject=null, ctrlKey:boolean=false, altKey:boolean=false, shiftKey:boolean=false, buttonDown:boolean=false, delta:number=0){
 		super(type, bubbles, cancelable);
+		this.localX=localX;
+		this.localY=localY;
+		this.relatedObject=relatedObject;
+		this.ctrlKey=ctrlKey;
+		this.altKey=altKey;
+		this.shiftKey=shiftKey;
+		this.buttonDown=buttonDown;
+		this.delta=delta;
 	}
 	public fillFromJS (jsEvent:any){
 
