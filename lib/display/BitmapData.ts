@@ -29,7 +29,7 @@ export class BitmapData implements IBitmapDrawable
 
 	}
 
-	constructor (width:number, height:number, transparent:boolean=false, fillColor:number=0xffffff)
+	constructor (width:number, height:number, transparent:boolean=true, fillColor:number=0xffffffff)
 	{
 		this._adaptee = new BitmapImage2D(width, height, transparent, fillColor, false);
 	}
