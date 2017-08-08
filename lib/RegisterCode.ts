@@ -11,7 +11,7 @@ import {GL_SkyboxMaterial, GL_BillboardRenderable, GL_LineSegmentRenderable, GL_
 
 import {MethodMaterial, GL_MethodMaterial} from "@awayjs/materials";
 
-import {PartitionBase, CameraNode, EntityNode, SkyboxNode} from "@awayjs/view";
+import {PartitionBase, CameraNode, EntityNode, SkyboxNode, ViewImage2D} from "@awayjs/view";
 
 //enable parsers
 Loader.enableParser(WaveAudioParser);
@@ -31,6 +31,7 @@ RenderablePool.registerAbstraction(GL_ShapeRenderable, Shape);
 RenderablePool.registerAbstraction(GL_SkyboxRenderable, Skybox);
 
 //register graphics images
+Stage.registerAbstraction(GL_RenderImage2D, ViewImage2D);
 Stage.registerAbstraction(GL_RenderImage2D, Image2D);
 Stage.registerAbstraction(GL_RenderImageCube, ImageCube);
 Stage.registerAbstraction(GL_BitmapImage2D, BitmapImage2D);
