@@ -74,6 +74,6 @@ export class BitmapDisplayObject implements IBitmapDrawable
 
 	public draw(source:IDisplayObjectAdapter, matrix:Matrix, colorTransform:ColorTransform = null, blendMode:any = "", clipRect:Rectangle = null, smooth:boolean = false)
 	{
-		this._adaptee.draw(source.adaptee, matrix);
+			this._adaptee.draw(source.adaptee, matrix, colorTransform);
 	}
 }
