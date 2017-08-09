@@ -1,4 +1,4 @@
-
+import {StageManager} from "@awayjs/stage";
 import {ImageData} from "@awayjs/graphics";
 //****************************************************************************
 // ActionScript Standard Library
@@ -10,17 +10,17 @@ import { Matrix  } from "../geom/Matrix"
 import { ColorTransform } from "../geom/ColorTransform"
 import { BitmapFilter } from "../filters/BitmapFilter"
 import { IBitmapDrawable } from "./IBitmapDrawable"
-import { BitmapImage2D } from "@awayjs/graphics"
+import { ViewImage2D } from "@awayjs/view"
 
 export class BitmapData implements IBitmapDrawable
 {
-	private _adaptee:BitmapImage2D;
+	private _adaptee:ViewImage2D;
 
 	// return the adaptee cast to AwayDisplayObjectContainer. just a helper to avoid casting everywhere
-	public get adaptee():BitmapImage2D {
-		return (<BitmapImage2D>this._adaptee);
+	public get adaptee():ViewImage2D {
+		return (<ViewImage2D>this._adaptee);
 	}
-	public set adaptee(adaptee:BitmapImage2D) {
+	public set adaptee(adaptee:ViewImage2D) {
 		this._adaptee=adaptee;
 	}
 	static loadBitmap(id:string):BitmapData{
@@ -31,7 +31,7 @@ export class BitmapData implements IBitmapDrawable
 
 	constructor (width:number, height:number, transparent:boolean=true, fillColor:number=0xffffffff)
 	{
-		this._adaptee = new BitmapImage2D(width, height, transparent, fillColor, false);
+		this._adaptee = new ViewImage2D(width, height, transparent, fillColor, false, StageManager.getInstance().getStageAt(0));
 	}
 
 	public get transparent():boolean{
@@ -96,9 +96,9 @@ export class BitmapData implements IBitmapDrawable
 		this._adaptee.dispose();
 		this._adaptee = null;
 	}
-	public draw(source:any, matrix:Matrix, colorTransform:ColorTransform = null, blendMode:any = "", clipRect:Rectangle = null, smooth:boolean = false){
-		console.log("draw not implemented yet in flash/BitmapData");
-
+	public draw(source:any, matrix:Matrix, colorTransform:ColorTransform = null, blendMode:any = "", clipRect:Rectangle = null, smooth:boolean = false)
+	{
+		this._adaptee.draw(source.adaptee, matrix, colorTransform, blendMode, clipRect, smooth);
 	}
 	public fillRect (rect:Rectangle, color:number)
 	{

@@ -31,7 +31,7 @@ export class BitmapDisplayObject implements IBitmapDrawable
 
 	constructor (width:number, height:number, transparent:boolean=true, fillColor:number=0xffffffff)
 	{
-		this._adaptee = new ViewImage2D(width, height, transparent, fillColor, StageManager.getInstance().getStageAt(0));
+		this._adaptee = new ViewImage2D(width, height, transparent, fillColor, false, StageManager.getInstance().getStageAt(0));
 	}
 
 	public get transparent():boolean{
@@ -39,13 +39,6 @@ export class BitmapDisplayObject implements IBitmapDrawable
 	}
 	public set transparent(value:boolean) {
 		this._adaptee.transparent=value;
-	}
-
-	public get fillColor():number{
-		return this._adaptee.fillColor;
-	}
-	public set fillColor(value:number) {
-		this._adaptee.fillColor=value;
 	}
 
 	public get width():number
@@ -69,7 +62,7 @@ export class BitmapDisplayObject implements IBitmapDrawable
 	public clone():BitmapDisplayObject
 	{
 		//console.log("BitmapData: todo: make sure clone is working correctly");
-		var clone:BitmapDisplayObject = new BitmapDisplayObject(this._adaptee.width, this._adaptee.height);
+		var clone:BitmapDisplayObject = new BitmapDisplayObject(this._adaptee.width, this._adaptee.height, this._adaptee.transparent);
 		clone.adaptee = this._adaptee.clone();
 
 		return clone;

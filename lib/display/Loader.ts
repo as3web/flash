@@ -1,5 +1,5 @@
 
-import {Loader as AwayLoader} from "@awayjs/core";
+import {Loader as AwayLoader, Point} from "@awayjs/core";
 import {LoaderContainer as AwayLoaderContainer} from "@awayjs/scene";
 import {AWDParser} from "@awayjs/parsers";
 import {LoaderInfo} from "./LoaderInfo";
@@ -20,6 +20,7 @@ import {BitmapImage2D} from "@awayjs/graphics";
 import {Sound} from "../media/Sound";
 import {Billboard} from "@awayjs/scene";
 import {MethodMaterial} from "@awayjs/materials";
+import {ViewImage2D} from "@awayjs/view";
 // todo: define all methods (start new with converting as3-Loader to ts ?)
 
 export class Loader extends DisplayObjectContainer{
@@ -76,7 +77,7 @@ export class Loader extends DisplayObjectContainer{
 		}
 		else if(event.asset.isAsset(BitmapImage2D)) {
 			var newbitmapdata=new BitmapData((<BitmapImage2D>event.asset).width, (<BitmapImage2D>event.asset).height);
-			newbitmapdata.adaptee=(<BitmapImage2D>event.asset);
+			newbitmapdata.adaptee.copyPixels(<BitmapImage2D> event.asset, newbitmapdata.adaptee.rect, new Point());
 			var newbitmap=new Bitmap(newbitmapdata);
 			newbitmap.adaptee.adapter=newbitmap;
 			this._loaderContext.applicationDomain.addDefinition(event.asset.name, newbitmap.adaptee);
@@ -91,7 +92,7 @@ export class Loader extends DisplayObjectContainer{
 			/*var newAudio=new Sound();
 			newAudio.adaptee=(<WaveAudio>event.asset);
 			newAudio.play();*/
-			//newbitmapdata.adaptee=(<BitmapImage2D>event.asset);
+			//newbitmapdata.adaptee=(<ViewImage2D>event.asset);
 			this._loaderContext.applicationDomain.addAudioDefinition(event.asset.name, (<WaveAudio>event.asset));
 		}
 		else if(event.asset.isAsset(Font)) {
