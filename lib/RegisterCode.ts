@@ -31,7 +31,7 @@ RenderablePool.registerAbstraction(GL_ShapeRenderable, Shape);
 RenderablePool.registerAbstraction(GL_SkyboxRenderable, Skybox);
 
 //register graphics images
-Stage.registerAbstraction(GL_RenderImage2D, ViewImage2D);
+Stage.registerAbstraction(GL_BitmapImage2D, ViewImage2D);
 Stage.registerAbstraction(GL_RenderImage2D, Image2D);
 Stage.registerAbstraction(GL_RenderImageCube, ImageCube);
 Stage.registerAbstraction(GL_BitmapImage2D, BitmapImage2D);

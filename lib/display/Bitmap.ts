@@ -3,8 +3,9 @@ import { DisplayObject } from "./DisplayObject";
 import { BitmapData } from "./BitmapData";
 import { BitmapDisplayObject } from "./BitmapDisplayObject";
 import {MethodMaterial} from "@awayjs/materials";
-import {Single2DTexture, BitmapImage2D, Style, Sampler2D} from "@awayjs/graphics";
+import {Single2DTexture, Style, Sampler2D} from "@awayjs/graphics";
 import {Matrix} from "@awayjs/core"
+import {ViewImage2D} from "@awayjs/view";
 
 /**
  * The Bitmap class represents display objects that represent bitmap images. These can be images
@@ -87,9 +88,9 @@ export class Bitmap extends DisplayObject
 	 */
 	public get bitmapData () : BitmapData | BitmapDisplayObject{
 		if(!this._bitmapData){
-			var image2d:BitmapImage2D=<BitmapImage2D>this.adaptee.material.getTextureAt(0).getImageAt(0);
+			var image2d:ViewImage2D=<ViewImage2D>(<MethodMaterial> this.adaptee.material).style.image;
 			if(!image2d){
-				console.log("Error: can not create bitmapData for Bitmap, because the adaptee-billboard has no valid BitmapImage2D")
+				console.log("Error: can not create bitmapData for Bitmap, because the adaptee-billboard has no valid ViewImage2D")
 			}
 			var newbitmapdata=new BitmapData(image2d.width, image2d.height);
 			newbitmapdata.adaptee=image2d;
