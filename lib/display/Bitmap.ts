@@ -1,6 +1,7 @@
 import {Billboard, IDisplayObjectAdapter} from "@awayjs/scene";
 import { DisplayObject } from "./DisplayObject";
 import { BitmapData } from "./BitmapData";
+import { BitmapDisplayObject } from "./BitmapDisplayObject";
 import {MethodMaterial} from "@awayjs/materials";
 import {Single2DTexture, BitmapImage2D, Style, Sampler2D} from "@awayjs/graphics";
 import {Matrix} from "@awayjs/core"
@@ -30,7 +31,8 @@ import {Matrix} from "@awayjs/core"
  */
 export class Bitmap extends DisplayObject
 {
-	private _bitmapData:BitmapData;
+	private _texture:Single2DTexture;
+	private _bitmapData:BitmapData | BitmapDisplayObject;
 	/**
 	 * Initializes a Bitmap object to refer to the specified BitmapData object.
 	 * @param	bitmapData	The BitmapData object being referenced.
@@ -39,25 +41,23 @@ export class Bitmap extends DisplayObject
 	 *   following examples show the same bitmap scaled by a factor of 3, with
 	 *   smoothing set to false (left) and true (right):
 	 */
-	constructor (bitmapData:BitmapData=null, pixelSnapping:string="auto", smoothing:boolean=false){
+	constructor (bitmapData:BitmapData | BitmapDisplayObject = null, pixelSnapping:string="auto", smoothing:boolean=false)
+	{
 		super();
+
+		var newMaterial:MethodMaterial;
+
 		if(bitmapData){
-			this._bitmapData=bitmapData;
-			var newMaterial=new MethodMaterial();
-			newMaterial.ambientMethod.texture = new Single2DTexture(this._bitmapData.adaptee);
+			this._bitmapData = bitmapData;
+			newMaterial = new MethodMaterial(this._bitmapData.adaptee);
 			newMaterial.alphaBlending=true;
-			this.adaptee=new Billboard(newMaterial, pixelSnapping, smoothing);
-			this.adaptee.adapter=this;
-		/*	this.adaptee.style=new Style();
-			this.adaptee.style.uvMatrix=new Matrix(1,0,0,-1,0,0);
-			//billboard.style.uvMatrix.scale(1,1);
-			newMaterial.animateUVs=true;*/
 		}
 		else{
-			this.adaptee=new Billboard(new MethodMaterial(0xff0000));//);
-			this.adaptee.adapter=this;
+			newMaterial = new MethodMaterial(0x0);
+			newMaterial.alphaBlending=true;
 		}
-		
+		this.adaptee=new Billboard(newMaterial, pixelSnapping, smoothing);
+		this.adaptee.adapter=this;
 	}
 
 	// return the adaptee cast to AwayDisplayObjectContainer. just a helper to avoid casting everywhere
@@ -85,7 +85,7 @@ export class Bitmap extends DisplayObject
 	/**
 	 * The BitmapData object being referenced.
 	 */
-	public get bitmapData () : BitmapData{
+	public get bitmapData () : BitmapData | BitmapDisplayObject{
 		if(!this._bitmapData){
 			var image2d:BitmapImage2D=<BitmapImage2D>this.adaptee.material.getTextureAt(0).getImageAt(0);
 			if(!image2d){
@@ -97,9 +97,17 @@ export class Bitmap extends DisplayObject
 		}
 		return this._bitmapData;
 	}
-	public set bitmapData (value:BitmapData){
-		this._bitmapData=value;
-		this.adaptee.material.addTexture(new Single2DTexture(this._bitmapData.adaptee));
+	public set bitmapData (value:BitmapData | BitmapDisplayObject)
+	{
+		// if (this._bitmapData == value)
+		// 	return;
+		this._bitmapData = value;
+
+		if (!(<MethodMaterial> this.adaptee.material).ambientMethod.texture)
+			(<MethodMaterial> this.adaptee.material).ambientMethod.texture = new Single2DTexture();
+
+		(<MethodMaterial> this.adaptee.material).style.image = this._bitmapData.adaptee;
+		(<MethodMaterial> this.adaptee.material).invalidateTexture();
 	}
 
 	/**
