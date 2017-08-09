@@ -29,9 +29,23 @@ export class BitmapDisplayObject implements IBitmapDrawable
 		this._adaptee=adaptee;
 	}
 
-	constructor (width:number, height:number)
+	constructor (width:number, height:number, transparent:boolean=true, fillColor:number=0xffffffff)
 	{
-		this._adaptee = new ViewImage2D(width, height, StageManager.getInstance().getStageAt(0));
+		this._adaptee = new ViewImage2D(width, height, transparent, fillColor, StageManager.getInstance().getStageAt(0));
+	}
+
+	public get transparent():boolean{
+		return this._adaptee.transparent;
+	}
+	public set transparent(value:boolean) {
+		this._adaptee.transparent=value;
+	}
+
+	public get fillColor():number{
+		return this._adaptee.fillColor;
+	}
+	public set fillColor(value:number) {
+		this._adaptee.fillColor=value;
 	}
 
 	public get width():number
