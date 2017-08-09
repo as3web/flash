@@ -58,7 +58,7 @@ export class BitmapData implements IBitmapDrawable
 	public clone():BitmapData{
 		//console.log("BitmapData: todo: make sure clone is working correctly");
 		var clone:BitmapData=new BitmapData(this.adaptee.width, this.adaptee.height, this.adaptee.transparent);
-
+		clone.copyPixels(this, this.rect, new Point());
 		return clone;
 
 	}
@@ -141,7 +141,7 @@ export class BitmapData implements IBitmapDrawable
 				 greenMult:number,
 				 blueMult:number,
 				 alphaMult:number){
-		console.log("merge not implemented yet in flash/BitmapData");
+		this._adaptee.merge(sourceBitmap.adaptee, sourceBitmap.rect, destPoint, redMult, greenMult, blueMult, alphaMult)
 
 	}
 	public noise(randomSeed:number, low:number, high:number,
