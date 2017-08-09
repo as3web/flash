@@ -1,7 +1,6 @@
 import {Billboard, IDisplayObjectAdapter} from "@awayjs/scene";
 import { DisplayObject } from "./DisplayObject";
 import { BitmapData } from "./BitmapData";
-import { BitmapDisplayObject } from "./BitmapDisplayObject";
 import {MethodMaterial} from "@awayjs/materials";
 import {Single2DTexture, Style, Sampler2D} from "@awayjs/graphics";
 import {Matrix} from "@awayjs/core"
@@ -33,7 +32,7 @@ import {ViewImage2D} from "@awayjs/view";
 export class Bitmap extends DisplayObject
 {
 	private _texture:Single2DTexture;
-	private _bitmapData:BitmapData | BitmapDisplayObject;
+	private _bitmapData:BitmapData;
 	/**
 	 * Initializes a Bitmap object to refer to the specified BitmapData object.
 	 * @param	bitmapData	The BitmapData object being referenced.
@@ -42,7 +41,7 @@ export class Bitmap extends DisplayObject
 	 *   following examples show the same bitmap scaled by a factor of 3, with
 	 *   smoothing set to false (left) and true (right):
 	 */
-	constructor (bitmapData:BitmapData | BitmapDisplayObject = null, pixelSnapping:string="auto", smoothing:boolean=false)
+	constructor (bitmapData:BitmapData = null, pixelSnapping:string="auto", smoothing:boolean=false)
 	{
 		super();
 
@@ -86,7 +85,8 @@ export class Bitmap extends DisplayObject
 	/**
 	 * The BitmapData object being referenced.
 	 */
-	public get bitmapData () : BitmapData | BitmapDisplayObject{
+	public get bitmapData () : BitmapData
+	{
 		if(!this._bitmapData){
 			var image2d:ViewImage2D=<ViewImage2D>(<MethodMaterial> this.adaptee.material).style.image;
 			if(!image2d){
@@ -98,7 +98,7 @@ export class Bitmap extends DisplayObject
 		}
 		return this._bitmapData;
 	}
-	public set bitmapData (value:BitmapData | BitmapDisplayObject)
+	public set bitmapData (value:BitmapData)
 	{
 		// if (this._bitmapData == value)
 		// 	return;

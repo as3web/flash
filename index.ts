@@ -5,7 +5,6 @@ export {ClipboardFormats} from "./lib/desktop/ClipboardFormats";
 export {Bitmap} from "./lib/display/Bitmap";
 export {BitmapData} from "./lib/display/BitmapData";
 export {BitmapDataChannel} from "./lib/display/BitmapDataChannel";
-export {BitmapDisplayObject} from "./lib/display/BitmapDisplayObject";
 export {BlendMode} from "./lib/display/BlendMode";
 export {CapsStyle} from "./lib/display/CapsStyle";
 export {DisplayObject} from "./lib/display/DisplayObject";
