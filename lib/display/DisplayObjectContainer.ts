@@ -324,10 +324,9 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * @playerversion	Flash 9
 	 * @playerversion	Lite 4
 	 */
-	public contains (child:DisplayObject) : boolean {
-		//todo
-		throw("contains not implemented yet in flash/DisplayObjectContainer");
-		//return false;
+	public contains(child:DisplayObject) : boolean
+	{
+		return (<AwayDisplayObjectContainer>this.adaptee).contains(child.adaptee);
 	}
 
 
