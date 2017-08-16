@@ -22,30 +22,17 @@ export class Sprite extends DisplayObjectContainer{
 	 * DisplayObjectContainer.addChild() or DisplayObjectContainer.addChildAt()
 	 * method to add the Sprite to a parent DisplayObjectContainer.
 	 */
-	constructor(adaptee:AwaySprite=null){
-		super(adaptee);
-		if(adaptee==null){
-
-			this.adaptee=new AwaySprite();
-			this.adaptee.adapter=this;
-		}
+	constructor(adaptee:AwaySprite = null)
+	{
+		super(adaptee || new AwaySprite());
 	}
 
 	//---------------------------stuff added to make it work:
 
 
-	public get adaptee():AwaySprite {
-		return (<AwaySprite>this._adaptee);
-	}
-	public set adaptee(adaptee:AwaySprite) {
-		this._adaptee=adaptee;
-	}
-
-	public clone(newAdaptee:AwaySprite=null):IDisplayObjectAdapter{
-		//console.log("clone not implemented yet in flash/DisplayObject");
-		var newSprite:Sprite=new Sprite();
-		newSprite.adaptee=newAdaptee;
-		return newSprite;
+	public clone():Sprite
+	{
+		return new Sprite(<AwaySprite> this._adaptee.clone());
 	}
 
 	//---------------------------original as3 properties / methods:
@@ -103,8 +90,9 @@ export class Sprite extends DisplayObjectContainer{
 	 * Specifies the Graphics object that belongs to this sprite where vector
 	 * drawing commands can occur.
 	 */
-	public get graphics () : Graphics{
-		return this.adaptee.graphics;
+	public get graphics () : Graphics
+	{
+		return (<AwaySprite> this._adaptee).graphics;
 	}
 
 	/**

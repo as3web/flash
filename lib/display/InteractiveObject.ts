@@ -313,7 +313,7 @@ export class InteractiveObject extends DisplayObject{
 	 *
 	 *   new SimpleButton()new TextField()new Loader()new Sprite()new MovieClip()
 	 */
-	constructor(adaptee:AwayDisplayObject=null){
+	constructor(adaptee:AwayDisplayObject = null){
 		super(adaptee);
 
 

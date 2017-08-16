@@ -6,7 +6,9 @@ import {LoaderInfo} from "./LoaderInfo";
 import {DisplayObjectContainer} from "./DisplayObjectContainer";
 import {Stage} from "./Stage";
 
-export class DisplayObject extends EventDispatcher implements IDisplayObjectAdapter{
+export class DisplayObject extends EventDispatcher implements IDisplayObjectAdapter
+{
+	protected _adaptee:AwayDisplayObject;
 	/**
 	 *
 	 *
@@ -77,8 +79,12 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 
 	 */
 
-	constructor(adaptee:AwayDisplayObject=null){
-		super(adaptee);
+	constructor(adaptee:AwayDisplayObject = null)
+	{
+		super();
+
+		this._adaptee = adaptee || new AwayDisplayObject();
+		this._adaptee.adapter = this;
 
 		// needed, because `this.stage` must already be available when constructor of extending classes are executed
 		this._stage=DisplayObject.activeStage;
@@ -134,9 +140,10 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 
 	// --------------------- stuff needed because of implementing the existing IDisplayObjectAdapter
 
-	public get adaptee():AwayDisplayObject{
+	public get adaptee():AwayDisplayObject
+	{
 		return (<AwayDisplayObject>this._adaptee);
-	};
+	}
 
 	public isBlockedByScript():boolean{
 		//console.log("isBlockedByScript not implemented yet in flash/DisplayObject");
@@ -152,9 +159,9 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 		//console.log("freeFromScript not implemented yet in flash/DisplayObject");
 	}
 
-	public clone(newAdaptee:AwayDisplayObject=null):IDisplayObjectAdapter{
-		//console.log("clone not implemented yet in flash/DisplayObject");
-		return new DisplayObject(this.adaptee);
+	public clone():DisplayObject
+	{
+		return new DisplayObject(this._adaptee.clone());
 	}
 
 	public dispose(){

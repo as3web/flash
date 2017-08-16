@@ -58,12 +58,9 @@ export class TextField extends InteractiveObject
 	 * DisplayObjectContainer object to add the TextField instance to the display list.
 	 * The default size for a text field is 100 x 100 pixels.
 	 */
-	constructor (adaptee:AwayTextField=null){
-		super(adaptee);
-		if(adaptee==null){
-			this.adaptee=new AwayTextField();
-			this.adaptee.adapter=this;
-		}
+	constructor (adaptee:AwayTextField = null){
+		super(adaptee || new AwayTextField());
+
 		//this.adaptee.width=100;//80pro!
 		// register all events for Textfield as dummys right now
 

@@ -64,6 +64,7 @@ import { WaveAudio } from "@awayjs/core";
  */
 export class Sound extends EventDispatcher
 {
+	private _adaptee:WaveAudio;
 
 	/**
 	 * Creates a new Sound object. If you pass a valid URLRequest object to the
@@ -362,7 +363,7 @@ export class Sound extends EventDispatcher
 	 * @refpath
 	 */
 	public play (startTime:number=0, loops:number=0, sndTransform:SoundTransform=null) : SoundChannel{
-		this.adaptee.play(startTime, loops>0);
+		this._adaptee.play(startTime, loops>0);
 		//console.log("play not implemented yet in flash/Sound");
 		return null;
 	}

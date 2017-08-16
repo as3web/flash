@@ -121,10 +121,9 @@ export class ApplicationDomain
 	public getDefinition (name:string) : any{
 
 		if(this._definitions[name]){
-			var awayobj:AwayDisplayObject=this._definitions[name].clone();
-			var newAdapter:IDisplayObjectAdapter=this._definitions[name].adapter.clone(awayobj);
-			if(awayobj.isAsset(AwayMovieClip)){
-				(<AwayMovieClip>awayobj).currentFrameIndex=0;
+			var newAdapter:IDisplayObjectAdapter=this._definitions[name].adapter.clone();
+			if(newAdapter.adaptee.isAsset(AwayMovieClip)){
+				(<AwayMovieClip>newAdapter.adaptee).currentFrameIndex=0;
 			}
 			return newAdapter;
 		}

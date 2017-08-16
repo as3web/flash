@@ -266,11 +266,6 @@ export class Stage extends Sprite{
 		DisplayObject.activeStage=this;
 		this._stage=this;
 
-		// create the adaptee
-
-		this.adaptee=new AwaySprite();
-		this.adaptee.adapter=this;
-
 		// init awayengine
 		this.initEninge();
 
@@ -284,7 +279,6 @@ export class Stage extends Sprite{
 		// create the entrance-class
 		// this is the moment the converted as3-code is executed
 		this._mainSprite=new startClass();
-		this._mainSprite.adaptee.adapter=this._mainSprite;
 
 		// make sure we have a background, so any mousedowns on stage are registered even if no object is hit
 		// it might make more sense to put this bg on the stage, but if i try to draw into the stage,

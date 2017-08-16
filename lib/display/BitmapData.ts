@@ -1,3 +1,4 @@
+import {IAssetAdapter} from "@awayjs/core";
 import {StageManager} from "@awayjs/stage";
 import {ImageData} from "@awayjs/graphics";
 //****************************************************************************
@@ -12,17 +13,15 @@ import { BitmapFilter } from "../filters/BitmapFilter"
 import { IBitmapDrawable } from "./IBitmapDrawable"
 import { ViewImage2D } from "@awayjs/view"
 
-export class BitmapData implements IBitmapDrawable
+export class BitmapData implements IBitmapDrawable, IAssetAdapter
 {
 	private _adaptee:ViewImage2D;
 
-	// return the adaptee cast to AwayDisplayObjectContainer. just a helper to avoid casting everywhere
-	public get adaptee():ViewImage2D {
-		return (<ViewImage2D>this._adaptee);
+	public get adaptee():ViewImage2D
+	{
+		return this._adaptee;
 	}
-	public set adaptee(adaptee:ViewImage2D) {
-		this._adaptee=adaptee;
-	}
+
 	static loadBitmap(id:string):BitmapData{
 		console.log("loadBitmap not implemented yet in flash/BitmapData");
 		return null;
@@ -32,36 +31,43 @@ export class BitmapData implements IBitmapDrawable
 	constructor (width:number, height:number, transparent:boolean=true, fillColor:number=0xffffffff)
 	{
 		this._adaptee = new ViewImage2D(width, height, transparent, fillColor, false, StageManager.getInstance().getStageAt(0));
+		this._adaptee.adapter = this;
 	}
 
-	public get transparent():boolean{
+	public get transparent():boolean
+	{
 		return this._adaptee.transparent;
 	}
-	public set transparent(value:boolean) {
+	public set transparent(value:boolean)
+	{
 		this._adaptee.transparent=value;
 	}
 
-	public get width():number{
+	public get width():number
+	{
 		return this._adaptee.width;
 	}
-	public set width(value:number) {
+	public set width(value:number)
+	{
 		this._adaptee.width=value;
 	}
 
-	public get height():number{
+	public get height():number
+	{
 		return this._adaptee.height;
 	}
-	public set height(value:number) {
+	public set height(value:number)
+	{
 		this._adaptee.height=value;
 	}
 	
-	public clone():BitmapData{
-		//console.log("BitmapData: todo: make sure clone is working correctly");
-		var clone:BitmapData=new BitmapData(this.adaptee.width, this.adaptee.height, this.adaptee.transparent);
+	public clone():BitmapData
+	{
+		var clone:BitmapData=new BitmapData(this._adaptee.width, this._adaptee.height, this._adaptee.transparent);
 		clone.copyPixels(this, this.rect, new Point());
 		return clone;
-
 	}
+
 	public get rect():Rectangle{
 		return this._adaptee.rect;
 	}
@@ -92,10 +98,12 @@ export class BitmapData implements IBitmapDrawable
 	public copyPixels(sourceBitmap:any, sourceRect:Rectangle, destPoint:Point, alphaBitmapData:BitmapData = null, alphaPoint:Point = null, mergeAlpha:boolean = false){
 		this._adaptee.copyPixels(sourceBitmap.adaptee, sourceRect, destPoint);
 	}
-	public dispose(){
+	public dispose()
+	{
 		this._adaptee.dispose();
 		this._adaptee = null;
 	}
+
 	public draw(source:any, matrix:Matrix, colorTransform:ColorTransform = null, blendMode:any = "", clipRect:Rectangle = null, smooth:boolean = false)
 	{
 		this._adaptee.draw(source.adaptee, matrix, colorTransform, blendMode, clipRect, smooth);

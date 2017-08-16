@@ -1,3 +1,4 @@
+import {Point} from "@awayjs/core";
 import {Billboard, IDisplayObjectAdapter} from "@awayjs/scene";
 import { DisplayObject } from "./DisplayObject";
 import { BitmapData } from "./BitmapData";
@@ -43,43 +44,30 @@ export class Bitmap extends DisplayObject
 	 */
 	constructor (bitmapData:BitmapData = null, pixelSnapping:string="auto", smoothing:boolean=false)
 	{
-		super();
 
 		var newMaterial:MethodMaterial;
 
 		if(bitmapData){
-			this._bitmapData = bitmapData;
-			newMaterial = new MethodMaterial(this._bitmapData.adaptee);
+			newMaterial = new MethodMaterial(bitmapData.adaptee);
 			newMaterial.alphaBlending=true;
 		}
 		else{
 			newMaterial = new MethodMaterial(0x0);
 			newMaterial.alphaBlending=true;
 		}
-		this.adaptee=new Billboard(newMaterial, pixelSnapping, smoothing);
-		this.adaptee.adapter=this;
+
+		super(new Billboard(newMaterial, pixelSnapping, smoothing));
+
+		this._bitmapData = bitmapData;
 	}
 
-	// return the adaptee cast to AwayDisplayObjectContainer. just a helper to avoid casting everywhere
-	public get adaptee():Billboard {
-		return (<Billboard>this._adaptee);
-	}
-	public set adaptee(adaptee:Billboard) {
-		this._adaptee=adaptee;
-	}
+	public clone():Bitmap
+	{
+		var newInstance:Bitmap = new Bitmap(this._bitmapData);
 
-	public clone(newAdaptee:Billboard=null):IDisplayObjectAdapter{
-		//console.log("clone not implemented yet in flash/DisplayObject");
-		var newBitmap:Bitmap=new Bitmap();
-		newBitmap.adaptee=newAdaptee;
-/*
-		newBitmap.adaptee.style=new Style();
-		newBitmap.adaptee.style.uvMatrix=new Matrix(1,0,0,-1,0,0);
-		newBitmap.adaptee.material.animateUVs=true;
-		*/
-		//newBitmap.adaptee.material.style.sampler=new Sampler2D(true, true, true);
-		//newBitmap.adaptee.style.sampler=newBitmap.adaptee.material.style.sampler;
-		return newBitmap;
+		this._adaptee.copyTo(newInstance.adaptee);
+
+		return newInstance;
 	}
 
 	/**
@@ -88,27 +76,29 @@ export class Bitmap extends DisplayObject
 	public get bitmapData () : BitmapData
 	{
 		if(!this._bitmapData){
-			var image2d:ViewImage2D=<ViewImage2D>(<MethodMaterial> this.adaptee.material).style.image;
+			var image2d:ViewImage2D=<ViewImage2D>(<MethodMaterial> (<Billboard> this._adaptee).material).style.image;
 			if(!image2d){
 				console.log("Error: can not create bitmapData for Bitmap, because the adaptee-billboard has no valid ViewImage2D")
 			}
-			var newbitmapdata=new BitmapData(image2d.width, image2d.height);
-			newbitmapdata.adaptee=image2d;
-			this._bitmapData=newbitmapdata;
+			this._bitmapData = new BitmapData(image2d.width, image2d.height);
+
+			this._bitmapData.adaptee.copyPixels(image2d, image2d.rect, new Point());
 		}
+
 		return this._bitmapData;
 	}
+
 	public set bitmapData (value:BitmapData)
 	{
 		// if (this._bitmapData == value)
 		// 	return;
 		this._bitmapData = value;
 
-		if (!(<MethodMaterial> this.adaptee.material).ambientMethod.texture)
-			(<MethodMaterial> this.adaptee.material).ambientMethod.texture = new Single2DTexture();
+		if (!(<MethodMaterial> (<Billboard> this._adaptee).material).ambientMethod.texture)
+			(<MethodMaterial> (<Billboard> this._adaptee).material).ambientMethod.texture = new Single2DTexture();
 
-		(<MethodMaterial> this.adaptee.material).style.image = this._bitmapData.adaptee;
-		(<MethodMaterial> this.adaptee.material).invalidateTexture();
+		(<MethodMaterial> (<Billboard> this._adaptee).material).style.image = this._bitmapData.adaptee;
+		(<MethodMaterial> (<Billboard> this._adaptee).material).invalidateTexture();
 	}
 
 	/**

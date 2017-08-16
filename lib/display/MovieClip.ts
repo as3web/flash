@@ -28,22 +28,8 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 	 * addChild() or addChildAt() method of a
 	 * display object container that is onstage.
 	 */
-	constructor(adaptee:AwayMovieClip=null){
-		super(adaptee);
-		if(adaptee==null){
-			this.adaptee=new AwayMovieClip();
-			this.adaptee.adapter=this;
-		}
-	}
-
-
-	//---------------------------stuff added to make it work:
-
-	public get adaptee():AwayMovieClip {
-		return (<AwayMovieClip>this._adaptee);
-	}
-	public set adaptee(adaptee:AwayMovieClip) {
-		this._adaptee=adaptee;
+	constructor(adaptee:AwayMovieClip = null){
+		super(adaptee || new AwayMovieClip());
 	}
 	
 	// --------------------- stuff needed because of implementing the existing IMovieClipAdapter
@@ -63,11 +49,9 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 
 	}
 
-	public clone(newAdaptee:AwayMovieClip=null):IDisplayObjectAdapter{
-		//console.log("clone not implemented yet in flash/DisplayObject");
-		var newMovie:MovieClip=new MovieClip();
-		newMovie.adaptee=newAdaptee;
-		return newMovie;
+	public clone():MovieClip
+	{
+		return new MovieClip(<AwayMovieClip> this._adaptee.clone());
 	}
 
 	//---------------------------original as3 properties / methods:
@@ -77,8 +61,9 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 	 * the MovieClip instance. If the movie clip has multiple scenes, this value is the
 	 * frame number in the current scene.
 	 */
-	public get currentFrame () : number {		
-		return this.adaptee.currentFrameIndex;
+	public get currentFrame () : number
+	{
+		return (<AwayMovieClip> this._adaptee).currentFrameIndex;
 	}
 
 	/**
@@ -183,7 +168,7 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 	 * the total number of frames in all scenes in the movie clip.
 	 */
 	public get totalFrames () : number{
-		return this.adaptee.numFrames;
+		return (<AwayMovieClip> this._adaptee).numFrames;
 	}
 
 	/**
@@ -254,9 +239,9 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 	private _gotoFrame(frame:any):void
 	{
 		if (typeof frame === "string")
-			this.adaptee.jumpToLabel(<string>frame);
+			(<AwayMovieClip> this._adaptee).jumpToLabel(<string>frame);
 		else
-			this.adaptee.currentFrameIndex = (<number>frame) - 1;
+			(<AwayMovieClip> this._adaptee).currentFrameIndex = (<number>frame) - 1;
 	}
 	/**
 	 * Sends the playhead to the next frame and stops it.  This happens after all
@@ -280,7 +265,7 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 	 * Moves the playhead in the timeline of the movie clip.
 	 */
 	public play (){
-		return this.adaptee.play();
+		return (<AwayMovieClip> this._adaptee).play();
 	}
 
 	/**
@@ -305,7 +290,7 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 	 * Stops the playhead in the movie clip.
 	 */
 	public stop (){
-		return this.adaptee.stop();
+		return (<AwayMovieClip> this._adaptee).stop();
 	}
 
 }

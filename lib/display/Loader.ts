@@ -23,7 +23,8 @@ import {MethodMaterial} from "@awayjs/materials";
 import {ViewImage2D} from "@awayjs/view";
 // todo: define all methods (start new with converting as3-Loader to ts ?)
 
-export class Loader extends DisplayObjectContainer{
+export class Loader extends DisplayObjectContainer
+{
 
 	private _loader:AwayLoader;
 
@@ -36,9 +37,6 @@ export class Loader extends DisplayObjectContainer{
 		AwayLoader.enableParser(AWDParser);
 		this._onLoaderCompleteDelegate = (event:LoaderEvent) => this.onLoaderComplete(event);
 		this._onAssetCompleteDelegate = (event:AssetEvent) => this.onAssetComplete(event);
-		
-		this.adaptee=new AwayDisplayObjectContainer();
-		this.adaptee.adapter=this;
 						
 		AssetLibrary.enableParser(AWDParser);
 		this._loaderInfoAS=new LoaderInfo();
@@ -70,16 +68,15 @@ export class Loader extends DisplayObjectContainer{
 
 		if(event.asset.isAsset(AwayTextField)) {
 			var awayTxt:AwayTextField=(<AwayTextField>event.asset);
-			awayTxt.adapter=new TextField(awayTxt);
-			(<TextField>awayTxt.adapter).adaptee=awayTxt;
+			new TextField(awayTxt);
 			this._loaderContext.applicationDomain.addDefinition(event.asset.name, awayTxt);
 			this._loaderInfoAS.content=(<DisplayObject>this._loaderContext.applicationDomain.getDefinition(event.asset.name));
 		}
 		else if(event.asset.isAsset(BitmapImage2D)) {
-			var newbitmapdata=new BitmapData((<BitmapImage2D>event.asset).width, (<BitmapImage2D>event.asset).height);
+			var newbitmapdata = new BitmapData((<BitmapImage2D>event.asset).width, (<BitmapImage2D>event.asset).height);
 			newbitmapdata.adaptee.copyPixels(<BitmapImage2D> event.asset, newbitmapdata.adaptee.rect, new Point());
 			var newbitmap=new Bitmap(newbitmapdata);
-			newbitmap.adaptee.adapter=newbitmap;
+
 			this._loaderContext.applicationDomain.addDefinition(event.asset.name, newbitmap.adaptee);
 			this._loaderInfoAS.content=(<Bitmap>this._loaderContext.applicationDomain.getDefinition(event.asset.name));
 			//todo: for awd a bitmap should not be added the loader as billboard.
@@ -99,16 +96,14 @@ export class Loader extends DisplayObjectContainer{
 			this._loaderContext.applicationDomain.addFontDefinition(event.asset.name, (<Font>event.asset));
 		}
 		else if(event.asset.isAsset(AwaySprite)) {
-			var awaySprite:AwaySprite=(<AwaySprite>event.asset);
-			awaySprite.adapter=new Sprite(awaySprite);
-			(<Sprite>awaySprite.adapter).adaptee=awaySprite;
+			var awaySprite:AwaySprite = <AwaySprite> event.asset;
+			new Sprite(awaySprite);
 			this._loaderContext.applicationDomain.addDefinition(event.asset.name, awaySprite);
 			this._loaderInfoAS.content=(<DisplayObject>this._loaderContext.applicationDomain.getDefinition(event.asset.name));
 		}
 		else if(event.asset.isAsset(AwayMovieClip)) {
-			var awayMC:AwayMovieClip=(<AwayMovieClip>event.asset);
-			awayMC.adapter=new MovieClip(awayMC);
-			(<MovieClip>awayMC.adapter).adaptee=awayMC;
+			var awayMC:AwayMovieClip = <AwayMovieClip> event.asset;
+			new MovieClip(awayMC);
 			this._loaderContext.applicationDomain.addDefinition(event.asset.name, awayMC);
 			
 			// if this is the "Scene 1", we make it a child of the loader

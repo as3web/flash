@@ -14,9 +14,8 @@ import {EventDispatcher as AwayEventDispatcher, EventBase} from "@awayjs/core";
 	 * @eventType	flash.events.Event.ACTIVATE
 	[Event(name="activate", type="flash.events.Event")]
  */
-export class EventDispatcher extends AwayEventDispatcher{
-
-	protected _adaptee:AwayEventDispatcher;
+export class EventDispatcher extends AwayEventDispatcher
+{
 
 	protected eventMapping:Object;
 	protected eventMappingDummys:Object;
@@ -136,11 +135,4 @@ export class EventDispatcher extends AwayEventDispatcher{
 			this.eventMapping[type].removeListener.call(this, this.eventMapping[type].adaptedType, this.eventMapping[type].callback);
 		}
 	}
-	public get adaptee():AwayEventDispatcher{
-		return this._adaptee;
-	};
-	public set adaptee(value:AwayEventDispatcher){
-		this._adaptee=value;
-		//this._adaptee.adapter=this;
-	};
 }

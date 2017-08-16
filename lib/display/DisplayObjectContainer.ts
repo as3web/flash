@@ -33,19 +33,17 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 *
 	 *   new Loader()new Sprite()new MovieClip()
 	 */
-	constructor(adaptee:AwayDisplayObjectContainer=null){
-		super();
+	constructor(adaptee:AwayDisplayObjectContainer = null)
+	{
+		super(adaptee || new AwayDisplayObjectContainer());
 		this._eventRemoved=new Event(Event.REMOVED);
 		this._eventAdded=new Event(Event.ADDED);
 	}
 	//---------------------------stuff added to make it work:
 
-	// return the adaptee cast to AwayDisplayObjectContainer. just a helper to avoid casting everywhere
-	public get adaptee():AwayDisplayObjectContainer {
-		return (<AwayDisplayObjectContainer>this._adaptee);
-	}
-	public set adaptee(adaptee:AwayDisplayObjectContainer) {
-		this._adaptee=adaptee;
+	public clone():DisplayObjectContainer
+	{
+		return new DisplayObjectContainer(<AwayDisplayObjectContainer> this._adaptee.clone());
 	}
 
 	/* gets called from stage in order to move the playhead of the root-movieclips to next frame.
@@ -53,11 +51,11 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 if any child is a MovieClip this function will not be called on its childrens adapter.
 	 */
 	public advanceFrame(events:any[]) {
-		var i:number=this.adaptee._children.length;
+		var i:number=(<AwayDisplayObjectContainer> this._adaptee)._children.length;
 		this.dispatchEvent(events[0]);//ENTER_FRAME
 		while(i>0){
 			i--;
-			var oneChild:AwayDisplayObject=this.adaptee._children[i];
+			var oneChild:AwayDisplayObject=(<AwayDisplayObjectContainer> this._adaptee)._children[i];
 			if(oneChild.isAsset(AwayDisplayObjectContainer)){
 				if(oneChild.adapter){
 					(<DisplayObjectContainer>oneChild.adapter).advanceFrame(events);
@@ -80,8 +78,8 @@ export class DisplayObjectContainer extends InteractiveObject{
 		obj.rectangle="x:"+this.x+", y:"+this.y+", width:"+this.width+", height:"+this.height;
 		obj.children={};
 		var i:number=0;
-		for(i=0;i<this.adaptee.numChildren;i++){
-			var oneChild:AwayDisplayObject=this.adaptee.getChildAt(i);
+		for(i=0;i<(<AwayDisplayObjectContainer> this._adaptee).numChildren;i++){
+			var oneChild:AwayDisplayObject=(<AwayDisplayObjectContainer> this._adaptee).getChildAt(i);
 			var childname="child_"+i+" "+(<any>oneChild.adapter).constructor.name;
 			if(oneChild.isAsset(AwaySprite)||oneChild.isAsset(AwayDisplayObjectContainer)){
 				if(oneChild.adapter){
@@ -125,11 +123,11 @@ export class DisplayObjectContainer extends InteractiveObject{
 	public dispatchEventRecursive(event:Event) {
 		this.dispatchEvent(event);
 
-		if(this.adaptee){
-			var i:number=this.adaptee.numChildren;
+		if((<AwayDisplayObjectContainer> this._adaptee)){
+			var i:number=(<AwayDisplayObjectContainer> this._adaptee).numChildren;
 			while(i>0){
 				i--;
-				var oneChild:AwayDisplayObject=this.adaptee.getChildAt(i);
+				var oneChild:AwayDisplayObject=(<AwayDisplayObjectContainer> this._adaptee).getChildAt(i);
 				if(oneChild.adapter){
 					(<DisplayObject>oneChild.adapter).dispatchEventRecursive(event);
 				}
@@ -160,10 +158,10 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * @playerversion	Lite 4
 	 */
 	public get mouseChildren () : boolean {
-		return this.adaptee.mouseChildren;
+		return (<AwayDisplayObjectContainer> this._adaptee).mouseChildren;
 	}
 	public set mouseChildren (enable:boolean)  {
-		this.adaptee.mouseChildren=enable;
+		(<AwayDisplayObjectContainer> this._adaptee).mouseChildren=enable;
 	}
 
 	/**
@@ -173,7 +171,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * @playerversion	Lite 4
 	 */
 	public get numChildren () : number{
-		return (<AwayDisplayObjectContainer>this.adaptee).numChildren;
+		return (<AwayDisplayObjectContainer>(<AwayDisplayObjectContainer> this._adaptee)).numChildren;
 	}
 
 	/**
@@ -231,7 +229,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 		//child.dispatchEventRecursive(new Event(Event.ADDED_TO_STAGE));
 		child.dispatchEvent(this._eventAdded);
 
-		this.adaptee.addChild((<DisplayObject>child).adaptee);
+		(<AwayDisplayObjectContainer> this._adaptee).addChild((<DisplayObject>child).adaptee);
 		return child;
 	}
 
@@ -263,25 +261,25 @@ export class DisplayObjectContainer extends InteractiveObject{
 		child.dispatchEvent(this._eventAdded);
 		// todo: this should be done much more efficient (in awayjs)
 		var allChildren=[];
-		for(var i:number /*uint*/ = 0; i < this.adaptee.numChildren; i++){
-			if(child.adaptee.id != this.adaptee._children[i].id){
-				allChildren[allChildren.length]=this.adaptee._children[i];
+		for(var i:number /*uint*/ = 0; i < (<AwayDisplayObjectContainer> this._adaptee).numChildren; i++){
+			if(child.adaptee.id != (<AwayDisplayObjectContainer> this._adaptee)._children[i].id){
+				allChildren[allChildren.length]=(<AwayDisplayObjectContainer> this._adaptee)._children[i];
 			}
 		}
 		for(i = 0; i < allChildren.length; i++){
 
-			this.adaptee.removeChild(allChildren[i]);
+			(<AwayDisplayObjectContainer> this._adaptee).removeChild(allChildren[i]);
 		}
 		var newChildCnt=0;
 		for(i = 0; i < allChildren.length+1; i++){
 			if(i==index){
-				this.adaptee.addChild(child.adaptee);
+				(<AwayDisplayObjectContainer> this._adaptee).addChild(child.adaptee);
 			}
 			else{
-				this.adaptee.addChild(allChildren[newChildCnt++]);
+				(<AwayDisplayObjectContainer> this._adaptee).addChild(allChildren[newChildCnt++]);
 			}
 		}
-		//(<AwayDisplayObjectContainer>this.adaptee).addChildAt(child.adaptee, index);
+		//(<AwayDisplayObjectContainer>(<AwayDisplayObjectContainer> this._adaptee)).addChildAt(child.adaptee, index);
 		return child;
 	}
 
@@ -326,7 +324,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 */
 	public contains(child:DisplayObject) : boolean
 	{
-		return (<AwayDisplayObjectContainer>this.adaptee).contains(child.adaptee);
+		return (<AwayDisplayObjectContainer>(<AwayDisplayObjectContainer> this._adaptee)).contains(child.adaptee);
 	}
 
 
@@ -343,7 +341,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 *   the child movie call Security.allowDomain().
 	 */
 	public getChildAt (index:number) : DisplayObject {
-		return (<DisplayObject>(<AwayDisplayObjectContainer>this.adaptee).getChildAt(index).adapter);
+		return (<DisplayObject>(<AwayDisplayObjectContainer>(<AwayDisplayObjectContainer> this._adaptee)).getChildAt(index).adapter);
 	}
 
 	/**
@@ -365,7 +363,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 *   the child movie call the Security.allowDomain() method.
 	 */
 	public getChildByName (name:string) : DisplayObject {
-		return (<DisplayObject>(<AwayDisplayObjectContainer>this.adaptee).getChildByName(name).adapter);
+		return (<DisplayObject>(<AwayDisplayObjectContainer>(<AwayDisplayObjectContainer> this._adaptee)).getChildByName(name).adapter);
 	}
 
 	/**
@@ -378,7 +376,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * @throws	ArgumentError Throws if the child parameter is not a child of this object.
 	 */
 	public getChildIndex (child:DisplayObject) : number {
-		return (<AwayDisplayObjectContainer>this.adaptee).getChildIndex(child.adaptee);
+		return (<AwayDisplayObjectContainer>(<AwayDisplayObjectContainer> this._adaptee)).getChildIndex(child.adaptee);
 	}
 
 	/**
@@ -411,10 +409,10 @@ export class DisplayObjectContainer extends InteractiveObject{
 
 	protected _getObjectsUnderPointInternal(point:Point, children:DisplayObject[])
 	{
-		var numChildren:number = this.adaptee.numChildren;
+		var numChildren:number = (<AwayDisplayObjectContainer> this._adaptee).numChildren;
 		var child:AwayDisplayObject;
 		for(var i:number = 0; i < numChildren; i++){
-			child = this.adaptee._children[i];
+			child = (<AwayDisplayObjectContainer> this._adaptee)._children[i];
 			if(child.visible){
 				if(child.hitTestPoint(point.x, point.y))
 					children.push(<DisplayObject> child.adapter);
@@ -444,7 +442,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	public removeChild (child:DisplayObject) : DisplayObject {
 		//child.dispatchEventRecursive(new Event(Event.REMOVED_FROM_STAGE));
 		child.dispatchEvent(this._eventRemoved);
-		this.adaptee.removeChild(child.adaptee);
+		(<AwayDisplayObjectContainer> this._adaptee).removeChild(child.adaptee);
 		//console.log("removeChild not implemented yet in flash/DisplayObjectContainer");
 		return child;
 	}
@@ -469,7 +467,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * @throws	RangeError Throws if the index does not exist in the child list.
 	 */
 	public removeChildAt (index:number) : DisplayObject {
-		var awayChild:AwayDisplayObject=this.adaptee.removeChildAt(index);
+		var awayChild:AwayDisplayObject=(<AwayDisplayObjectContainer> this._adaptee).removeChildAt(index);
 		var childadapter:DisplayObject=(<DisplayObject>awayChild.adapter);
 
 		//childadapter.dispatchEventRecursive(new Event(Event.REMOVED_FROM_STAGE));
@@ -480,12 +478,12 @@ export class DisplayObjectContainer extends InteractiveObject{
 
 	public removeChildren (beginIndex:number=0, endIndex:number=2147483647)  {
 
-		if(endIndex>=this.adaptee.numChildren) {
-			endIndex=this.adaptee.numChildren-1;
+		if(endIndex>=(<AwayDisplayObjectContainer> this._adaptee).numChildren) {
+			endIndex=(<AwayDisplayObjectContainer> this._adaptee).numChildren-1;
 		}
 
 		for(var i:number /*uint*/ = beginIndex; i <= endIndex; i++){
-			var oneChild:AwayDisplayObject=this.adaptee._children[i];
+			var oneChild:AwayDisplayObject=(<AwayDisplayObjectContainer> this._adaptee)._children[i];
 			if(oneChild.adapter){
 				//(<DisplayObject>oneChild.adapter).dispatchEventRecursive(new Event(Event.REMOVED_FROM_STAGE));
 				(<DisplayObject>oneChild.adapter).dispatchEvent(this._eventRemoved);
@@ -493,7 +491,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 		}
 
 
-		this.adaptee.removeChildren(beginIndex, endIndex+1);
+		(<AwayDisplayObjectContainer> this._adaptee).removeChildren(beginIndex, endIndex+1);
 
 		//console.log("removeChildren not implemented yet in flash/DisplayObjectContainer");
 	}
@@ -528,27 +526,27 @@ export class DisplayObjectContainer extends InteractiveObject{
 
 		// todo: this should be done much more efficient (in awayjs)
 		var allChildren=[];
-		for(var i:number /*uint*/ = 0; i < this.adaptee.numChildren; i++){
-			allChildren[allChildren.length]=this.adaptee._children[i];
+		for(var i:number /*uint*/ = 0; i < (<AwayDisplayObjectContainer> this._adaptee).numChildren; i++){
+			allChildren[allChildren.length]=(<AwayDisplayObjectContainer> this._adaptee)._children[i];
 		}
 		for(i = 0; i < allChildren.length; i++){
 
-			this.adaptee.removeChild(allChildren[i]);
+			(<AwayDisplayObjectContainer> this._adaptee).removeChild(allChildren[i]);
 		}
 		var newChildCnt=0;
 		var oldChild;
 		for(i = 0; i < allChildren.length; i++){
 			if(i==index){
-				this.adaptee.addChild(child.adaptee);
+				(<AwayDisplayObjectContainer> this._adaptee).addChild(child.adaptee);
 			}
 			else{
 				oldChild=allChildren[newChildCnt++];
 				if(oldChild.id!=child.adaptee.id){
-					this.adaptee.addChild(oldChild);
+					(<AwayDisplayObjectContainer> this._adaptee).addChild(oldChild);
 				}
 				else{
 					oldChild = allChildren[newChildCnt++];
-					this.adaptee.addChild(oldChild);
+					(<AwayDisplayObjectContainer> this._adaptee).addChild(oldChild);
 				}
 
 			}
@@ -572,7 +570,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 * @throws	ArgumentError Throws if either child parameter is not a child of this object.
 	 */
 	public swapChildren (child1:DisplayObject, child2:DisplayObject) {
-		this.adaptee.swapChildren(child1.adaptee, child2.adaptee);
+		(<AwayDisplayObjectContainer> this._adaptee).swapChildren(child1.adaptee, child2.adaptee);
 
 	}
 

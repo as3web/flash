@@ -1,12 +1,16 @@
+import {URLLoader as URLLoaderAway, URLRequest, LoaderEvent, IAssetAdapter} from "@awayjs/core";
+
 import {EventDispatcher} from "../events/EventDispatcher"
 import {IEventMapper} from "../events/IEventMapper"
 import {Event} from "../events/Event"
 
-import {URLLoader as URLLoaderAway, URLRequest, LoaderEvent} from "@awayjs/core";
-export class URLLoader extends EventDispatcher{
+export class URLLoader extends EventDispatcher
+{
+	private _adaptee:URLLoaderAway;
+
 	constructor(){
 		super();
-		this.adaptee=new URLLoaderAway();
+		this._adaptee = new URLLoaderAway();
 
 		this._completeCallbackDelegate = (event:Event) => this.completeCallback(event);
 		this.eventMapping[Event.COMPLETE]=(<IEventMapper>{
@@ -17,23 +21,17 @@ export class URLLoader extends EventDispatcher{
 
 	}
 
-	public get adaptee():URLLoaderAway{
-		return (<URLLoaderAway>this._adaptee);
-	};
-	public set adaptee(value:URLLoaderAway){
-		this._adaptee=value;
-	};
-
-	public get data():any{
-		return this.adaptee.data;
+	public get data():any
+	{
+		return this._adaptee.data;
 	}
 	private initCompleteListener(type:string, callback:(event:any) => void):void
 	{
-		this.adaptee.addEventListener(type, callback);
+		this._adaptee.addEventListener(type, callback);
 	}
 	private removeCompleteListener(type:string, callback:(event:any) => void):void
 	{
-		this.adaptee.removeEventListener(type, callback);
+		this._adaptee.removeEventListener(type, callback);
 	}
 	private _completeCallbackDelegate:(event:Event) => void;
 	private completeCallback(event:Event=null):void
@@ -43,6 +41,6 @@ export class URLLoader extends EventDispatcher{
 		this.dispatchEvent(newEvent);
 	}
 	public load(request:URLRequest):void{
-		this.adaptee.load(request);
+		this._adaptee.load(request);
 	};
 }
