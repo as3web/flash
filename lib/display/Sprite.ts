@@ -32,7 +32,11 @@ export class Sprite extends DisplayObjectContainer{
 
 	public clone():Sprite
 	{
-		return new Sprite(<AwaySprite> this._adaptee.clone());
+		var clone:Sprite = new Sprite(AwaySprite.getNewSprite(this.adaptee.material));
+
+		this.adaptee.copyTo(clone.adaptee);
+
+		return clone;
 	}
 
 	//---------------------------original as3 properties / methods:

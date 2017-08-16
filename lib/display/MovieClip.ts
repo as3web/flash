@@ -51,7 +51,11 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 
 	public clone():MovieClip
 	{
-		return new MovieClip(<AwayMovieClip> this._adaptee.clone());
+		var clone:MovieClip = new MovieClip(AwayMovieClip.getNewMovieClip());
+
+		this.adaptee.copyTo(clone.adaptee);
+
+		return clone;
 	}
 
 	//---------------------------original as3 properties / methods:

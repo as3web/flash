@@ -61,7 +61,7 @@ export class TextField extends InteractiveObject
 	constructor (adaptee:AwayTextField = null){
 		super(adaptee || new AwayTextField());
 
-		//this.adaptee.width=100;//80pro!
+		//(<AwayTextField> this._adaptee).width=100;//80pro!
 		// register all events for Textfield as dummys right now
 
 		this.eventMappingDummys[TextEvent.TEXT_INPUT]="TextField:TextEvent.TEXT_INPUT";
@@ -73,11 +73,15 @@ export class TextField extends InteractiveObject
 
 
 	}
-	public get adaptee():AwayTextField {
-		return (<AwayTextField>this._adaptee);
-	}
-	public set adaptee(adaptee:AwayTextField) {
-		this._adaptee=adaptee;
+
+
+	public clone():TextField
+	{
+		var clone:TextField = new TextField(AwayTextField.getNewTextField());
+
+		this.adaptee.copyTo(clone.adaptee);
+
+		return clone;
 	}
 
 	/**
@@ -86,10 +90,10 @@ export class TextField extends InteractiveObject
 	 * focus, Flash Player does not highlight the selection in the text field.
 	 */
 	public get alwaysShowSelection () : boolean{
-		return this.adaptee.alwaysShowSelection;
+		return (<AwayTextField> this._adaptee).alwaysShowSelection;
 	}
 	public set alwaysShowSelection (value:boolean){
-		this.adaptee.alwaysShowSelection=value;
+		(<AwayTextField> this._adaptee).alwaysShowSelection=value;
 	}
 
 	/**
@@ -106,10 +110,10 @@ export class TextField extends InteractiveObject
 	 * fonts that are larger than 48 points.
 	 */
 	public get antiAliasType () : string{
-		return "";//this.adaptee.antiAliasType;
+		return "";//(<AwayTextField> this._adaptee).antiAliasType;
 	}
 	public set antiAliasType (antiAliasType:string){
-		//this.adaptee.antiAliasType=value;
+		//(<AwayTextField> this._adaptee).antiAliasType=value;
 	}
 
 	/**
@@ -136,10 +140,10 @@ export class TextField extends InteractiveObject
 	 * @throws	ArgumentError The autoSize specified is not a member of flash.text.TextFieldAutoSize.
 	 */
 	public get autoSize () : string{
-		return this.adaptee.autoSize;
+		return (<AwayTextField> this._adaptee).autoSize;
 	}
 	public set autoSize (value:string){
-		this.adaptee.autoSize=value;
+		(<AwayTextField> this._adaptee).autoSize=value;
 	}
 
 	/**
@@ -148,10 +152,10 @@ export class TextField extends InteractiveObject
 	 * Use the backgroundColor property to set the background color of a text field.
 	 */
 	public get background () : boolean{
-		return this.adaptee.background;
+		return (<AwayTextField> this._adaptee).background;
 	}
 	public set background (value:boolean){
-		this.adaptee.background=value;
+		(<AwayTextField> this._adaptee).background=value;
 	}
 
 	/**
@@ -161,10 +165,10 @@ export class TextField extends InteractiveObject
 	 * true.
 	 */
 	public get backgroundColor () : number{
-		return this.adaptee.backgroundColor;
+		return (<AwayTextField> this._adaptee).backgroundColor;
 	}
 	public set backgroundColor (value:number){
-		this.adaptee.backgroundColor=value;
+		(<AwayTextField> this._adaptee).backgroundColor=value;
 	}
 
 	/**
@@ -173,10 +177,10 @@ export class TextField extends InteractiveObject
 	 * to set the border color.
 	 */
 	public get border () : boolean{
-		return this.adaptee.border;
+		return (<AwayTextField> this._adaptee).border;
 	}
 	public set border (value:boolean){
-		this.adaptee.border=value;
+		(<AwayTextField> this._adaptee).border=value;
 	}
 
 	/**
@@ -186,10 +190,10 @@ export class TextField extends InteractiveObject
 	 * true.
 	 */
 	public get borderColor () : number{
-		return this.adaptee.borderColor;
+		return (<AwayTextField> this._adaptee).borderColor;
 	}
 	public set borderColor (value:number){
-		this.adaptee.borderColor=value;
+		(<AwayTextField> this._adaptee).borderColor=value;
 	}
 
 	/**
@@ -258,10 +262,10 @@ export class TextField extends InteractiveObject
 	 * @throws	Error This method cannot be used on a text field with a style sheet.
 	 */
 	public get defaultTextFormat () : TextFormat{
-		return this.adaptee.textFormat;
+		return (<AwayTextField> this._adaptee).textFormat;
 	}
 	public set defaultTextFormat (format:TextFormat){
-		this.adaptee.textFormat=format;
+		(<AwayTextField> this._adaptee).textFormat=format;
 	}
 
 	/**
@@ -273,10 +277,10 @@ export class TextField extends InteractiveObject
 	 * a password on an unattended computer.
 	 */
 	public get displayAsPassword () : boolean{
-		return this.adaptee.displayAsPassword;
+		return (<AwayTextField> this._adaptee).displayAsPassword;
 	}
 	public set displayAsPassword (value:boolean){
-		this.adaptee.displayAsPassword=value;
+		(<AwayTextField> this._adaptee).displayAsPassword=value;
 	}
 
 	/**
@@ -511,7 +515,7 @@ export class TextField extends InteractiveObject
 	 */
 	public get length () : number{
 		//todo
-		return this.adaptee.length;
+		return (<AwayTextField> this._adaptee).length;
 	}
 
 	/**
@@ -576,12 +580,12 @@ export class TextField extends InteractiveObject
 	public get multiline () : boolean{
 		//todo
 		//console.log("multiline not implemented yet in flash/TextField");
-		return this.adaptee.multiline;
+		return (<AwayTextField> this._adaptee).multiline;
 	}
 	public set multiline (value:boolean){
 		//todo
 		//console.log("multiline not implemented yet in flash/TextField");
-		this.adaptee.multiline=value;
+		(<AwayTextField> this._adaptee).multiline=value;
 	}
 
 	/**
@@ -592,7 +596,7 @@ export class TextField extends InteractiveObject
 	public get numLines () : number{
 		//todo
 		console.log("numLines not implemented yet in flash/TextField");
-		return this.adaptee.numLines;
+		return (<AwayTextField> this._adaptee).numLines;
 	}
 
 	/**
@@ -697,7 +701,7 @@ export class TextField extends InteractiveObject
 	}
 	public set selectable (value:boolean){
 		//todo
-		this.adaptee.selectable=value;
+		(<AwayTextField> this._adaptee).selectable=value;
 		//console.log("selectable not implemented yet in flash/TextField");
 	}
 
@@ -777,10 +781,10 @@ export class TextField extends InteractiveObject
 	 *   To get the text in HTML form, use the htmlText property.
 	 */
 	public get text () : string{
-		return this.adaptee.text;
+		return (<AwayTextField> this._adaptee).text;
 	}
 	public set text (value:string){
-		this.adaptee.text=value;
+		(<AwayTextField> this._adaptee).text=value;
 	}
 
 	/**
@@ -793,19 +797,19 @@ export class TextField extends InteractiveObject
 	public get textColor () : number{
 		//todo
 		console.log("textColor not implemented yet in flash/TextField");
-		return this.adaptee.textColor;
+		return (<AwayTextField> this._adaptee).textColor;
 	}
 	public set textColor (value:number){
 		//todo
 		console.log("textColor not implemented yet in flash/TextField");
-		this.adaptee.textColor=value;
+		(<AwayTextField> this._adaptee).textColor=value;
 	}
 
 	/**
 	 * The height of the text in pixels.
 	 */
 	public get textHeight () : number{
-		return this.adaptee.textHeight;
+		return (<AwayTextField> this._adaptee).textHeight;
 	}
 
 	/**
@@ -824,7 +828,7 @@ export class TextField extends InteractiveObject
 	 * The width of the text in pixels.
 	 */
 	public get textWidth () : number{
-		return this.adaptee.textWidth;
+		return (<AwayTextField> this._adaptee).textWidth;
 	}
 
 	/**
@@ -885,10 +889,10 @@ export class TextField extends InteractiveObject
 	 * value is false.
 	 */
 	public get wordWrap () : boolean{
-		return this.adaptee.wordWrap;
+		return (<AwayTextField> this._adaptee).wordWrap;
 	}
 	public set wordWrap (value:boolean){
-		this.adaptee.wordWrap=value;
+		(<AwayTextField> this._adaptee).wordWrap=value;
 	}
 
 	/**
@@ -899,7 +903,7 @@ export class TextField extends InteractiveObject
 	 * @param	newText	The string to append to the existing text.
 	 */
 	public appendText (newText:string) {
-		this.adaptee.appendText(newText);
+		(<AwayTextField> this._adaptee).appendText(newText);
 	}
 
 	public copyRichText () : string{
@@ -1092,7 +1096,7 @@ export class TextField extends InteractiveObject
 	 */
 	public getTextFormat (beginIndex:number=-1, endIndex:number=-1) : TextFormat{
 		// todo: support multiple formats
-		return this.adaptee.textFormat;
+		return (<AwayTextField> this._adaptee).textFormat;
 	}
 
 	public getTextRuns (beginIndex:number=0, endIndex:number=2147483647) : any[]{
@@ -1229,7 +1233,7 @@ export class TextField extends InteractiveObject
 	 */
 	public setTextFormat (format:TextFormat, beginIndex:number=-1, endIndex:number=-1) {
 		//todo implement for multi-formats
-		this.adaptee.textFormat=format;
+		(<AwayTextField> this._adaptee).textFormat=format;
 	}
 
 }
