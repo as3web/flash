@@ -174,7 +174,7 @@ export class Stage extends Sprite{
 			if(color==0xFF8100){
 				alpha=1;
 			}
-			//alpha=1;
+			//alpha=0.5;
 			var texObj:any={};
 
 			if(Stage._useTextureAtlasForColors){
@@ -470,7 +470,7 @@ export class Stage extends Sprite{
 
 			this._view.render();
 			this._currentFps++;
-			/*
+/*
 			this._debugtimer++;
 
 			if(this._debugtimer%150==0){
@@ -479,8 +479,8 @@ export class Stage extends Sprite{
 				this.debugDisplayGraph(displayGraph);
 				console.log("SceneGraph frame :", this._debugtimer, displayGraph);
 
-			}*/
-			
+			}
+			*/
 		}
 	}
 
