@@ -1,6 +1,9 @@
 import {IDisplayObjectAdapter, MovieClip as AwayMovieClip, DisplayObject as AwayDisplayObject, IMovieClipAdapter} from "@awayjs/scene";
 import {Sprite} from "./Sprite";
 
+var includeString:string= '';//TODO
+
+declare var __framescript__;
 /**
  * The MovieClip class inherits from the following classes: Sprite, DisplayObjectContainer,
  * InteractiveObject, DisplayObject, and EventDispatcher.
@@ -35,18 +38,31 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 	// --------------------- stuff needed because of implementing the existing IMovieClipAdapter
 	
 	public evalScript(str:string):Function{
-		//console.log("evalScript not implemented yet in flash/MovieClip");
-		return null;
+		var tag:HTMLScriptElement = document.createElement('script');
+		tag.text = 'var __framescript__ = function() {\n' + includeString + str + '\n}';
+
+		//add and remove script tag to dom to trigger compilation
+		var sibling = document.scripts[0];
+		sibling.parentNode.insertBefore(tag, sibling).parentNode.removeChild(tag);
+
+		var script =  __framescript__;
+		window['__framescript__'] = null;
+
+		return script;
 	}
 
-	public registerScriptObject(child:AwayDisplayObject){
-		//console.log("registerScriptObject not implemented yet in flash/MovieClip");
-
+	public registerScriptObject(child:AwayDisplayObject):void
+	{
+		if (child.name)
+			this[child.name] = child._adapter ? child.adapter:child;
 	}
 
-	public unregisterScriptObject(child:AwayDisplayObject){
-		//console.log("unregisterScriptObject not implemented yet in flash/MovieClip");
+	public unregisterScriptObject(child:AwayDisplayObject):void
+	{
+		delete this[child.name];
 
+		if(child.isAsset(AwayMovieClip))
+			(<AwayMovieClip>child).removeButtonListeners();
 	}
 
 	public clone():MovieClip
