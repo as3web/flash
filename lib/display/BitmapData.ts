@@ -63,7 +63,7 @@ export class BitmapData implements IBitmapDrawable, IAssetAdapter
 	
 	public clone():BitmapData
 	{
-		var clone:BitmapData=new BitmapData(this._adaptee.width, this._adaptee.height, this._adaptee.transparent);
+		var clone:BitmapData=new BitmapData(this._adaptee.width, this._adaptee.height, this._adaptee.transparent, 0x0);
 		clone.copyPixels(this, this.rect, new Point());
 		return clone;
 	}

@@ -99,9 +99,6 @@ export class Bitmap extends DisplayObject
 
 		(<MethodMaterial> (<Billboard> this._adaptee).material).style.image = this._bitmapData.adaptee;
 		(<MethodMaterial> (<Billboard> this._adaptee).material).invalidateTexture();
-		
-		(<Billboard> this._adaptee).scaleX=(<Billboard> this._adaptee).scaleY=(<Billboard> this._adaptee).scaleZ=1;
-
 	}
 
 	/**
