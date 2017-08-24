@@ -1,4 +1,4 @@
-import {ByteArray} from "@awayjs/core";
+import {ByteArray, AssetBase} from "@awayjs/core";
 import {IDisplayObjectAdapter, Font} from "@awayjs/scene";
 import {DisplayObject as AwayDisplayObject} from "@awayjs/scene";
 import {MovieClip as AwayMovieClip} from "@awayjs/scene";
@@ -98,7 +98,7 @@ export class ApplicationDomain
 		return this._parentDomain;
 	}
 
-	public addDefinition (name:string, asset:AwayDisplayObject) : void{
+	public addDefinition (name:string, asset:AssetBase) : void{
 		this._definitions[name]=asset;
 	}
 

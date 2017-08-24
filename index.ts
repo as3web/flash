@@ -54,6 +54,8 @@ export {TouchEvent} from "./lib/events/TouchEvent";
 
 export {ExternalInterface} from "./lib/external/ExternalInterface";
 
+export {FlashSceneGraphFactory} from './lib/factories/FlashSceneGraphFactory';
+
 export {BitmapFilter} from "./lib/filters/BitmapFilter";
 export {DropShadowFilter} from "./lib/filters/DropShadowFilter";
 export {GlowFilter} from "./lib/filters/GlowFilter";
