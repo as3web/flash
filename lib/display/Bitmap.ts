@@ -45,16 +45,9 @@ export class Bitmap extends DisplayObject
 	constructor (bitmapData:BitmapData = null, pixelSnapping:string="auto", smoothing:boolean=false)
 	{
 
-		var newMaterial:MethodMaterial;
-
-		if(bitmapData){
-			newMaterial = new MethodMaterial(bitmapData.adaptee);
-			newMaterial.alphaBlending=true;
-		}
-		else{
-			newMaterial = new MethodMaterial(0x0);
-			newMaterial.alphaBlending=true;
-		}
+		var newMaterial:MethodMaterial = bitmapData? new MethodMaterial(bitmapData.adaptee) : new MethodMaterial(0x0);
+		newMaterial.alphaBlending = true;
+		newMaterial.useColorTransform = true;
 
 		super(new Billboard(newMaterial, pixelSnapping, smoothing));
 
