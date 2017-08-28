@@ -83,7 +83,7 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 	 */
 	public get currentFrame () : number
 	{
-		return (<AwayMovieClip> this._adaptee).currentFrameIndex;
+		return (<AwayMovieClip> this._adaptee).currentFrameIndex+1;
 	}
 
 	/**
