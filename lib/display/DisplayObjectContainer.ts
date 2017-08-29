@@ -363,7 +363,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 *   the child movie call the Security.allowDomain() method.
 	 */
 	public getChildByName (name:string) : DisplayObject {
-		return (<DisplayObject>(<AwayDisplayObjectContainer>(<AwayDisplayObjectContainer> this._adaptee)).getChildByName(name).adapter);
+		return (<AwayDisplayObjectContainer>(<AwayDisplayObjectContainer> this._adaptee)).getChildByName(name)? (<DisplayObject>(<AwayDisplayObjectContainer>(<AwayDisplayObjectContainer> this._adaptee)).getChildByName(name).adapter) : null;
 	}
 
 	/**
