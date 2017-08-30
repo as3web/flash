@@ -52,6 +52,9 @@ export class Bitmap extends DisplayObject
 		super(new Billboard(newMaterial, pixelSnapping, smoothing));
 
 		this._bitmapData = bitmapData;
+
+		if (this._bitmapData)
+			this._bitmapData._addOwner(this);
 	}
 
 	public clone():Bitmap
@@ -68,30 +71,37 @@ export class Bitmap extends DisplayObject
 	 */
 	public get bitmapData () : BitmapData
 	{
-		if(!this._bitmapData){
-			var image2d:ViewImage2D=<ViewImage2D>(<MethodMaterial> (<Billboard> this._adaptee).material).style.image;
-			if(!image2d){
-				console.log("Error: can not create bitmapData for Bitmap, because the adaptee-billboard has no valid ViewImage2D")
-			}
-			this._bitmapData = new BitmapData(image2d.width, image2d.height);
-
-			this._bitmapData.adaptee.copyPixels(image2d, image2d.rect, new Point());
-		}
-
 		return this._bitmapData;
 	}
 
 	public set bitmapData (value:BitmapData)
 	{
-		// if (this._bitmapData == value)
-		// 	return;
+		if (this._bitmapData == value)
+			return;
+
+		if (this._bitmapData)
+			this._bitmapData._removeOwner(this);
+
 		this._bitmapData = value;
 
-		if (!(<MethodMaterial> (<Billboard> this._adaptee).material).ambientMethod.texture)
-			(<MethodMaterial> (<Billboard> this._adaptee).material).ambientMethod.texture = new Single2DTexture();
+		if (this._bitmapData)
+			this._bitmapData._addOwner(this);
 
-		(<MethodMaterial> (<Billboard> this._adaptee).material).style.image = this._bitmapData.adaptee;
-		(<MethodMaterial> (<Billboard> this._adaptee).material).invalidateTexture();
+		var material:MethodMaterial = <MethodMaterial> (<Billboard> this._adaptee).material;
+		if (this._bitmapData) {
+			if (!material.ambientMethod.texture)
+				material.ambientMethod.texture = new Single2DTexture();
+
+			material.style.image = this._bitmapData.adaptee;
+		} else {
+			if (material.ambientMethod.texture)
+				material.ambientMethod.texture = null;
+
+			material.style.image = null;
+			material.style.color = 0x0;
+		}
+
+		material.invalidateTexture();
 	}
 
 	/**

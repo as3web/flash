@@ -13,9 +13,12 @@ import { BitmapFilter } from "../filters/BitmapFilter"
 import { IBitmapDrawable } from "./IBitmapDrawable"
 import { ViewImage2D } from "@awayjs/view"
 
+import {Bitmap} from "./Bitmap";
+
 export class BitmapData implements IBitmapDrawable, IAssetAdapter
 {
 	private _adaptee:ViewImage2D;
+	private _owners:Array<Bitmap> = new Array<Bitmap>();
 
 	public get adaptee():ViewImage2D
 	{
@@ -207,5 +210,22 @@ export class BitmapData implements IBitmapDrawable, IAssetAdapter
 	public unlock():void
 	{
 		this._adaptee.unlock();
+	}
+
+	public _addOwner(bitmap:Bitmap)
+	{
+		if (this._owners.indexOf(bitmap) == -1)
+			this._owners.push(bitmap);
+	}
+
+	public _removeOwner(bitmap:Bitmap)
+	{
+		var index:number = this._owners.indexOf(bitmap);
+
+		if (index != -1)
+			this._owners.splice(index, 1);
+
+		if (!this._owners.length)
+			this._adaptee.clear();
 	}
 }
