@@ -129,7 +129,7 @@ export class Stage extends Sprite{
 	private _mainSprite:Sprite;
 	private _stage3Ds:AwayStage[];
 
-	private _fps:number = 30;
+	private _frameRate:number = 30;
 	private _currentFps:number = 0;
 	private _view: View;
 	private _rendererStage:AwayStage;
@@ -151,7 +151,7 @@ export class Stage extends Sprite{
 
 	private SHOW_FRAME_RATE:boolean = false;
 
-	constructor(startClass) {
+	constructor(startClass:any, width:number = 550, height:number = 400, backgroundColor:number = null, frameRate:number = 30) {
 		super();
 
 		this._eventOnEnter=new Event(Event.ENTER_FRAME);
@@ -278,7 +278,11 @@ export class Stage extends Sprite{
 		//this._view.renderer.stage.container.style.display="none";
 		// create the entrance-class
 		// this is the moment the converted as3-code is executed
-		this._mainSprite=new startClass();
+		this._stageWidth = width;
+		this._stageHeight = height;
+		this._view.backgroundColor = (isNaN(backgroundColor))? 0xFFFFFF : backgroundColor;
+		this._frameRate = frameRate
+		this._mainSprite = new startClass();
 
 		// make sure we have a background, so any mousedowns on stage are registered even if no object is hit
 		// it might make more sense to put this bg on the stage, but if i try to draw into the stage,
@@ -314,7 +318,7 @@ export class Stage extends Sprite{
 	}
 
 	private updateFPS(): void {
-		this._fpsTextField.innerText = this._currentFps.toFixed(2) + '/' + this._fps + " fps";
+		this._fpsTextField.innerText = this._currentFps.toFixed(2) + '/' + this._frameRate + " fps";
 		this._currentFps = 0;
 	}
 
@@ -452,7 +456,7 @@ export class Stage extends Sprite{
 	 */
 	private onEnterFrame(dt: number)
 	{
-		var frameMarker:number = Math.floor(1000/this._fps);
+		var frameMarker:number = Math.floor(1000/this._frameRate);
 		this._time += Math.min(dt, frameMarker);
 
 		if (this._time >= frameMarker) {
@@ -729,11 +733,11 @@ export class Stage extends Sprite{
 	 *   For more information, see the "Security" chapter in the ActionScript 3.0 Developer's Guide.
 	 */
 	public get frameRate () : number{
-		return this._fps;
+		return this._frameRate;
 	}
 
 	public set frameRate (value:number) {
-		this._fps=value;
+		this._frameRate=value;
 	}
 
 	/**
