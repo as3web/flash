@@ -51,8 +51,8 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 if any child is a MovieClip this function will not be called on its childrens adapter.
 	 */
 	public advanceFrame(events:any[]) {
-		var i:number=(<AwayDisplayObjectContainer> this._adaptee)._children.length;
 		this.dispatchEvent(events[0]);//ENTER_FRAME
+		var i:number=(<AwayDisplayObjectContainer> this._adaptee)._children.length;
 		while(i>0){
 			i--;
 			var oneChild:AwayDisplayObject=(<AwayDisplayObjectContainer> this._adaptee)._children[i];
