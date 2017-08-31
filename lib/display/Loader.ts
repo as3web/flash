@@ -15,11 +15,13 @@ import {LoaderEvent, AssetLibrary, AssetEvent, WaveAudio} from "@awayjs/core";
 import {MovieClip as AwayMovieClip, Sprite as AwaySprite, TextField as AwayTextField} from "@awayjs/scene";
 import {URLRequest} from "../net/URLRequest";
 import {Event} from "../events/Event";
+import {ProgressEvent} from "../events/ProgressEvent";
 import {Font, DisplayObjectContainer as AwayDisplayObjectContainer, DisplayObject as AwayDisplayObject} from "@awayjs/scene";
 import {Image2DParser} from "@awayjs/graphics";
 import {ViewImage2D} from "@awayjs/view";
 import {Sound} from "../media/Sound";
 import {FlashSceneGraphFactory} from "../factories/FlashSceneGraphFactory";
+import {URLLoaderEvent} from "@awayjs/core";
 
 // todo: define all methods (start new with converting as3-Loader to ts ?)
 
@@ -34,11 +36,19 @@ export class Loader extends DisplayObjectContainer
 	
 	constructor(){
 		super();
+		this._onLoaderProgressDelegate = (event:URLLoaderEvent) => this.onLoaderProgress(event);
 		this._onLoaderCompleteDelegate = (event:LoaderEvent) => this.onLoaderComplete(event);
 		this._onAssetCompleteDelegate = (event:AssetEvent) => this.onAssetComplete(event);
 
 		this._loaderInfoAS=new LoaderInfo();
 		this._factory = new FlashSceneGraphFactory();
+	}
+
+	private _onLoaderProgressDelegate:(event:URLLoaderEvent) => void;
+	private onLoaderProgress(event: URLLoaderEvent){
+		var newEvent=new ProgressEvent(ProgressEvent.PROGRESS, null, null, event.urlLoader.bytesLoaded, event.urlLoader.bytesTotal);
+		newEvent.currentTarget=this._loaderInfoAS;
+		this._loaderInfoAS.dispatchEvent(newEvent);
 	}
 
 	private _onLoaderCompleteDelegate:(event:LoaderEvent) => void;
@@ -102,6 +112,7 @@ export class Loader extends DisplayObjectContainer
 		this._loaderInfoAS.applicationDomain=context.applicationDomain;
 
 		this._loader = new AwayLoader();
+		this._loader.addEventListener(URLLoaderEvent.LOAD_PROGRESS, this._onLoaderProgressDelegate);
 		this._loader.addEventListener(LoaderEvent.LOAD_COMPLETE, this._onLoaderCompleteDelegate);
 		this._loader.addEventListener(AssetEvent.ASSET_COMPLETE, this._onAssetCompleteDelegate);
 		this._loader.load(url, null, null, (this._isImage)? new Image2DParser(this._factory) : new AWDParser(this._factory));

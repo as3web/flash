@@ -150,11 +150,11 @@ export class LoaderInfo extends EventDispatcher
 		// Events that are supposed to be working are registered as eventMappingExtern:
 
 		this.eventMappingExtern[Event.COMPLETE]="LoaderInfo:Event.COMPLETE";
+		this.eventMappingExtern[ProgressEvent.PROGRESS]="LoaderInfo:ProgressEvent.PROGRESS";
 
 		// Events not supported yet are registered as eventMappingDummys:
 
 		this.eventMappingDummys[Event.UNLOAD]="LoaderInfo:Event.UNLOAD";
-		this.eventMappingDummys[ProgressEvent.PROGRESS]="LoaderInfo:ProgressEvent.PROGRESS";
 		this.eventMappingDummys[IOErrorEvent.IO_ERROR]="LoaderInfo:IOErrorEvent.IO_ERROR";
 		//this.eventMappingDummys[HTTPStatusEvent.IO_ERROR]="HTTPStatusEvent.IO_ERROR";
 		this.eventMappingDummys[Event.OPEN]="LoaderInfo:Event.OPEN";
