@@ -14,6 +14,7 @@ export {Graphics} from "./lib/display/Graphics";
 export {GraphicsPath} from "./lib/display/GraphicsPath";
 export {GraphicsPathCommand} from "./lib/display/GraphicsPathCommand";
 export {GraphicsPathWinding} from "./lib/display/GraphicsPathWinding";
+export {IBitmapDataOwner} from "./lib/display/IBitmapDataOwner";
 export {IBitmapDrawable} from "./lib/display/IBitmapDrawable";
 export {IGraphicsData} from "./lib/display/IGraphicsData";
 export {InteractiveObject} from "./lib/display/InteractiveObject";

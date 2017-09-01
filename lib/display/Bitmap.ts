@@ -7,6 +7,8 @@ import {Single2DTexture, Style, Sampler2D} from "@awayjs/graphics";
 import {Matrix} from "@awayjs/core"
 import {ViewImage2D} from "@awayjs/view";
 
+import {IBitmapDataOwner} from "./IBitmapDataOwner";
+
 /**
  * The Bitmap class represents display objects that represent bitmap images. These can be images
  * that you load with the flash.display.Loader class, or they can be images that you create with
@@ -30,7 +32,7 @@ import {ViewImage2D} from "@awayjs/view";
  * it cannot dispatch mouse events. However, you can use the <codeph class="+ topic/ph pr-d/codeph ">addEventListener()</codeph> method
  * of the display object container that contains the Bitmap object.</p>
  */
-export class Bitmap extends DisplayObject
+export class Bitmap extends DisplayObject implements IBitmapDataOwner
 {
 	private _texture:Single2DTexture;
 	private _bitmapData:BitmapData;
