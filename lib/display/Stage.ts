@@ -179,26 +179,22 @@ export class Stage extends Sprite{
 
 			if(Stage._useTextureAtlasForColors){
 				texObj=TextureAtlas.getTextureForColor(color, alpha);
-				if(Stage._colorMaterials[texObj.texture.id]){
-					texObj.material=Stage._colorMaterials[texObj.texture.id];
-					texObj.material.invalidate();
+				if(Stage._colorMaterials[texObj.bitmap.id]){
+					texObj.material=Stage._colorMaterials[texObj.bitmap.id];
 					return texObj;
 				}
-				var newmat:MethodMaterial=new MethodMaterial();
-				newmat.ambientMethod.texture = texObj.texture;
+				var newmat:MethodMaterial=new MethodMaterial(texObj.bitmap);
 				newmat.alphaBlending=true;
 				newmat.useColorTransform = true;
 				newmat.bothSides = true;
-				Stage._colorMaterials[texObj.texture.id]=newmat;
+				Stage._colorMaterials[texObj.bitmap.id]=newmat;
 				texObj.material=newmat;
-				texObj.material.invalidate();
 				return texObj;
 			}
 
 			var colorstr:string=color+"_"+Math.round(alpha*100).toString();
 			if(Stage._colorMaterials[colorstr]){
 				texObj.material=Stage._colorMaterials[colorstr];
-				//texObj.material.invalidate();
 				return texObj;
 			}
 			var newmat:MethodMaterial=new MethodMaterial(color, alpha);
@@ -218,22 +214,16 @@ export class Stage extends Sprite{
 			/*if(color==0xffffff){
 			 color=0xcccccc;
 			 }*/
-			if(Stage._textureMaterials[texObj.texture.id]){
-				texObj.material=Stage._textureMaterials[texObj.texture.id];
-				texObj.material.invalidate();
+			if(Stage._textureMaterials[texObj.bitmap.id]){
+				texObj.material=Stage._textureMaterials[texObj.bitmap.id];
 				return texObj;
 			}
-			var newmat:MethodMaterial=new MethodMaterial();
-			//newmat.addTexture(texObj.texture);
-
-			
-			newmat.ambientMethod.texture = texObj.texture;
+			var newmat:MethodMaterial=new MethodMaterial(texObj.bitmap);
 			newmat.useColorTransform = true;
 			newmat.alphaBlending=true;
 			newmat.bothSides = true;
-			Stage._textureMaterials[texObj.texture.id]=newmat;
+			Stage._textureMaterials[texObj.bitmap.id]=newmat;
 			texObj.material=newmat;
-			texObj.material.invalidate();
 			return texObj;
 		};
 		/*
