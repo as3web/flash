@@ -204,7 +204,7 @@ export class Stage extends Sprite{
 			var newmat:MethodMaterial=new MethodMaterial(color, alpha);
 			newmat.alphaBlending=true;
 			newmat.useColorTransform = true;
-			newmat.bothSides = true;
+			newmat.bothSides = false;
 			texObj.material=newmat;
 			Stage._colorMaterials[colorstr]=newmat;
 			return texObj;
@@ -225,7 +225,7 @@ export class Stage extends Sprite{
 			var newmat:MethodMaterial=new MethodMaterial(texObj.bitmap);
 			newmat.useColorTransform = true;
 			newmat.alphaBlending=true;
-			newmat.bothSides = true;
+			newmat.bothSides = false;
 			Stage._textureMaterials[texObj.bitmap.id]=newmat;
 			texObj.material=newmat;
 			return texObj;
