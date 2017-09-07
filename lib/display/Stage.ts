@@ -16,7 +16,7 @@ import {MethodMaterial}	from "@awayjs/materials";
 import {DefaultRenderer} from  "@awayjs/renderer";
 import {View, MouseManager, SceneGraphPartition} from "@awayjs/view";
 import {Stage as AwayStage, StageManager} from "@awayjs/stage";
-import {DisplayObject as AwayDisplayObject, Sprite as AwaySprite, DisplayObjectContainer as AwayDisplayObjectContainer} from "@awayjs/scene";
+import {MouseEvent as MouseEventAway, DisplayObject as AwayDisplayObject, Sprite as AwaySprite, DisplayObjectContainer as AwayDisplayObjectContainer} from "@awayjs/scene";
 
 import {MouseEvent} from "../events/MouseEvent";
 
@@ -143,6 +143,8 @@ export class Stage extends Sprite{
 	private _fpsTextField:HTMLDivElement;
 
 	private _events:any[];
+	private _mouseX:number;
+	private _mouseY:number;
 	// no need to create new events on each frame. we can reuse them
 	private _eventOnEnter: Event;
 	private _eventFrameConstructed: Event;
@@ -154,6 +156,8 @@ export class Stage extends Sprite{
 	constructor(startClass:any, width:number = 550, height:number = 400, backgroundColor:number = null, frameRate:number = 30) {
 		super();
 
+		this._mouseX=0;
+		this._mouseY=0;
 		this._eventOnEnter=new Event(Event.ENTER_FRAME);
 		this._eventFrameConstructed=new Event(Event.FRAME_CONSTRUCTED);
 		this._eventExitFrame=new Event(Event.EXIT_FRAME);
@@ -244,12 +248,28 @@ export class Stage extends Sprite{
 
 		// mouse leave event listens on window
 		this._mouseLeaveCallbackDelegate = (event:any) => this.mouseLeaveCallback(event);
+		this._mouseMoveCallbackDelegate = (event:any) => this.mouseMoveCallback(event);
+		this._mouseUpCallbackDelegate = (event:any) => this.mouseUpCallback(event);
+
 		this.eventMapping[Event.MOUSE_LEAVE]=(<IEventMapper>{
 			adaptedType:"",
 			addListener:this.initMouseLeaveListener,
 			removeListener:this.removeMouseLeaveListener,
 			callback:this._mouseLeaveCallbackDelegate});
 
+		this.eventMappingInvert[MouseEventAway.MOUSE_MOVE]=MouseEvent.MOUSE_MOVE;
+		this.eventMapping[MouseEvent.MOUSE_MOVE]=(<IEventMapper>{
+			adaptedType:MouseEventAway.MOUSE_MOVE,
+			addListener:this.initMouseMoveListener,
+			removeListener:this.removeMouseMoveListener,
+			callback:this._mouseMoveCallbackDelegate});
+
+		this.eventMappingInvert[MouseEventAway.MOUSE_UP]=MouseEvent.MOUSE_UP;
+		this.eventMapping[MouseEvent.MOUSE_UP]=(<IEventMapper>{
+			adaptedType:MouseEventAway.MOUSE_UP,
+			addListener:this.initMouseUpListener,
+			removeListener:this.removeMouseUpListener,
+			callback:this._mouseUpCallbackDelegate});
 		// set this as active stage.
 		// this makes sure all DisplayObject.constructor can set a reference to stage,
 		// befor constructors of Sprite or MovieClips are processed
@@ -398,7 +418,51 @@ export class Stage extends Sprite{
 		this.dispatchEvent(new Event(Event.MOUSE_LEAVE));
 	}
 
+	private initMouseMoveListener(type:string, callback:(event:any) => void):void
+	{
+		document.addEventListener("mousemove", callback, true);
+	}
+	private removeMouseMoveListener(type:string, callback:(event:any) => void):void
+	{
+		document.removeEventListener("mousemove", callback);
+	}
+	private _mouseMoveCallbackDelegate:(event:any) => void;
+	private mouseMoveCallback(event:any):void
+	{
+		var adaptedEvent:MouseEvent=new MouseEvent(MouseEvent.MOUSE_MOVE);
+		adaptedEvent.fillFromJS(event);
+		//console.log("move: ",event)
+		this._mouseX=adaptedEvent.stageX;
+		this._mouseY=adaptedEvent.stageY;
+		//adaptedEvent.target=this;
+		//adaptedEvent.currentTarget=this;
+		
+		this.dispatchEvent(adaptedEvent);
 
+	}
+
+	private initMouseUpListener(type:string, callback:(event:any) => void):void
+	{
+		document.addEventListener("mouseup", callback, true);
+	}
+	private removeMouseUpListener(type:string, callback:(event:any) => void):void
+	{
+		document.removeEventListener("mouseup", callback);
+	}
+	private _mouseUpCallbackDelegate:(event:any) => void;
+	private mouseUpCallback(event:any):void
+	{
+		var adaptedEvent:MouseEvent=new MouseEvent(MouseEvent.MOUSE_UP);
+		adaptedEvent.fillFromJS(event);
+		//console.log("move: ",event)
+		this._mouseX=adaptedEvent.stageX;
+		this._mouseY=adaptedEvent.stageY;
+		//adaptedEvent.target=this;
+		//adaptedEvent.currentTarget=this;
+
+		this.dispatchEvent(adaptedEvent);
+
+	}
 	//---------------------------stuff added to make it work:
 
 
@@ -488,7 +552,7 @@ export class Stage extends Sprite{
 
 	public get mouseX () : number{
 		//console.log("mouseX not implemented yet in flash/DisplayObject");
-		return this._view.mouseX;
+		return this._mouseX;
 	}
 
 	/**
@@ -499,7 +563,7 @@ export class Stage extends Sprite{
 	 */
 	public get mouseY () : number{
 		//console.log("mouseY not implemented yet in flash/DisplayObject");
-		return this._view.mouseY;
+		return this._mouseY;
 	}
 
 	public set accessibilityImplementation (value:any){

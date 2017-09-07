@@ -562,6 +562,11 @@ export class MouseEvent extends Event
 
 		this._stageX = (jsEvent.clientX != null)? jsEvent.clientX : jsEvent.changedTouches[0].clientX;
 		this._stageY = (jsEvent.clientY != null)? jsEvent.clientY : jsEvent.changedTouches[0].clientY;
+		this.delta = jsEvent.delta;
+		if(this._stageY<0)this._stageY=0;
+
+		this.ctrlKey = jsEvent.ctrlKey;
+		this.shiftKey = jsEvent.shiftKey;
 	}
 
 	/* added to clone events from away to as3web. */
