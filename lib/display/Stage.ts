@@ -421,10 +421,12 @@ export class Stage extends Sprite{
 	private initMouseMoveListener(type:string, callback:(event:any) => void):void
 	{
 		document.addEventListener("mousemove", callback, true);
+		document.addEventListener("touchmove", callback, true);
 	}
 	private removeMouseMoveListener(type:string, callback:(event:any) => void):void
 	{
 		document.removeEventListener("mousemove", callback);
+		document.removeEventListener("touchmove", callback);
 	}
 	private _mouseMoveCallbackDelegate:(event:any) => void;
 	private mouseMoveCallback(event:any):void
@@ -444,10 +446,12 @@ export class Stage extends Sprite{
 	private initMouseUpListener(type:string, callback:(event:any) => void):void
 	{
 		document.addEventListener("mouseup", callback, true);
+		document.addEventListener("touchend", callback, true);
 	}
 	private removeMouseUpListener(type:string, callback:(event:any) => void):void
 	{
 		document.removeEventListener("mouseup", callback);
+		document.removeEventListener("touchend", callback);
 	}
 	private _mouseUpCallbackDelegate:(event:any) => void;
 	private mouseUpCallback(event:any):void
