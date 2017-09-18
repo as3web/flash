@@ -457,7 +457,6 @@ export class InteractiveObject extends DisplayObject{
 
 	private initKeyUpListener(type:string, callback:(event:any) => void):void
 	{
-		//todo: this overwrites other key-luistener on document :(
 		document.addEventListener("keyup", callback);
 		document.addEventListener("keypress", callback);
 	}
@@ -466,9 +465,12 @@ export class InteractiveObject extends DisplayObject{
 		document.removeEventListener("keyup", callback);
 	}
 	private _keyUpCallbackDelegate:(event:any) => void;
-	private keyUpCallback(event:any=null):void
+	private keyUpCallback(event:any=null):boolean
 	{
-		event.preventDefault();
+		if (window.event) {
+			window.event.returnValue = false;
+		}
+		event.preventDefault ? event.preventDefault() : (event.returnValue = false);
 		var newkeyBoardEvent:KeyboardEvent=new KeyboardEvent(KeyboardEvent.KEY_UP);
 		newkeyBoardEvent.keyCode = event.keyCode;
 		newkeyBoardEvent.charCode = event.charCode;
@@ -476,14 +478,15 @@ export class InteractiveObject extends DisplayObject{
 		newkeyBoardEvent.ctrlKey = event.ctrlKey;
 		newkeyBoardEvent.altKey = event.altKey;
 		this.dispatchEvent(newkeyBoardEvent);
+		return false;
 	}
 
 	// ---------- event mapping functions for KeyboardEvent.KEY_DOWN:
 
 	private initKeyDownListener(type:string, callback:(event:any) => void):void
 	{
-		document.removeEventListener("keydown", callback);
-		document.removeEventListener("keypress", callback);
+		document.addEventListener("keydown", callback);
+		document.addEventListener("keypress", callback);
 	}
 	private removeKeyDownListener(type:string, callback:(event:any) => void):void
 	{
@@ -491,17 +494,21 @@ export class InteractiveObject extends DisplayObject{
 		document.removeEventListener("keypress", callback);
 	}
 	private _keyDownCallbackDelegate:(event:any) => void;
-	private keyDownCallback(event:any=null):void
+	private keyDownCallback(event:any=null):boolean
 	{
-		event.preventDefault();
+		if (window.event) {
+			window.event.returnValue = false;
+		}
+		event.preventDefault ? event.preventDefault() : (event.returnValue = false);
 		var newkeyBoardEvent:KeyboardEvent=new KeyboardEvent(KeyboardEvent.KEY_DOWN);
 		newkeyBoardEvent.keyCode = event.keyCode;
 		newkeyBoardEvent.charCode = event.charCode;
 		newkeyBoardEvent.shiftKey = event.shiftKey;
 		newkeyBoardEvent.ctrlKey = event.ctrlKey;
 		newkeyBoardEvent.altKey = event.altKey;
-		// todo: set other values like alt/shift etc
+
 		this.dispatchEvent(newkeyBoardEvent);
+		return false;
 	}
 
 	// ---------- event mapping functions for MouseEvents:

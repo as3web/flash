@@ -91,6 +91,8 @@ export class Loader extends DisplayObjectContainer
 		} else if (asset.isAsset(Font)) {
 			this._loaderContext.applicationDomain.addFontDefinition(asset.name, (<Font>asset));
 		} else if(asset.isAsset(AwaySprite)) {
+			//if((<AwaySprite> asset).material)
+			//	(<AwaySprite> asset).material.bothSides=false;
 			this._loaderContext.applicationDomain.addDefinition(asset.name, <AwaySprite> asset);
 		} else if(asset.isAsset(AwayMovieClip)) {
 			this._loaderContext.applicationDomain.addDefinition(asset.name, <AwayMovieClip> asset);
