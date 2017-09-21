@@ -284,7 +284,23 @@ export class Stage extends Sprite{
 		this._mainSprite.graphics.drawRect(0,0,window.innerWidth, window.innerHeight);
 		this._mainSprite.graphics.endFill();
 
+		if(!!navigator.userAgent.match(/Trident/g) || !!navigator.userAgent.match(/MSIE/g)){
 
+			window.location.href += "#";
+
+			var _hash = "!";
+			// making sure we have the fruit available for juice (^__^)
+			window.setTimeout(function () {
+				window.location.href += "!";
+			}, 50);
+
+			window.onhashchange = function () {
+				if (window.location.hash !== _hash) {
+					window.location.hash = _hash;
+				}
+			};
+		}
+		
 		this.addChild(this._mainSprite);
 
 		if( this.SHOW_FRAME_RATE ) {
