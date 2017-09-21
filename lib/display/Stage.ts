@@ -284,14 +284,34 @@ export class Stage extends Sprite{
 		this._mainSprite.graphics.drawRect(0,0,window.innerWidth, window.innerHeight);
 		this._mainSprite.graphics.endFill();
 
-		if(!!navigator.userAgent.match(/Trident/g) || !!navigator.userAgent.match(/MSIE/g)){
+		// prevent backspace and other default shortcutz for our document:
+		document.onkeydown = function (event) {
 
+			if (!event) { /* This will happen in IE */
+				event = <any>window.event;
+			}
+
+			var keyCode = event.keyCode;
+
+			if (keyCode == 8 &&
+				((<any>(event.target || event.srcElement)).tagName != "TEXTAREA") &&
+				((<any>(event.target || event.srcElement)).tagName != "INPUT")) {
+
+				if (navigator.userAgent.toLowerCase().indexOf("msie") == -1) {
+					event.stopPropagation();
+				} else {
+					alert("prevented");
+					event.returnValue = false;
+				}
+
+				return false;
+			}
+			/*
 			window.location.href += "#";
 
-			var _hash = "!";
-			// making sure we have the fruit available for juice (^__^)
+			var _hash = "";
 			window.setTimeout(function () {
-				window.location.href += "!";
+				window.location.href += "";
 			}, 50);
 
 			window.onhashchange = function () {
@@ -299,6 +319,7 @@ export class Stage extends Sprite{
 					window.location.hash = _hash;
 				}
 			};
+			*/
 		}
 		
 		this.addChild(this._mainSprite);
