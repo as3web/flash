@@ -367,6 +367,9 @@ export class Sound extends EventDispatcher
 		//console.log("play not implemented yet in flash/Sound");
 		return null;
 	}
+	public stop () : void{
+		this._adaptee.stop();
+	}
 
 }
 
