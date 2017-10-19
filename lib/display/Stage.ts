@@ -8,7 +8,7 @@ import {DisplayObject} from "./DisplayObject"
 import {StageScaleMode} from "./StageScaleMode"
 import {EventDispatcher, Transform, Point, Vector3D, Rectangle} from "@awayjs/core";
 
-import {AssetEvent, LoaderEvent, ParserEvent, URLRequest, RequestAnimationFrame, CoordinateSystem, PerspectiveProjection} from "@awayjs/core";
+import {AssetEvent, LoaderEvent, ParserEvent, AudioManager, URLRequest, RequestAnimationFrame, CoordinateSystem, PerspectiveProjection} from "@awayjs/core";
 import {Graphics, GradientFillStyle, TextureAtlas,  MaterialBase} from "@awayjs/graphics";
 import {HoverController, TextField, Billboard, Camera, LoaderContainer, MovieClip} from "@awayjs/scene";
 
@@ -167,7 +167,7 @@ export class Stage extends Sprite{
 		this._align=StageAlign.TOP_LEFT;
 		this._stage3Ds=[];
 		//this._stage3Ds[this._stage3Ds.length]=new AwayStage(null, );
-
+		AudioManager.setVolume(1);
 		//todo: better implement this in graphics (this function provides the drawing api with materials for a color / alpha)
 		Graphics.get_material_for_color=function(color:number, alpha:number=1):any{
 			if(color==0){
@@ -216,15 +216,16 @@ export class Stage extends Sprite{
 			/*if(color==0xffffff){
 			 color=0xcccccc;
 			 }*/
-			if(Stage._textureMaterials[texObj.bitmap.id]){
-				texObj.material=Stage._textureMaterials[texObj.bitmap.id];
+			var lookupstr:string=texObj.bitmap.id+gradient.type;
+			if(Stage._textureMaterials[lookupstr]){
+				texObj.material=Stage._textureMaterials[lookupstr];
 				return texObj;
 			}
 			var newmat:MethodMaterial=new MethodMaterial(texObj.bitmap);
 			newmat.useColorTransform = true;
 			newmat.alphaBlending=true;
 			newmat.bothSides = true;
-			Stage._textureMaterials[texObj.bitmap.id]=newmat;
+			Stage._textureMaterials[lookupstr]=newmat;
 			texObj.material=newmat;
 			return texObj;
 		};

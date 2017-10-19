@@ -414,7 +414,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 		for(var i:number = 0; i < numChildren; i++){
 			child = (<AwayDisplayObjectContainer> this._adaptee)._children[i];
 			if(child.visible){
-				if(child.assetType!="[asset DisplayObjectContainer]" && child.hitTestPoint(point.x, point.y, true))
+				if(child.hitTestPoint(point.x, point.y, true))
 					children.push(<DisplayObject> child.adapter);
 				(<DisplayObjectContainer> child.adapter)._getObjectsUnderPointInternal(point, children);
 			}
