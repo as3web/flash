@@ -20,6 +20,12 @@ export class BitmapData implements IBitmapDrawable, IAssetAdapter
 	private _adaptee:ViewImage2D;
 	private _owners:Array<IBitmapDataOwner> = new Array<IBitmapDataOwner>();
 
+	// for AVM1:
+	public compare(other:BitmapData):boolean{
+		return true;
+	}
+
+
 	public get adaptee():ViewImage2D
 	{
 		return this._adaptee;
@@ -133,8 +139,8 @@ export class BitmapData implements IBitmapDrawable, IAssetAdapter
 	public hitTest(firstPoint:Point,
 				   firstAlphaThreshold:number,
 				   secondObject:any,
-				   secondBitmapPoint:Point,
-				   secondAlphaThreshold:number):boolean{
+				   secondBitmapPoint:Point=new Point(0,0),
+				   secondAlphaThreshold:number=0):boolean{
 		console.log("hitTest not implemented yet in flash/BitmapData");
 		return false;
 

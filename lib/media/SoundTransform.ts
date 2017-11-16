@@ -5,6 +5,26 @@
  */
 export class SoundTransform
 {
+
+	// for AVM1:
+	public axCallPublicProperty(value1:any, value2:any):any{
+		return null;
+	}
+	public axGetPublicProperty(value:any):any{
+		return null;
+	}
+	public axSetPublicProperty(value:any, value2:any):any{
+		return null;
+	}
+	public axHasPublicProperty(value:any):any{
+		return null;
+	}
+	public axDeletePublicProperty(value:any):any{
+		return null;
+	}
+	public axGetEnumerableKeys():string[]{
+		return [];
+	}
 	/**
 	 * Creates a SoundTransform object.
 	 * @param	vol	The volume, ranging from 0 (silent) to 1 (full volume).

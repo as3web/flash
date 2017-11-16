@@ -33,7 +33,11 @@ export class Loader extends DisplayObjectContainer
 
 	private _loaderInfoAS:LoaderInfo;
 	private _loaderContext:LoaderContext;
-	
+
+	// for AVM1:
+	public content:any;
+	public _content:any;
+
 	constructor(){
 		super();
 		this._onLoaderProgressDelegate = (event:URLLoaderEvent) => this.onLoaderProgress(event);

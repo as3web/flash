@@ -3,6 +3,10 @@ export class SharedObject
 	public data : Object;
 	private _object_name : string;
 
+
+	//for AVM1:
+	public fps:number;
+
 	constructor(name:string)
 	{
 		this._object_name=name;
@@ -24,7 +28,7 @@ export class SharedObject
 		return new SharedObject(name);
 	}
 
-	public flush() : void
+	public flush(minDiscSapce:number=0) : void
 	{
 		if(typeof(Storage) !== "undefined") {
 			localStorage.setItem(this._object_name, JSON.stringify(this.data));

@@ -8,6 +8,11 @@ import {Stage} from "./Stage";
 
 export class DisplayObject extends EventDispatcher implements IDisplayObjectAdapter
 {
+	//for AVM1:
+	public _parent:any;
+	public _depth:number;
+
+
 	protected _adaptee:AwayDisplayObject;
 	/**
 	 *

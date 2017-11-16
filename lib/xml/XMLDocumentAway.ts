@@ -16,6 +16,17 @@ import { XMLNodeType } from "./XMLNodeType";
  */
 export class XMLDocumentAway extends XMLNode
 {
+
+	// for AVM1:
+	public axCallPublicProperty(value1:any, value2:any):any{
+		return null;
+	}
+	public axGetPublicProperty(value:any):any{
+		return null;
+	}
+	public axSetPublicProperty(value:any, value2:any):any{
+		return null;
+	}
 	/**
 	 * Creates a new XMLDocument object. You must use the constructor to create an XMLDocument object before you call any of the methods of the XMLDocument class.
 	 * Note: Use the createElement() and createTextNode() methods to add elements and text nodes to an XML document tree.

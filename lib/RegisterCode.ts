@@ -1,11 +1,11 @@
 export class RegisterCode{};
 import {Loader, WaveAudioParser, AttributesBuffer} from "@awayjs/core";
 
-import {Image2DParser, ImageCubeParser, TextureAtlasParser, Shape, Image2D, ImageCube, BitmapImage2D, ExternalImage2D, BitmapImageCube, SpecularImage2D, Sampler2D, SamplerCube, LineElements, TriangleElements, Single2DTexture, SingleCubeTexture, BasicMaterial} from "@awayjs/graphics";
+import {Image2DParser, DirectionalLight, LightProbe, PointLight, ImageCubeParser, TextureAtlasParser, Shape, Image2D, ImageCube, BitmapImage2D, ExternalImage2D, BitmapImageCube, SpecularImage2D, Sampler2D, SamplerCube, LineElements, TriangleElements, Single2DTexture, SingleCubeTexture, BasicMaterial} from "@awayjs/graphics";
 
 import {Stage, GL_AttributesBuffer, GL_RenderImage2D, GL_RenderImageCube, GL_BitmapImage2D, GL_ExternalImage2D, GL_BitmapImageCube, GL_Sampler2D, GL_SamplerCube, RenderablePool, ShaderBase, GL_ShapeRenderable, GL_TriangleElements, GL_Single2DTexture, GL_SingleCubeTexture, GL_BasicMaterial} from "@awayjs/stage";
 
-import {Scene, DisplayObjectContainer, Skybox, Billboard, LineSegment, Camera, DirectionalLight, Sprite, MovieClip, TextField, LightProbe, PointLight} from "@awayjs/scene";
+import {Scene, DisplayObjectContainer, Skybox, Billboard, LineSegment, Camera, Sprite, MovieClip, TextField} from "@awayjs/scene";
 
 import {GL_SkyboxMaterial, GL_BillboardRenderable, GL_LineSegmentRenderable, GL_SkyboxRenderable, GL_LineElements, DefaultMaterialGroup} from "@awayjs/renderer";
 

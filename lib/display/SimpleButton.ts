@@ -51,6 +51,12 @@ export class SimpleButton extends InteractiveObject
 		super();
 	}
 
+	// for AVM1:
+	public buttonMode:any;
+
+
+
+
 	/**
 	 * Specifies a display object that is used as the visual
 	 * object for the button "Down" state —the state that the button is in when the user

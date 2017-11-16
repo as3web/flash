@@ -17,12 +17,19 @@ import {EventDispatcher as AwayEventDispatcher, EventBase} from "@awayjs/core";
 export class EventDispatcher extends AwayEventDispatcher
 {
 
+	static axClass;
+	public axClass;
+
+	public _symbol;
 	protected eventMapping:Object;
 	protected eventMappingDummys:Object;
 	protected eventMappingExtern:Object;
 
 	protected eventMappingInvert:Object;
-	
+
+	// for AVM1:
+	public _avm1Context:any;
+
 	constructor(target:any = null)
 	{
 		super(target);
@@ -84,7 +91,8 @@ export class EventDispatcher extends AwayEventDispatcher
 
 
 	/*overwrite*/
-	public addEventListener(type:string, listener:(event:EventBase) => void):void
+	public addEventListener(type:string, listener:(event:EventBase) => void, useCapture: boolean = false,
+							priority: number /*int*/ = 0, useWeakReference: boolean = false):void
 	{
 
 		if(this.eventMappingExtern.hasOwnProperty(type)){

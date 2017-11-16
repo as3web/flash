@@ -8,6 +8,9 @@ import {ProgressEvent} from "../events/ProgressEvent"
 export class URLLoader extends EventDispatcher
 {
 	private _adaptee:URLLoaderAway;
+	//for AVM1:
+	public bytesLoaded:number;
+	public bytesTotal:number;
 
 	constructor(){
 		super();

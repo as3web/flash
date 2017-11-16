@@ -6,6 +6,20 @@ import {Event} from "../events/Event";
 
 export class DisplayObjectContainer extends InteractiveObject{
 
+	// for AVM1:
+	public _children:any[];
+	public addTimelineObjectAtDepth(child:any, depth:number){
+
+	}
+	public getTimelineObjectAtDepth(depth:number):any{
+		return null;
+	}
+	public _lookupChildByName(name:string, lookupOptions:any=null):any{
+
+	}
+	public _lookupChildByIndex(idx:number, lookupOptions:any=null):any{
+
+	}
 
 	private _eventRemoved:Event;
 	private _eventAdded:Event;

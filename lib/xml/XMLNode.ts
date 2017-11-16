@@ -18,6 +18,19 @@ export class XMLNode
 	 */
 	constructor (type:number, value:string){
 	}
+
+	// for AVM1:
+	public axCallPublicProperty(value1:any, value2:any):any{
+		return null;
+	}
+	public axGetPublicProperty(value:any):any{
+		return null;
+	}
+	public axSetPublicProperty(value:any, value2:any):any{
+		return null;
+	}
+
+
 	/**
 	 * Evaluates the specified XMLDocument object and references the first child in the parent node's child list.
 	 * This property is null if the node does not have children. This property is

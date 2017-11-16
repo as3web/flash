@@ -26,6 +26,17 @@ declare var __framescript__;
  * define FEATURE_BITMAPCACHE in your project.</p>*/
 export class MovieClip extends Sprite implements IMovieClipAdapter
 {
+
+	//forAVM1:
+	public _getAbsFrameNumber(param1:any, param2:any):number{
+		return 0;
+	}
+	public callFrame(param1:any){
+	}
+	public _callFrame(param1:any){
+	}
+
+
 	/**
 	 * Creates a new MovieClip instance. After creating the MovieClip, call the
 	 * addChild() or addChildAt() method of a

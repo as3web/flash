@@ -161,6 +161,9 @@ export class LoaderInfo extends EventDispatcher
 		this.eventMappingDummys[Event.INIT]="LoaderInfo:Event.INIT";
 	}
 
+	// for AVM:
+	public sec:any;
+	public getSymbolById(value:any):any{}
 	/**
 	 * When an external SWF file is loaded, all ActionScript 3.0 definitions contained in the loaded
 	 * class are stored in the applicationDomain property.

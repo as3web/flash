@@ -182,6 +182,17 @@ export class Event extends EventBase
 	constructor (type:string, bubbles:boolean=false, cancelable:boolean=false){
 		super(type);
 	}
+
+	// for AVM1:
+	public axCallPublicProperty(value1:any, value2:any):any{
+		return null;
+	}
+	public axGetPublicProperty(value:any):any{
+		return null;
+	}
+	public axSetPublicProperty(value:any):any{
+		return null;
+	}
 	/**
 	 * The ACTIVATE constant defines the value of the type property of an activate event object.
 	 * Note: This event has neither a "capture phase" nor a "bubble phase",
