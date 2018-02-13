@@ -9,10 +9,10 @@ import {StageScaleMode} from "./StageScaleMode"
 import {EventDispatcher, Transform, Point, Vector3D, Rectangle} from "@awayjs/core";
 
 import {AssetEvent, LoaderEvent, ParserEvent, AudioManager, URLRequest, RequestAnimationFrame, CoordinateSystem, PerspectiveProjection} from "@awayjs/core";
-import {Graphics, GradientFillStyle, TextureAtlas,  MaterialBase} from "@awayjs/graphics";
+import {Graphics, GradientFillStyle, TextureAtlas} from "@awayjs/graphics";
 import {HoverController, TextField, Billboard, Camera, LoaderContainer, MovieClip} from "@awayjs/scene";
 
-import {MethodMaterial}	from "@awayjs/materials";
+import {MethodMaterial, MaterialBase}	from "@awayjs/materials";
 import {DefaultRenderer} from  "@awayjs/renderer";
 import {View, MouseManager, SceneGraphPartition} from "@awayjs/view";
 import {Stage as AwayStage, StageManager} from "@awayjs/stage";

@@ -1,9 +1,9 @@
 import {Point} from "@awayjs/core";
 import {Billboard, IDisplayObjectAdapter} from "@awayjs/scene";
+import {Style}  from "@awayjs/renderer";
 import { DisplayObject } from "./DisplayObject";
 import { BitmapData } from "./BitmapData";
-import {MethodMaterial} from "@awayjs/materials";
-import {Single2DTexture, Style, Sampler2D} from "@awayjs/graphics";
+import {ImageTexture2D, MethodMaterial} from "@awayjs/materials";
 import {Matrix} from "@awayjs/core"
 import {ViewImage2D} from "@awayjs/view";
 
@@ -34,7 +34,7 @@ import {IBitmapDataOwner} from "./IBitmapDataOwner";
  */
 export class Bitmap extends DisplayObject implements IBitmapDataOwner
 {
-	private _texture:Single2DTexture;
+	private _texture:ImageTexture2D;
 	private _bitmapData:BitmapData;
 	/**
 	 * Initializes a Bitmap object to refer to the specified BitmapData object.
@@ -92,7 +92,7 @@ export class Bitmap extends DisplayObject implements IBitmapDataOwner
 		var material:MethodMaterial = <MethodMaterial> (<Billboard> this._adaptee).material;
 		if (this._bitmapData) {
 			if (!material.ambientMethod.texture)
-				material.ambientMethod.texture = new Single2DTexture();
+				material.ambientMethod.texture = new ImageTexture2D();
 
 			material.style.image = this._bitmapData.adaptee;
 		} else {

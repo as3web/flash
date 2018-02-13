@@ -17,7 +17,7 @@ import {URLRequest} from "../net/URLRequest";
 import {Event} from "../events/Event";
 import {ProgressEvent} from "../events/ProgressEvent";
 import {Font, DisplayObjectContainer as AwayDisplayObjectContainer, DisplayObject as AwayDisplayObject} from "@awayjs/scene";
-import {Image2DParser} from "@awayjs/graphics";
+import {Image2DParser} from "@awayjs/stage";
 import {ViewImage2D} from "@awayjs/view";
 import {Sound} from "../media/Sound";
 import {FlashSceneGraphFactory} from "../factories/FlashSceneGraphFactory";

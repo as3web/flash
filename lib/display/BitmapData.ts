@@ -1,6 +1,5 @@
 import {IAssetAdapter} from "@awayjs/core";
 import {StageManager} from "@awayjs/stage";
-import {ImageData} from "@awayjs/graphics";
 //****************************************************************************
 // ActionScript Standard Library
 // flash.display.BitmapData object
