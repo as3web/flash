@@ -1,10 +1,11 @@
-import {Transform, Point, ColorTransform, Vector3D, Rectangle} from "@awayjs/core";
+import {Transform, Point, Box, ColorTransform, Vector3D, Rectangle} from "@awayjs/core";
 import {EventDispatcher} from "../events/EventDispatcher";
 import {Event} from "../events/Event";
 import {DisplayObject as AwayDisplayObject, IDisplayObjectAdapter} from "@awayjs/scene";
 import {LoaderInfo} from "./LoaderInfo";
 import {DisplayObjectContainer} from "./DisplayObjectContainer";
 import {Stage} from "./Stage";
+import { PickGroup } from '@awayjs/view';
 
 export class DisplayObject extends EventDispatcher implements IDisplayObjectAdapter
 {
@@ -150,12 +151,18 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 		return (<AwayDisplayObject>this._adaptee);
 	}
 
+	public doInitEvents():void{
+	}
 	public isBlockedByScript():boolean{
 		//console.log("isBlockedByScript not implemented yet in flash/DisplayObject");
 		return false;
 	}
 
 	public isVisibilityByScript():boolean{
+		//console.log("isVisibilityByScript not implemented yet in flash/DisplayObject");
+		return false;
+	}
+	public isColorTransformByScript():boolean{
 		//console.log("isVisibilityByScript not implemented yet in flash/DisplayObject");
 		return false;
 	}
@@ -499,10 +506,25 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * of 0, even if you try to set height to a different value.
 	 */
 	public get height () : number{
-		return this.adaptee.height;
+
+		if(!this._adaptee.partition){
+			console.warn("Trying to get Display.height on orphan child!");
+			return 100;
+		}
+		var box:Box = PickGroup.getInstance(this._stage.view).getBoundsPicker(this.adaptee.partition).getBoxBounds(this.adaptee);
+		return (box == null)? 0 : box.height;
 	}
 	public set height (value:number) {
-		this.adaptee.height=value;
+		
+		if (isNaN(value))
+			return;
+		
+		if(!this._adaptee.partition){
+			console.warn("Trying to set Display.height on orphan child!");
+			return;
+		}
+		PickGroup.getInstance(this._stage.view).getBoundsPicker(this.adaptee.partition).height = value;
+	
 	}
 
 	/**
@@ -578,7 +600,7 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	public get mouseX () : number{
 		//console.log("mouseX not implemented yet in flash/DisplayObject");
 		//todo: theres probably a faster option than this
-		return this.adaptee.globalToLocal(new Point(this.stage.mouseX, 0)).x;
+		return this.adaptee.transform.globalToLocal(new Point(this.stage.mouseX, 0)).x;
 	}
 
 	/**
@@ -589,7 +611,7 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 */
 	public get mouseY () : number{
 		//todo: theres probably a faster option than this
-		return this.adaptee.globalToLocal(new Point(0, this.stage.mouseY)).y;
+		return this.adaptee.transform.globalToLocal(new Point(0, this.stage.mouseY)).y;
 	}
 
 	/**
@@ -932,11 +954,34 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * of 0, even if you try to set width to a different value.
 	 */
 	public get width () : number{
-		return this.adaptee.width;
+		
+
+		//todo2019
+		if(!this.adaptee.partition){
+			console.warn("Trying to get Display.width on orphan child!");
+			return 100;
+
+		}
+
+		var box:Box = PickGroup.getInstance(this._stage.view).getBoundsPicker(this.adaptee.partition).getBoxBounds(this.adaptee);
+		
+		return (box == null)? 0 : box.width;
 
 	}
 	public set width (value:number) {
-		this.adaptee.width=value;
+
+		if(!this.adaptee.partition){
+			console.warn("Trying to set Display.width on orphan child!");
+			return;
+
+		}
+
+		//todo2019
+		if (isNaN(value))
+			return;
+		
+		PickGroup.getInstance(this._stage.view).getBoundsPicker(this.adaptee.partition).width = value;
+	
 
 	}
 
@@ -1026,7 +1071,8 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	public getBounds (targetCoordinateSpace:DisplayObject) : Rectangle{
 		//console.log("DisplayObject:getBounds not yet implemented");
 
-		return new Rectangle(this.adaptee.getBox(targetCoordinateSpace.adaptee).x, this.adaptee.getBox(targetCoordinateSpace.adaptee).y,this.adaptee.getBox(targetCoordinateSpace.adaptee).width,this.adaptee.getBox(targetCoordinateSpace.adaptee).height);
+		var box:Box = PickGroup.getInstance(this._stage.view).getBoundsPicker(this.adaptee.partition).getBoxBounds(this.adaptee);
+		return new Rectangle(box.x, box.y, box.width, box.height);
 
 	}
 
@@ -1065,7 +1111,7 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * @return	A Point any with coordinates relative to the displayobject.
 	 */
 	public globalToLocal (point:Point) : Point{
-		return this.adaptee.globalToLocal(point);
+		return this.adaptee.transform.globalToLocal(point);
 
 	}
 
@@ -1099,7 +1145,9 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * @return	true if the bounding boxes of the displayobjects intersect; false if not.
 	 */
 	public hitTestObject (obj:DisplayObject) : boolean{
-		return this.adaptee.hitTestObject(obj.adaptee);
+		
+		return PickGroup.getInstance(this._stage.view).getBoundsPicker(this.adaptee.partition).hitTestObject(PickGroup.getInstance(this._stage.view).getBoundsPicker(obj.adaptee.partition));
+
 
 	}
 
@@ -1117,7 +1165,7 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 *   false otherwise.
 	 */
 	public hitTestPoint (x:number, y:number, shapeFlag:boolean=false) : boolean{
-		return this.adaptee.hitTestPoint(x,y,shapeFlag);
+		return PickGroup.getInstance(this._stage.view).getBoundsPicker(this.adaptee.partition).hitTestPoint(x, y, shapeFlag);
 	}
 
 	protected _getObjectsUnderPointInternal(point:Point, children:DisplayObject[])
@@ -1166,7 +1214,7 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * @return	A Point any with coordinates relative to the Stage.
 	 */
 	public localToGlobal (point:Point) : Point{
-		return this.adaptee.localToGlobal(point);
+		return this.adaptee.transform.localToGlobal(point);
 	}
 }
 

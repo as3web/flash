@@ -10,13 +10,13 @@ import {EventDispatcher, Transform, Point, Vector3D, Rectangle} from "@awayjs/co
 
 import {AssetEvent, LoaderEvent, ParserEvent, AudioManager, URLRequest, RequestAnimationFrame, CoordinateSystem, PerspectiveProjection} from "@awayjs/core";
 import {Graphics, GradientFillStyle, TextureAtlas} from "@awayjs/graphics";
-import {HoverController, TextField, Billboard, Camera, LoaderContainer, MovieClip} from "@awayjs/scene";
+import {HoverController, TextField, Billboard, MouseManager, SceneGraphPartition, Camera, LoaderContainer, MovieClip} from "@awayjs/scene";
 
 import {MethodMaterial, MaterialBase}	from "@awayjs/materials";
 import {DefaultRenderer} from  "@awayjs/renderer";
-import {View, MouseManager, SceneGraphPartition} from "@awayjs/view";
+import {View, BasicPartition} from "@awayjs/view";
 import {Stage as AwayStage, StageManager} from "@awayjs/stage";
-import {MouseEvent as MouseEventAway, DisplayObject as AwayDisplayObject, Sprite as AwaySprite, DisplayObjectContainer as AwayDisplayObjectContainer} from "@awayjs/scene";
+import {MouseEvent as MouseEventAway, DisplayObject as AwayDisplayObject, Sprite as AwaySprite, Scene, DisplayObjectContainer as AwayDisplayObjectContainer} from "@awayjs/scene";
 
 import {MouseEvent} from "../events/MouseEvent";
 
@@ -131,7 +131,6 @@ export class Stage extends Sprite{
 
 	private _frameRate:number = 30;
 	private _currentFps:number = 0;
-	private _view: View;
 	private _rendererStage:AwayStage;
 	private _renderer: DefaultRenderer;
 	private _timer: RequestAnimationFrame;
@@ -150,6 +149,7 @@ export class Stage extends Sprite{
 	private _eventFrameConstructed: Event;
 	private _eventExitFrame: Event;
 	private _eventRender: Event;
+	private _scene: Scene;
 
 	private SHOW_FRAME_RATE:boolean = false;
 
@@ -176,7 +176,7 @@ export class Stage extends Sprite{
 			if(color==0xFF8100){
 				alpha=1;
 			}
-			//alpha=0.5;
+			alpha=0.5;
 			var texObj:any={};
 
 			if(Stage._useTextureAtlasForColors){
@@ -212,7 +212,6 @@ export class Stage extends Sprite{
 			/*if(alpha==0){
 			 alpha=1;
 			 }*/
-			//alpha=0.5;
 			/*if(color==0xffffff){
 			 color=0xcccccc;
 			 }*/
@@ -262,9 +261,10 @@ export class Stage extends Sprite{
 		// init awayengine
 		this.initEninge();
 
+		this.adaptee.partition = new SceneGraphPartition(this.adaptee, true);
 		// create new Partition for the adaptee and make it child of the awayjs-scene
-		this._view.setPartition(this.adaptee, new SceneGraphPartition(this.adaptee));
-		this._view.scene.addChild(this.adaptee);
+		//this._view.setPartition(this.adaptee, new SceneGraphPartition(this.adaptee));
+		this._scene.root.addChild(this.adaptee);
 
 		// helps with mouse-events:
 		//this._view.mousePicker.onlyMouseEnabled=false;
@@ -273,7 +273,7 @@ export class Stage extends Sprite{
 		// this is the moment the converted as3-code is executed
 		this._stageWidth = width;
 		this._stageHeight = height;
-		this._view.backgroundColor = (isNaN(backgroundColor))? 0xFFFFFF : backgroundColor;
+		this._scene.renderer.view.backgroundColor = (isNaN(backgroundColor))? 0xFFFFFF : backgroundColor;
 		this._frameRate = frameRate
 		this._mainSprite = new startClass();
 
@@ -347,13 +347,17 @@ export class Stage extends Sprite{
 		console.log("constructed Stage and create the entranceclass");
 	}
 
+	public get view(): View {
+		return this._scene.renderer.view;
+	}
 	private updateFPS(): void {
 		this._fpsTextField.innerText = this._currentFps.toFixed(2) + '/' + this._frameRate + " fps";
 		this._currentFps = 0;
 	}
 
 	public set onlyMouseEnabled(value:boolean) {
-		this._view.mousePicker.onlyMouseEnabled = value;
+		// todo2019: what is this supposed to do ?
+		//this._scene.mousePicker.onlyMouseEnabled = value;
 	}
 
 	// ---------- event mapping functions Event.RESIZE
@@ -387,24 +391,28 @@ export class Stage extends Sprite{
 		// todo: correctly implement all alignModes;
 		switch(this.align){
 			case StageAlign.TOP_LEFT:
-				this._view.y         = 0;
-				this._view.x         = 0;
+				this._scene.renderer.view.y         = 0;
+				this._scene.renderer.view.x         = 0;
 				break;
 			default:
 				throw("Stage: only implemented StageAlign is TOP_LEFT");
 				//break;
 		}
+		console.log("test28");
 		this._rendererStage.width     = window.innerWidth;
 		this._rendererStage.height    = window.innerHeight;
-		this._view.width     = window.innerWidth;
-		this._view.height    = window.innerHeight;
+		this._scene.view.width     = window.innerWidth;
+		this._scene.view.height    = window.innerHeight;
 		var aspectRatio:number=window.innerWidth/window.innerHeight;
 
 		this._mainSprite.graphics.clear();
 		this._mainSprite.graphics.beginFill(0xffffff,0);
 		this._mainSprite.graphics.drawRect(0,0,window.innerWidth, window.innerHeight);
 		this._mainSprite.graphics.endFill();
-		this._projection.preserveFocalLength = true;
+
+		// todo2019: is this still needed (preserveFocalLength is no longer available)
+		//this._projection.preserveFocalLength = true;
+		
 		/*
 		if(aspectRatio>=1){
 			this._projection.fieldOfView = Math.atan(window.innerHeight/1000/2)*360/Math.PI;
@@ -446,24 +454,26 @@ export class Stage extends Sprite{
 	private initEninge(){
 
 		//create the view
-		this._rendererStage = StageManager.getInstance().getStageAt(0);
+		//this._rendererStage = StageManager.getInstance().getStageAt(0);
+		//this._rendererStage.color = 0xFFFFFFFF;
+		this._renderer = new DefaultRenderer(new BasicPartition(new AwayDisplayObjectContainer()));
+		this._rendererStage = this._renderer.stage;
 		this._rendererStage.color = 0xFFFFFFFF;
-		this._renderer = new DefaultRenderer(this._rendererStage);
 
-		this._view = new View(this._renderer);
-		this._renderer.antiAlias=8;
-		this._view.renderer.renderableSorter = null;//new RenderableSort2D();
+		this._scene = new Scene(this._renderer);
+		this._renderer.antiAlias=0;
+		this._scene.renderer.renderableSorter = null;//new RenderableSort2D();
 
 		this._projection = new PerspectiveProjection();
 		this._projection.coordinateSystem = CoordinateSystem.RIGHT_HANDED;
 		this._projection.fieldOfView = 30;
-		this._projection.originX = 0;
-		this._projection.originY = 0;
+		this._projection.originX = -1;
+		this._projection.originY = 1;
 		var camera:Camera = new Camera();
 		camera.projection = this._projection;
 
 		this._hoverControl = new HoverController(camera, null, 180, 0, 1000);
-		this._view.camera = camera;
+		this._scene.camera = camera;
 
 
 	}
@@ -473,6 +483,7 @@ export class Stage extends Sprite{
 	 */
 	private initListeners()
 	{
+		console.log("init listeners");
 		window.addEventListener("resize", this._resizeCallbackDelegate);
 
 		this._timer = new RequestAnimationFrame(this.onEnterFrame, this);
@@ -502,7 +513,7 @@ export class Stage extends Sprite{
 			//this.dispatchEventRecursive(this._eventRender);
 
 
-			this._view.render();
+			this._scene.render();
 			this._currentFps++;
 /*
 			this._debugtimer++;
@@ -528,7 +539,7 @@ export class Stage extends Sprite{
 
 	public get mouseX () : number{
 		//console.log("mouseX not implemented yet in flash/DisplayObject");
-		return this._view.mouseX;
+		return this._scene.mouseX;
 	}
 
 	/**
@@ -539,7 +550,7 @@ export class Stage extends Sprite{
 	 */
 	public get mouseY () : number{
 		//console.log("mouseY not implemented yet in flash/DisplayObject");
-		return this._view.mouseY;
+		return this._scene.mouseY;
 	}
 
 	public set accessibilityImplementation (value:any){
@@ -597,10 +608,10 @@ export class Stage extends Sprite{
 
 
 	public get color():number{
-		return this._view.backgroundColor;
+		return this._scene.renderer.view.backgroundColor;
 	}
 	public set color(color:number){
-		this._view.backgroundColor = color;
+		this._scene.renderer.view.backgroundColor = color;
 	}
 
 

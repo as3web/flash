@@ -35,7 +35,12 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 	}
 	public _callFrame(param1:any){
 	}
+	public addScript(param1:any){
+	}
 
+	public executeScript(actionsBlocks:any){
+		// used in AVM1. we just need a stub here to implement IMovieClipAdapter
+	}
 
 	/**
 	 * Creates a new MovieClip instance. After creating the MovieClip, call the

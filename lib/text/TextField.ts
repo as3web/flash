@@ -862,6 +862,7 @@ export class TextField extends InteractiveObject
 		return "";
 	}
 	public set type (value:string){
+		//this.adaptee.
 		//todo
 		console.log("type not implemented yet in flash/TextField");
 	}

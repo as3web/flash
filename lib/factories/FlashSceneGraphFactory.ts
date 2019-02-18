@@ -2,8 +2,8 @@ import {IAssetAdapter, Point} from "@awayjs/core";
 import {BitmapImage2D, Image2D} from "@awayjs/stage";
 import {Timeline, MovieClip as AwayMovieClip, Sprite as AwaySprite, DisplayObjectContainer as AwayDisplayObjectContainer, Billboard, ISceneGraphFactory, TextField as AwayTextField, PrefabBase} from "@awayjs/scene";
 import {MethodMaterial, MaterialBase} from "@awayjs/materials";
-import {DefaultSceneGraphFactory} from "@awayjs/parsers";
-import {ViewImage2D} from "@awayjs/view";
+import {DefaultSceneGraphFactory} from "@awayjs/scene";
+import {SceneImage2D} from "@awayjs/scene";
 
 import {Sprite} from "../display/Sprite";
 import {MovieClip} from "../display/MovieClip";
@@ -16,6 +16,10 @@ export class FlashSceneGraphFactory extends DefaultSceneGraphFactory implements 
 {
 	public imageStore:Object = {};
 
+	public creatematerial():MaterialBase
+	{
+		return null;
+	}
 	public createSprite(prefab:PrefabBase = null):AwaySprite
 	{
 		return <AwaySprite> new Sprite().adaptee;
@@ -43,6 +47,6 @@ export class FlashSceneGraphFactory extends DefaultSceneGraphFactory implements 
 
 	public createImage2D(width:number, height:number, transparent:boolean = true, fillColor:number = null, powerOfTwo:boolean = true):Image2D
 	{
-		return <ViewImage2D> new BitmapData(width, height, transparent, fillColor).adaptee;
+		return <SceneImage2D> new BitmapData(width, height, transparent, fillColor).adaptee;
 	}
 }

@@ -16,9 +16,8 @@ import {MovieClip as AwayMovieClip, Sprite as AwaySprite, TextField as AwayTextF
 import {URLRequest} from "../net/URLRequest";
 import {Event} from "../events/Event";
 import {ProgressEvent} from "../events/ProgressEvent";
-import {Font, DisplayObjectContainer as AwayDisplayObjectContainer, DisplayObject as AwayDisplayObject} from "@awayjs/scene";
+import {Font, DisplayObjectContainer as AwayDisplayObjectContainer, DisplayObject as AwayDisplayObject, SceneImage2D} from "@awayjs/scene";
 import {Image2DParser} from "@awayjs/stage";
-import {ViewImage2D} from "@awayjs/view";
 import {Sound} from "../media/Sound";
 import {FlashSceneGraphFactory} from "../factories/FlashSceneGraphFactory";
 import {URLLoaderEvent} from "@awayjs/core";
@@ -84,12 +83,12 @@ export class Loader extends DisplayObjectContainer
 		asset
 		if (asset.isAsset(AwayTextField)) {
 			this._loaderContext.applicationDomain.addDefinition(asset.name, <AwayTextField> asset);
-		} else if (asset.isAsset(ViewImage2D)) {
-			this._loaderContext.applicationDomain.addDefinition(asset.name, <ViewImage2D> asset);
+		} else if (asset.isAsset(SceneImage2D)) {
+			this._loaderContext.applicationDomain.addDefinition(asset.name, <SceneImage2D> asset);
 
 			// we should only do this for bitmaps loaded from jpg or png
 			if (this._isImage)
-				this.addChild(this._loaderInfoAS.content = new Bitmap(<BitmapData> (<ViewImage2D> asset).adapter));
+				this.addChild(this._loaderInfoAS.content = new Bitmap(<BitmapData> (<SceneImage2D> asset).adapter));
 		} else if (asset.isAsset(WaveAudio)) {
 			this._loaderContext.applicationDomain.addAudioDefinition(asset.name, (<WaveAudio>asset));
 		} else if (asset.isAsset(Font)) {

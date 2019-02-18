@@ -3,6 +3,7 @@ import {Billboard, TextField as AwayTextField, DisplayObjectContainer as AwayDis
 import {DisplayObject} from "./DisplayObject";
 import {InteractiveObject} from "./InteractiveObject";
 import {Event} from "../events/Event";
+import {PickGroup} from "@awayjs/view";
 
 export class DisplayObjectContainer extends InteractiveObject{
 
@@ -105,7 +106,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 				obj.children[childname]={};
 				obj.children[childname].object=oneChild.adapter;
 				obj.children[childname].name=oneChild.name;
-				obj.children[childname].rectangle="x:"+oneChild.x+", y:"+oneChild.y+", width:"+oneChild.width+", height:"+oneChild.height;
+				obj.children[childname].rectangle="x:"+oneChild.x+", y:"+oneChild.y;//+", width:"+oneChild.width+", height:"+oneChild.height;
 				//(<AwayMovieClip>oneChild).graphics.endFill();
 				//console.log("Reached MC", oneChild);
 				//(<AwayMovieClip>oneChild).update();
@@ -114,7 +115,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 				obj.children[childname]={};
 				obj.children[childname].object=oneChild.adapter;
 				obj.children[childname].name=oneChild.name;
-				obj.children[childname].rectangle="x:"+oneChild.x+", y:"+oneChild.y+", width:"+oneChild.width+", height:"+oneChild.height;
+				obj.children[childname].rectangle="x:"+oneChild.x+", y:"+oneChild.y;//+", width:"+oneChild.width+", height:"+oneChild.height;
 				//(<AwayMovieClip>oneChild).graphics.endFill();
 				//console.log("Reached MC", oneChild);
 				//(<AwayMovieClip>oneChild).update();
@@ -123,7 +124,7 @@ export class DisplayObjectContainer extends InteractiveObject{
 				obj.children[childname]={};
 				obj.children[childname].object=oneChild.adapter;
 				obj.children[childname].text=(<AwayTextField>oneChild).text;
-				obj.children[childname].rectangle="x:"+oneChild.x+", y:"+oneChild.y+", width:"+oneChild.width+", height:"+oneChild.height;
+				obj.children[childname].rectangle="x:"+oneChild.x+", y:"+oneChild.y;//+", width:"+oneChild.width+", height:"+oneChild.height;
 				//(<AwayMovieClip>oneChild).graphics.endFill();
 				//console.log("Reached MC", oneChild);
 				//(<AwayMovieClip>oneChild).update();
@@ -428,7 +429,8 @@ export class DisplayObjectContainer extends InteractiveObject{
 		for(var i:number = 0; i < numChildren; i++){
 			child = (<AwayDisplayObjectContainer> this._adaptee)._children[i];
 			if(child.visible){
-				if(child.hitTestPoint(point.x, point.y, true))
+				
+				if(PickGroup.getInstance(this._stage.view).getBoundsPicker((<AwayDisplayObject>child.adaptee).partition).hitTestPoint(point.x, point.y, true))
 					children.push(<DisplayObject> child.adapter);
 				(<DisplayObjectContainer> child.adapter)._getObjectsUnderPointInternal(point, children);
 			}

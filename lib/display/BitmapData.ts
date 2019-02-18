@@ -10,13 +10,13 @@ import { Matrix  } from "../geom/Matrix"
 import { ColorTransform } from "../geom/ColorTransform"
 import { BitmapFilter } from "../filters/BitmapFilter"
 import { IBitmapDrawable } from "./IBitmapDrawable"
-import { ViewImage2D } from "@awayjs/view"
+import { SceneImage2D } from "@awayjs/scene"
 
 import {IBitmapDataOwner} from "./IBitmapDataOwner";
 
 export class BitmapData implements IBitmapDrawable, IAssetAdapter
 {
-	private _adaptee:ViewImage2D;
+	private _adaptee:SceneImage2D;
 	private _owners:Array<IBitmapDataOwner> = new Array<IBitmapDataOwner>();
 
 	// for AVM1:
@@ -25,7 +25,7 @@ export class BitmapData implements IBitmapDrawable, IAssetAdapter
 	}
 
 
-	public get adaptee():ViewImage2D
+	public get adaptee():SceneImage2D
 	{
 		return this._adaptee;
 	}
@@ -38,7 +38,7 @@ export class BitmapData implements IBitmapDrawable, IAssetAdapter
 
 	constructor (width:number, height:number, transparent:boolean=true, fillColor:number=0xffffffff)
 	{
-		this._adaptee = new ViewImage2D(width, height, transparent, fillColor, false, StageManager.getInstance().getStageAt(0));
+		this._adaptee = new SceneImage2D(width, height, transparent, fillColor, false, StageManager.getInstance().getStageAt(0));
 		this._adaptee.adapter = this;
 	}
 
