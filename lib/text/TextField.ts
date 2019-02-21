@@ -1234,7 +1234,7 @@ export class TextField extends InteractiveObject
 	 */
 	public setTextFormat (format:TextFormat, beginIndex:number=-1, endIndex:number=-1) {
 		//todo implement for multi-formats
-		(<AwayTextField> this._adaptee).textFormat=format;
+		(<AwayTextField> this._adaptee).setTextFormat(format, beginIndex, endIndex);
 	}
 
 }

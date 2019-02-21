@@ -176,7 +176,7 @@ export class Stage extends Sprite{
 			if(color==0xFF8100){
 				alpha=1;
 			}
-			alpha=0.5;
+			//alpha=0.5;
 			var texObj:any={};
 
 			if(Stage._useTextureAtlasForColors){
@@ -274,7 +274,7 @@ export class Stage extends Sprite{
 		this._stageWidth = width;
 		this._stageHeight = height;
 		this._scene.renderer.view.backgroundColor = (isNaN(backgroundColor))? 0xFFFFFF : backgroundColor;
-		this._frameRate = frameRate
+		this._frameRate = frameRate;
 		this._mainSprite = new startClass();
 
 		// make sure we have a background, so any mousedowns on stage are registered even if no object is hit
@@ -409,9 +409,7 @@ export class Stage extends Sprite{
 		this._mainSprite.graphics.beginFill(0xffffff,0);
 		this._mainSprite.graphics.drawRect(0,0,window.innerWidth, window.innerHeight);
 		this._mainSprite.graphics.endFill();
-
-		// todo2019: is this still needed (preserveFocalLength is no longer available)
-		//this._projection.preserveFocalLength = true;
+		this._scene.view.preserveFocalLength = true;
 		
 		/*
 		if(aspectRatio>=1){
@@ -458,7 +456,7 @@ export class Stage extends Sprite{
 		//this._rendererStage.color = 0xFFFFFFFF;
 		this._renderer = new DefaultRenderer(new BasicPartition(new AwayDisplayObjectContainer()));
 		this._rendererStage = this._renderer.stage;
-		this._rendererStage.color = 0xFFFFFFFF;
+		//this._rendererStage.color = 0xFFFFFFFF;
 
 		this._scene = new Scene(this._renderer);
 		this._renderer.antiAlias=0;
@@ -474,6 +472,7 @@ export class Stage extends Sprite{
 
 		this._hoverControl = new HoverController(camera, null, 180, 0, 1000);
 		this._scene.camera = camera;
+		this._projection.fieldOfView = Math.atan(window.innerHeight/1000/2)*360/Math.PI;
 
 
 	}
