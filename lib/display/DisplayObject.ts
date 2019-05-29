@@ -5,7 +5,7 @@ import {DisplayObject as AwayDisplayObject, IDisplayObjectAdapter} from "@awayjs
 import {LoaderInfo} from "./LoaderInfo";
 import {DisplayObjectContainer} from "./DisplayObjectContainer";
 import {Stage} from "./Stage";
-import { PickGroup } from '@awayjs/view';
+import { PickGroup, BasicPartition } from '@awayjs/view';
 import { SceneGraphPartition } from '@awayjs/scene';
 
 export class DisplayObject extends EventDispatcher implements IDisplayObjectAdapter
@@ -91,7 +91,7 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 		super();
 
 		this._adaptee = adaptee || new AwayDisplayObject();
-		this._adaptee.partition = new SceneGraphPartition(this._adaptee)
+		this._adaptee.partition = new SceneGraphPartition(this._adaptee);
 		this._adaptee.adapter = this;
 
 		// needed, because `this.stage` must already be available when constructor of extending classes are executed

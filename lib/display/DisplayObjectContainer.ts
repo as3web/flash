@@ -1,4 +1,4 @@
-import {Point} from "@awayjs/core";
+import {Point, Box} from "@awayjs/core";
 import {Billboard, TextField as AwayTextField, DisplayObjectContainer as AwayDisplayObjectContainer, Sprite as AwaySprite, MovieClip as AwayMovieClip, DisplayObject as AwayDisplayObject} from "@awayjs/scene";
 import {DisplayObject} from "./DisplayObject";
 import {InteractiveObject} from "./InteractiveObject";
@@ -107,6 +107,10 @@ export class DisplayObjectContainer extends InteractiveObject{
 				obj.children[childname].object=oneChild.adapter;
 				obj.children[childname].name=oneChild.name;
 				obj.children[childname].rectangle="x:"+oneChild.x+", y:"+oneChild.y;//+", width:"+oneChild.width+", height:"+oneChild.height;
+				
+				var box:Box = PickGroup.getInstance(this._stage.view).getBoundsPicker(oneChild.partition).getBoxBounds(oneChild);				
+				obj.children[childname].width=(box == null)? 0 : box.width;		
+				obj.children[childname].height=(box == null)? 0 : box.height;
 				//(<AwayMovieClip>oneChild).graphics.endFill();
 				//console.log("Reached MC", oneChild);
 				//(<AwayMovieClip>oneChild).update();
@@ -116,6 +120,9 @@ export class DisplayObjectContainer extends InteractiveObject{
 				obj.children[childname].object=oneChild.adapter;
 				obj.children[childname].name=oneChild.name;
 				obj.children[childname].rectangle="x:"+oneChild.x+", y:"+oneChild.y;//+", width:"+oneChild.width+", height:"+oneChild.height;
+				var box:Box = PickGroup.getInstance(this._stage.view).getBoundsPicker(oneChild.partition).getBoxBounds(oneChild);				
+				obj.children[childname].width=(box == null)? 0 : box.width;		
+				obj.children[childname].height=(box == null)? 0 : box.height;
 				//(<AwayMovieClip>oneChild).graphics.endFill();
 				//console.log("Reached MC", oneChild);
 				//(<AwayMovieClip>oneChild).update();
@@ -125,6 +132,9 @@ export class DisplayObjectContainer extends InteractiveObject{
 				obj.children[childname].object=oneChild.adapter;
 				obj.children[childname].text=(<AwayTextField>oneChild).text;
 				obj.children[childname].rectangle="x:"+oneChild.x+", y:"+oneChild.y;//+", width:"+oneChild.width+", height:"+oneChild.height;
+				var box:Box = PickGroup.getInstance(this._stage.view).getBoundsPicker(oneChild.partition).getBoxBounds(oneChild);				
+				obj.children[childname].width=(box == null)? 0 : box.width;		
+				obj.children[childname].height=(box == null)? 0 : box.height;
 				//(<AwayMovieClip>oneChild).graphics.endFill();
 				//console.log("Reached MC", oneChild);
 				//(<AwayMovieClip>oneChild).update();
@@ -202,11 +212,11 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 */
 	public get tabChildren () : boolean {
 		//todo
-		throw("tabChildren not implemented yet in flash/DisplayObjectContainer");
-		//return false;
+		console.warn("tabChildren not implemented yet in flash/DisplayObjectContainer");
+		return false;
 	}
 	public set tabChildren (enable:boolean)  {
-		throw("tabChildren not implemented yet in flash/DisplayObjectContainer");
+		console.warn("tabChildren not implemented yet in flash/DisplayObjectContainer");
 		//todo
 	}
 

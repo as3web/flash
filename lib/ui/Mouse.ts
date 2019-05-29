@@ -36,8 +36,7 @@ export class Mouse{
 	/*
 	 Displays the pointer.
 	 */
-	public static
-	show()
+	public static show()
 	{
 	}
 	/*

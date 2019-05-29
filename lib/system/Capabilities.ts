@@ -12,5 +12,15 @@ export class Capabilities{
 	{
 		return 0; //"Plugin"
 	}
+	public static  get screenResolutionX():number
+	{
+		return screen.width;
+	}
+
+	public static  get screenResolutionY():number
+	{
+		return screen.height;
+	}
+
 
 }

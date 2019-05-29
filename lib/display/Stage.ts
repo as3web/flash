@@ -6,7 +6,7 @@ import {IEventMapper} from "../events/IEventMapper"
 import {DisplayObjectContainer} from "./DisplayObjectContainer"
 import {DisplayObject} from "./DisplayObject"
 import {StageScaleMode} from "./StageScaleMode"
-import {EventDispatcher, Transform, Point, Vector3D, Rectangle} from "@awayjs/core";
+import {EventDispatcher, Transform, Point, Vector3D,Box, Rectangle} from "@awayjs/core";
 
 import {AssetEvent, LoaderEvent, ParserEvent, AudioManager, URLRequest, RequestAnimationFrame, CoordinateSystem, PerspectiveProjection} from "@awayjs/core";
 import {Graphics, GradientFillStyle, TextureAtlas} from "@awayjs/graphics";
@@ -280,10 +280,10 @@ export class Stage extends Sprite{
 		// make sure we have a background, so any mousedowns on stage are registered even if no object is hit
 		// it might make more sense to put this bg on the stage, but if i try to draw into the stage,
 		// the shape is the only thing that shows up, the _mainSprite is than no longer rendered
-		this._mainSprite.graphics.clear();
+		/*this._mainSprite.graphics.clear();
 		this._mainSprite.graphics.beginFill(0xffff00, 0.5);
 		this._mainSprite.graphics.drawRect(0,0,window.innerWidth, window.innerHeight);
-		this._mainSprite.graphics.endFill();
+		this._mainSprite.graphics.endFill();*/
 
 		// prevent backspace and other default shortcutz for our document:
 		document.onkeydown = function (event) {
@@ -398,7 +398,7 @@ export class Stage extends Sprite{
 				throw("Stage: only implemented StageAlign is TOP_LEFT");
 				//break;
 		}
-		console.log("test28");
+		//console.log("test28");
 		this._rendererStage.width     = window.innerWidth;
 		this._rendererStage.height    = window.innerHeight;
 		this._scene.view.width     = window.innerWidth;
@@ -514,7 +514,7 @@ export class Stage extends Sprite{
 
 			this._scene.render();
 			this._currentFps++;
-/*
+
 			this._debugtimer++;
 
 			if(this._debugtimer%150==0){
@@ -524,7 +524,7 @@ export class Stage extends Sprite{
 				console.log("SceneGraph frame :", this._debugtimer, displayGraph);
 
 			}
-			*/
+			
 		}
 	}
 
