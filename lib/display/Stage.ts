@@ -176,6 +176,7 @@ export class Stage extends Sprite{
 			if(color==0xFF8100){
 				alpha=1;
 			}
+			//color=0xFF8100;
 			//alpha=0.5;
 			var texObj:any={};
 
@@ -275,7 +276,6 @@ export class Stage extends Sprite{
 		this._stageHeight = height;
 		this._scene.renderer.view.backgroundColor = (isNaN(backgroundColor))? 0xFFFFFF : backgroundColor;
 		this._frameRate = frameRate;
-		this._mainSprite = new startClass();
 
 		// make sure we have a background, so any mousedowns on stage are registered even if no object is hit
 		// it might make more sense to put this bg on the stage, but if i try to draw into the stage,
@@ -323,7 +323,6 @@ export class Stage extends Sprite{
 			*/
 		}
 		
-		this.addChild(this._mainSprite);
 
 		if( this.SHOW_FRAME_RATE ) {
 			this._fpsTextField = <HTMLDivElement> document.createElement( 'div' ); // disable in RC
@@ -341,10 +340,21 @@ export class Stage extends Sprite{
 			setInterval(() => this.updateFPS(), 1000);
 		}
 
+		if(startClass){
+			
+			this._mainSprite = new startClass();
+			this.addChild(this._mainSprite);
+			this.initListeners();
+			console.log("constructed Stage and create the entranceclass");
+		}
 		// inits the resize listener
-		this.initListeners();
 
-		console.log("constructed Stage and create the entranceclass");
+	}
+	public init(startClass){
+		
+		this._mainSprite = new startClass();
+		this.addChild(this._mainSprite);
+		this.initListeners();
 	}
 
 	public get view(): View {
