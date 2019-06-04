@@ -75,6 +75,9 @@ export class TextField extends InteractiveObject
 	}
 
 
+	public selectTextField(){
+		
+	}
 	public clone():TextField
 	{
 		var clone:TextField = new TextField(AwayTextField.getNewTextField());
