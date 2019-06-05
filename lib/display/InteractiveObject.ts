@@ -326,8 +326,6 @@ export class InteractiveObject extends DisplayObject{
 		 this.eventMappingDummys[MouseEvent.MIDDLE_MOUSE_DOWN]="InteractiveObject:MouseEvent.MIDDLE_MOUSE_DOWN";
 		 this.eventMappingDummys[MouseEvent.MIDDLE_CLICK]="InteractiveObject:MouseEvent.MIDDLE_CLICK";
 
-		 this.eventMappingDummys[MouseEvent.ROLL_OVER]="InteractiveObject:MouseEvent.ROLL_OVER";
-		 this.eventMappingDummys[MouseEvent.ROLL_OUT]="InteractiveObject:MouseEvent.ROLL_OUT";
 
 		 /*
 		 //todo
@@ -449,7 +447,20 @@ export class InteractiveObject extends DisplayObject{
 			addListener:this.initMouseListener,
 			removeListener:this.removeMouseListener,
 			callback:this._mouseCallbackDelegate});
-
+			
+			this.eventMappingInvert[MouseEventAway.MOUSE_OUT]=MouseEvent.ROLL_OUT;
+			this.eventMapping[MouseEvent.ROLL_OUT]=(<IEventMapper>{
+				adaptedType:MouseEventAway.MOUSE_OUT,
+				addListener:this.initMouseListener,
+				removeListener:this.removeMouseListener,
+				callback:this._mouseCallbackDelegate});
+				
+			this.eventMappingInvert[MouseEventAway.MOUSE_OVER]=MouseEvent.ROLL_OVER;
+			this.eventMapping[MouseEvent.ROLL_OVER]=(<IEventMapper>{
+				adaptedType:MouseEventAway.MOUSE_OVER,
+				addListener:this.initMouseListener,
+				removeListener:this.removeMouseListener,
+				callback:this._mouseCallbackDelegate});
 	}
 
 	// ---------- event mapping functions for KeyboardEvent.KEY_UP:

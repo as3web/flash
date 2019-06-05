@@ -85,7 +85,11 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 		if(child.isAsset(AwayMovieClip))
 			(<AwayMovieClip>child).removeButtonListeners();
 	}
+	public freeFromScript():void{
+        //this.stopAllSounds();
+        super.freeFromScript();
 
+	}
 	public clone():MovieClip
 	{
 		var clone:MovieClip = new MovieClip(AwayMovieClip.getNewMovieClip());
@@ -246,11 +250,24 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 	 *   jumps to the frame number in the specified scene.
 	 * @param	scene	The name of the scene to play. This parameter is optional.
 	 */
-	public gotoAndPlay (frame:Object, scene:string=null){
+	public gotoAndPlay (frame:any, scene:string=null){
 
 		if (frame == null)
 			return;
 
+
+		if (typeof frame === "string"){
+			if((<AwayMovieClip>this.adaptee).timeline._labels[frame.toLowerCase()]==null){
+				frame=parseInt(frame);
+				if(!isNaN(frame)){
+					(<AwayMovieClip>this.adaptee).currentFrameIndex = (<number>frame)-1;
+					(<AwayMovieClip>this.adaptee).play();
+				}
+				return;
+			}
+		}
+		if(typeof frame ==="number" && frame<=0)
+			return;
 		this.play();
 		this._gotoFrame(frame);
 	}
@@ -267,11 +284,23 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 	 * @throws	ArgumentError If the scene or frame specified are
 	 *   not found in this movie clip.
 	 */
-	public gotoAndStop (frame:Object, scene:string=null){
+	public gotoAndStop (frame:any, scene:string=null){
 
 		if (frame == null)
 			return;
-		
+	
+		if (typeof frame === "string"){
+			if((<AwayMovieClip>this.adaptee).timeline._labels[frame.toLowerCase()]==null){
+				frame=parseInt(frame);
+				if(!isNaN(frame)){
+					(<AwayMovieClip>this.adaptee).currentFrameIndex = (<number>frame)-1;
+					(<AwayMovieClip>this.adaptee).stop();
+				}
+				return;
+			}
+		}
+		if(typeof frame ==="number" && frame<=0)
+			return;
 		this.stop();
 		this._gotoFrame(frame);
 	}
@@ -279,10 +308,14 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 
 	private _gotoFrame(frame:any):void
 	{
-		if (typeof frame === "string")
+		if (typeof frame === "string"){
 			(<AwayMovieClip> this._adaptee).jumpToLabel(<string>frame);
-		else
-			(<AwayMovieClip> this._adaptee).currentFrameIndex = (<number>frame) - 1;
+			return;
+
+		}
+		if(typeof frame ==="number" && frame<=0)
+			return;
+		(<AwayMovieClip> this._adaptee).currentFrameIndex = (<number>frame) - 1;
 	}
 	/**
 	 * Sends the playhead to the next frame and stops it.  This happens after all

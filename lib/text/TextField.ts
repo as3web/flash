@@ -76,7 +76,7 @@ export class TextField extends InteractiveObject
 
 
 	public selectTextField(){
-		
+
 	}
 	public clone():TextField
 	{
@@ -631,12 +631,12 @@ export class TextField extends InteractiveObject
 	 */
 	public get restrict () : string{
 		//todo
-		throw("restrict not implemented yet in flash/TextField");
-		//return "";
+		console.log("TODO: restrict not implemented yet in flash/TextField");
+		return "";
 	}
 	public set restrict (value:string){
 		//todo
-		throw("restrict not implemented yet in flash/TextField");
+		console.log("TODO: restrict not implemented yet in flash/TextField");
 	}
 
 	/**

@@ -14,6 +14,10 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	public _parent:any;
 	public _depth:number;
 
+	public _blockedByScript:boolean;
+    public _ctBlockedByScript:boolean;
+    //public protoTypeChanged:boolean;
+    protected _visibilityByScript:boolean;
 
 	protected _adaptee:AwayDisplayObject;
 	/**
@@ -90,6 +94,9 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	{
 		super();
 
+		this._blockedByScript=false;
+		this._ctBlockedByScript=false;
+        this._visibilityByScript=false;
 		this._adaptee = adaptee || new AwayDisplayObject();
 		this._adaptee.partition = new SceneGraphPartition(this._adaptee);
 		this._adaptee.adapter = this;
@@ -157,20 +164,23 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	}
 	public isBlockedByScript():boolean{
 		//console.log("isBlockedByScript not implemented yet in flash/DisplayObject");
-		return false;
+		return this._blockedByScript;
 	}
 
 	public isVisibilityByScript():boolean{
 		//console.log("isVisibilityByScript not implemented yet in flash/DisplayObject");
-		return false;
+		return this._ctBlockedByScript;
 	}
 	public isColorTransformByScript():boolean{
 		//console.log("isVisibilityByScript not implemented yet in flash/DisplayObject");
-		return false;
+		return this._visibilityByScript;
 	}
 
 	public freeFromScript(){
 		//console.log("freeFromScript not implemented yet in flash/DisplayObject");
+		this._blockedByScript=false;
+		this._ctBlockedByScript=false;
+		this._visibilityByScript=false;
 	}
 
 	public clone():DisplayObject
@@ -213,6 +223,7 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 		return this.adaptee.alpha;
 	}
 	public set alpha (value:number) {
+		this._ctBlockedByScript=true;
 		this.adaptee.alpha=value;
 	}
 
@@ -916,6 +927,7 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * matrix, color transform, and pixel bounds as the old displayobject, myOldDisplayObj.Note that AIR for TV devices use hardware acceleration, if it is available, for color transforms.
 	 */
 	public get transform () : Transform{
+		this._ctBlockedByScript=true;
 		return this.adaptee.transform;
 
 	}
@@ -934,6 +946,7 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 
 	}
 	public set visible (value:boolean) {
+		this._visibilityByScript=true;
 		this.adaptee.visible=value;
 
 	}
