@@ -156,6 +156,9 @@ export class Stage extends Sprite{
 	constructor(startClass:any, width:number = 550, height:number = 400, backgroundColor:number = null, frameRate:number = 30) {
 		super();
 
+		this._stageWidth = width;
+		this._stageHeight = height;
+
 		this._eventOnEnter=new Event(Event.ENTER_FRAME);
 		this._eventFrameConstructed=new Event(Event.FRAME_CONSTRUCTED);
 		this._eventExitFrame=new Event(Event.EXIT_FRAME);
@@ -261,6 +264,7 @@ export class Stage extends Sprite{
 
 		// init awayengine
 		this.initEninge();
+		this._resizeCallbackDelegate(null);
 
 		this.adaptee.partition = new SceneGraphPartition(this.adaptee, true);
 		// create new Partition for the adaptee and make it child of the awayjs-scene
@@ -272,8 +276,6 @@ export class Stage extends Sprite{
 		//this._view.renderer.stage.container.style.display="none";
 		// create the entrance-class
 		// this is the moment the converted as3-code is executed
-		this._stageWidth = width;
-		this._stageHeight = height;
 		this._scene.renderer.view.backgroundColor = (isNaN(backgroundColor))? 0xFFFFFF : backgroundColor;
 		this._frameRate = frameRate;
 
@@ -346,6 +348,7 @@ export class Stage extends Sprite{
 			this.addChild(this._mainSprite);
 			this.initListeners();
 			console.log("constructed Stage and create the entranceclass");
+			this._rendererStage.container.style.visibility="visible";
 		}
 		// inits the resize listener
 
@@ -355,6 +358,8 @@ export class Stage extends Sprite{
 		this._mainSprite = new startClass();
 		this.addChild(this._mainSprite);
 		this.initListeners();
+		this._resizeCallbackDelegate(null);
+		this._rendererStage.container.style.visibility="visible";
 	}
 
 	public get view(): View {
@@ -386,16 +391,31 @@ export class Stage extends Sprite{
 	{
 		// todo: correctly implement all StageScaleModes;
 
+		var newWidth=window.innerWidth;
+		var newHeight=window.innerHeight;
+		var newX=0;
+		var newY=0;
+
 		switch(this.scaleMode){
 			case StageScaleMode.NO_SCALE:
-				this._stageWidth=window.innerWidth;
-				this._stageHeight=window.innerHeight;
+				this._projection.fieldOfView = Math.atan(window.innerHeight/1000/2)*360/Math.PI;
 				break;
-			case StageScaleMode.EXACT_FIT:
 			case StageScaleMode.SHOW_ALL:
+				newHeight = window.innerHeight;
+				newWidth = (this._stageWidth / this._stageHeight) * newHeight;
+				if (newWidth > window.innerWidth) {
+					newWidth = window.innerWidth;
+					newHeight = newWidth * (this._stageHeight / this._stageWidth);
+				}
+				newX=(window.innerWidth - newWidth) / 2;
+				newY=(window.innerHeight - newHeight) / 2;
+				this._projection.fieldOfView = Math.atan(this._stageHeight/1000/2)*360/Math.PI;
+				break;
+
+			case StageScaleMode.EXACT_FIT:
 			case StageScaleMode.NO_BORDER:
 			default:
-				throw("Stage: only implemented StageAlign is TOP_LEFT");
+				throw("Stage: only implemented StageScaleMode are NO_SCALE, SHOW_ALL");
 				//break;
 		}
 		// todo: correctly implement all alignModes;
@@ -409,17 +429,16 @@ export class Stage extends Sprite{
 				//break;
 		}
 		//console.log("test28");
-		this._rendererStage.width     = window.innerWidth;
-		this._rendererStage.height    = window.innerHeight;
-		this._scene.view.width     = window.innerWidth;
-		this._scene.view.height    = window.innerHeight;
-		var aspectRatio:number=window.innerWidth/window.innerHeight;
+		
+		if(this._mainSprite){
+			this._mainSprite.graphics.clear();
+			this._mainSprite.graphics.beginFill(0xffffff,0);
+			this._mainSprite.graphics.drawRect(0,0,newWidth, newHeight);
+			this._mainSprite.graphics.endFill();
+		}
 
-		this._mainSprite.graphics.clear();
-		this._mainSprite.graphics.beginFill(0xffffff,0);
-		this._mainSprite.graphics.drawRect(0,0,window.innerWidth, window.innerHeight);
-		this._mainSprite.graphics.endFill();
-		this._scene.view.preserveFocalLength = true;
+		this.updateSize(newX, newY, newWidth, newHeight);
+		//this._scene.view.preserveFocalLength = true;
 		
 		/*
 		if(aspectRatio>=1){
@@ -467,6 +486,7 @@ export class Stage extends Sprite{
 		this._renderer = new DefaultRenderer(new BasicPartition(new AwayDisplayObjectContainer()));
 		this._rendererStage = this._renderer.stage;
 		//this._rendererStage.color = 0xFFFFFFFF;
+		this._rendererStage.container.style.visibility="hidden";
 
 		this._scene = new Scene(this._renderer);
 		this._renderer.antiAlias=0;
@@ -474,18 +494,34 @@ export class Stage extends Sprite{
 
 		this._projection = new PerspectiveProjection();
 		this._projection.coordinateSystem = CoordinateSystem.RIGHT_HANDED;
-		this._projection.fieldOfView = 30;
 		this._projection.originX = -1;
 		this._projection.originY = 1;
 		var camera:Camera = new Camera();
 		camera.projection = this._projection;
 
-		this._hoverControl = new HoverController(camera, null, 180, 0, 1000);
 		this._scene.camera = camera;
 		this._projection.fieldOfView = Math.atan(window.innerHeight/1000/2)*360/Math.PI;
+		//this._projection.fieldOfView = Math.atan(this._stageHeight/1000/2)*360/Math.PI;
+
 
 
 	}
+	public updateSize(x:number, y:number, w:number, h:number){
+		//this._stageWidth=w;
+		//this._stageHeight=h;
+		this._scene.view.x         = x;
+		this._scene.view.y         = y;
+
+		this._renderer.stage.x     = x;
+		this._renderer.stage.y    = y;
+	//	this._renderer.stage.container.style.zIndex="-100";
+		this._renderer.stage.width     = w;
+		this._renderer.stage.height    = h;
+		this._scene.view.width     = w;
+		this._scene.view.height    = h;
+		if(this._fpsTextField)
+			this._fpsTextField.style.left  =  window.innerWidth * 0.5 - 100 + 'px';
+	};
 
 	/**
 	 * Initialise the listeners
@@ -947,7 +983,8 @@ export class Stage extends Sprite{
 	}
 	public set scaleMode(value:StageScaleMode)
 	{
-		value=this._scaleMode;
+		this._scaleMode=value;
+		this._resizeCallbackDelegate(null);
 	}
 
 	/**
