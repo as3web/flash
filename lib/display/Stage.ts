@@ -151,11 +151,13 @@ export class Stage extends Sprite{
 	private _eventRender: Event;
 	private _scene: Scene;
 
-	private SHOW_FRAME_RATE:boolean = true;
+	private SHOW_FRAME_RATE:boolean = false;
 
-	constructor(startClass:any, width:number = 550, height:number = 400, backgroundColor:number = null, frameRate:number = 30) {
+	constructor(startClass:any, width:number = 550, height:number = 400, backgroundColor:number = null, frameRate:number = 30, showFPS:boolean=false) {
 		super();
 
+		this.SHOW_FRAME_RATE=showFPS;
+		
 		this._stageWidth = width;
 		this._stageHeight = height;
 
