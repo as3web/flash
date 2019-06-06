@@ -3,6 +3,7 @@
   "version": "0.1.106",
   "description": "Typescript classes mimicing the functionality of the flash package in AS3",
   "main": "bundle/as3web-flash.umd.js",
+  "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "url": "http://www.as3web.com",
   "author": "Rob Bateman",
