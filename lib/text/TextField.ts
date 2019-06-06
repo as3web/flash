@@ -7,7 +7,7 @@ import { StyleSheet } from "./StyleSheet";
 import {Rectangle} from "../geom/Rectangle";
 import { TextLineMetrics } from "./TextLineMetrics";
 import {DisplayObject} from "../display/DisplayObject";
-import {TextField as AwayTextField} from "@awayjs/scene";
+import {TextField as AwayTextField, TextFieldAutoSize, TextFormatAlign} from "@awayjs/scene";
 /**
  * Flash Player dispatches the textInteractionModeChange event when a user
  * changes the interaction mode of a text field.
@@ -60,7 +60,8 @@ export class TextField extends InteractiveObject
 	 */
 	constructor (adaptee:AwayTextField = null){
 		super(adaptee || new AwayTextField());
-
+		(<AwayTextField>this.adaptee).autoSize=TextFieldAutoSize.NONE;
+		(<AwayTextField>this.adaptee).textFormat.align=TextFormatAlign.CENTER;
 		//(<AwayTextField> this._adaptee).width=100;//80pro!
 		// register all events for Textfield as dummys right now
 
@@ -74,7 +75,9 @@ export class TextField extends InteractiveObject
 
 	}
 
+	public dispatchKeyEvent(charCode, isShift, isCTRL, isAlt){
 
+	}
 	public selectTextField(){
 
 	}
@@ -503,13 +506,10 @@ export class TextField extends InteractiveObject
 	 * &#38; (ASCII ampersand) and &#x20AC; (Unicode € symbol).
 	 */
 	public get htmlText () : string{
-		//todo
-		console.log("get htmlText not implemented yet in flash/TextField");
-		return "";
+		return (<AwayTextField>this.adaptee).htmlText;
 	}
 	public set htmlText (value:string){
-		//todo
-		console.log("set htmlText not implemented yet in flash/TextField");
+		(<AwayTextField>this.adaptee).htmlText=value;
 	}
 
 	/**
@@ -630,13 +630,10 @@ export class TextField extends InteractiveObject
 	 * my_txt.restrict = "\u0020-\u007E";
 	 */
 	public get restrict () : string{
-		//todo
-		console.log("TODO: restrict not implemented yet in flash/TextField");
-		return "";
+		return (<AwayTextField>this.adaptee).restrict;
 	}
 	public set restrict (value:string){
-		//todo
-		console.log("TODO: restrict not implemented yet in flash/TextField");
+		(<AwayTextField>this.adaptee).restrict=value;
 	}
 
 	/**
@@ -798,13 +795,9 @@ export class TextField extends InteractiveObject
 	 * 0xFFFFFF.
 	 */
 	public get textColor () : number{
-		//todo
-		console.log("textColor not implemented yet in flash/TextField");
 		return (<AwayTextField> this._adaptee).textColor;
 	}
 	public set textColor (value:number){
-		//todo
-		console.log("textColor not implemented yet in flash/TextField");
 		(<AwayTextField> this._adaptee).textColor=value;
 	}
 
