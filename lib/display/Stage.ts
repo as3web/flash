@@ -151,7 +151,7 @@ export class Stage extends Sprite{
 	private _eventRender: Event;
 	private _scene: Scene;
 
-	private SHOW_FRAME_RATE:boolean = false;
+	private SHOW_FRAME_RATE:boolean = true;
 
 	constructor(startClass:any, width:number = 550, height:number = 400, backgroundColor:number = null, frameRate:number = 30) {
 		super();
@@ -560,7 +560,7 @@ export class Stage extends Sprite{
 
 			this._scene.render();
 			this._currentFps++;
-
+/*
 			this._debugtimer++;
 
 			if(this._debugtimer%150==0){
@@ -570,6 +570,7 @@ export class Stage extends Sprite{
 				console.log("SceneGraph frame :", this._debugtimer, displayGraph);
 
 			}
+			*/
 			
 		}
 	}
@@ -792,12 +793,12 @@ export class Stage extends Sprite{
 	 */
 	public get focus () : any{
 		//todo: any is InteractiveObject
-		console.log("focus not implemented yet in flash/Stage");
+		//console.log("focus not implemented yet in flash/Stage");
 		return null;
 	}
 	public set focus (newFocus:any){
 		//todo: any is InteractiveObject
-		console.log("focus not implemented yet in flash/Stage");
+		//console.log("focus not implemented yet in flash/Stage");
 	}
 
 
