@@ -362,10 +362,19 @@ export class Sound extends EventDispatcher
 	 * @playerversion	Lite 4
 	 * @refpath
 	 */
-	public play (startTime:number=0, loops:number=0, sndTransform:SoundTransform=null) : SoundChannel{
-		this._adaptee.play(startTime, loops>0);
+	public play (startTime:number=0, loops:number=0, sndTransform:SoundTransform=null) : any{
+		if(loops>1){
+			console.log("TODO: as3web/flash: loop property")
+		}
+		if(sndTransform){
+			this.adaptee.volume=sndTransform.volume;
+			this.adaptee.pan=sndTransform.pan;
+		}
+		this._adaptee.play(startTime, false);
 		//console.log("play not implemented yet in flash/Sound");
-		return null;
+
+		// todo: should return a flash soundchannel
+		return this;
 	}
 	public stop () : void{
 		this._adaptee.stop();
