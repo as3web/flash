@@ -347,8 +347,9 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 	 * remaining actions in the frame have finished executing.
 	 */
 	public prevFrame (){
-		//todo
-		console.log("prevFrame not implemented yet in flash/MovieClip");
+		if((<AwayMovieClip> this._adaptee).currentFrameIndex>0){
+			(<AwayMovieClip> this._adaptee).currentFrameIndex=(<AwayMovieClip> this._adaptee).currentFrameIndex-1;
+		}
 	}
 
 	/**
