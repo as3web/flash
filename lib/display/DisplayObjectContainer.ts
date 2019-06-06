@@ -212,11 +212,11 @@ export class DisplayObjectContainer extends InteractiveObject{
 	 */
 	public get tabChildren () : boolean {
 		//todo
-		console.warn("tabChildren not implemented yet in flash/DisplayObjectContainer");
+		//console.warn("tabChildren not implemented yet in flash/DisplayObjectContainer");
 		return false;
 	}
 	public set tabChildren (enable:boolean)  {
-		console.warn("tabChildren not implemented yet in flash/DisplayObjectContainer");
+		//console.warn("tabChildren not implemented yet in flash/DisplayObjectContainer");
 		//todo
 	}
 

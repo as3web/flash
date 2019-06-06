@@ -703,12 +703,12 @@ export class InteractiveObject extends DisplayObject{
 	 */
 	public get tabEnabled () : boolean{
 		//todo
-		console.log("tabEnabled not implemented yet in flash/InteractiveObject");
+		//console.log("tabEnabled not implemented yet in flash/InteractiveObject");
 		return false;
 	}
 	public set tabEnabled (enabled:boolean){
 		//todo
-		console.log("tabEnabled not implemented yet in flash/InteractiveObject");
+		//console.log("tabEnabled not implemented yet in flash/InteractiveObject");
 
 	}
 
