@@ -1,10 +1,7 @@
-import {Point} from "@awayjs/core";
-import {Billboard, IDisplayObjectAdapter, SceneImage2D} from "@awayjs/scene";
-import {Style}  from "@awayjs/renderer";
+import {Billboard} from "@awayjs/scene";
 import { DisplayObject } from "./DisplayObject";
 import { BitmapData } from "./BitmapData";
 import {ImageTexture2D, MethodMaterial} from "@awayjs/materials";
-import {Matrix} from "@awayjs/core"
 
 import {IBitmapDataOwner} from "./IBitmapDataOwner";
 
@@ -102,7 +99,7 @@ export class Bitmap extends DisplayObject implements IBitmapDataOwner
 			material.style.color = 0x0;
 		}
 
-		material.invalidateTexture();
+		material.invalidateTextures();
 	}
 
 	/**

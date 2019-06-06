@@ -1,9 +1,7 @@
 import {Sprite as AwaySprite} from "@awayjs/scene";
-import {DisplayObjectContainer} from "./DisplayObjectContainer"
-import {Stage} from "./Stage"
-import {DisplayObject} from "./DisplayObject"
+import {DisplayObjectContainer} from "./DisplayObjectContainer";
+import {DisplayObject} from "./DisplayObject";
 import {Rectangle} from "@awayjs/core";
-import {IDisplayObjectAdapter} from "@awayjs/scene";
 import {Graphics} from "./Graphics";
 export class Sprite extends DisplayObjectContainer{
 
@@ -32,7 +30,7 @@ export class Sprite extends DisplayObjectContainer{
 
 	public clone():Sprite
 	{
-		var clone:Sprite = new Sprite(AwaySprite.getNewSprite(this.adaptee.material));
+		var clone:Sprite = new Sprite(AwaySprite.getNewSprite(null, this.adaptee.material));
 
 		this.adaptee.copyTo(clone.adaptee);
 
