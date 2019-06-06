@@ -371,10 +371,13 @@ export class Sound extends EventDispatcher
 			this.adaptee.pan=sndTransform.pan;
 		}
 		this._adaptee.play(startTime, false);
+		var newSoundChannel:SoundChannel=new SoundChannel();
+		newSoundChannel.soundTransform=sndTransform;
+		newSoundChannel._sound=this;
 		//console.log("play not implemented yet in flash/Sound");
 
 		// todo: should return a flash soundchannel
-		return this;
+		return newSoundChannel;
 	}
 	public stop () : void{
 		this._adaptee.stop();

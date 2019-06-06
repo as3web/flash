@@ -34,6 +34,9 @@ export class SoundChannel extends EventDispatcher
 		return [];
 	}
 
+
+	private _sndtranform:SoundTransform;
+	public _sound:any;
 	constructor (){
 		super();
 	}
@@ -73,11 +76,10 @@ export class SoundChannel extends EventDispatcher
 	 * speaker assignment.
 	 */
 	public get soundTransform () : SoundTransform{
-		console.log("soundTransform not implemented yet in flash/SoundChannel");
-		return null;
+		return this._sndtranform;
 	}
-	public set soundTransform (sndTransform:SoundTransform){
-		console.log("soundTransform not implemented yet in flash/SoundChannel");
+	public set soundTransform (value:SoundTransform){
+		this._sndtranform=value;
 	}
 
 
@@ -89,7 +91,7 @@ export class SoundChannel extends EventDispatcher
 	 * @refpath
 	 */
 	public stop () {
-		console.log("stop not implemented yet in flash/SoundChannel");
+		this._sound.stop();
 	}
 }
 
