@@ -169,11 +169,11 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 
 	public isVisibilityByScript():boolean{
 		//console.log("isVisibilityByScript not implemented yet in flash/DisplayObject");
-		return this._ctBlockedByScript;
+		return this._visibilityByScript;
 	}
 	public isColorTransformByScript():boolean{
 		//console.log("isVisibilityByScript not implemented yet in flash/DisplayObject");
-		return this._visibilityByScript;
+		return this._ctBlockedByScript;
 	}
 
 	public freeFromScript(){
