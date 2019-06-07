@@ -11,6 +11,7 @@ import {Bitmap} from "../display/Bitmap";
 import {BitmapData} from "../display/BitmapData";
 import {DisplayObjectContainer} from "../display/DisplayObjectContainer";
 import {TextField} from "../text/TextField";
+import { Graphics } from '@awayjs/graphics';
 
 export class FlashSceneGraphFactory extends DefaultSceneGraphFactory implements ISceneGraphFactory
 {
@@ -20,9 +21,9 @@ export class FlashSceneGraphFactory extends DefaultSceneGraphFactory implements 
 	{
 		return null;
 	}
-	public createSprite(prefab:PrefabBase = null):AwaySprite
+	public createSprite(prefab:PrefabBase = null, graphics:Graphics = null):AwaySprite
 	{
-		return <AwaySprite> new Sprite().adaptee;
+		return <AwaySprite> new Sprite(AwaySprite.getNewSprite(graphics)).adaptee;
 	}
 
 	public createDisplayObjectContainer():AwayDisplayObjectContainer

@@ -1,4 +1,4 @@
-import {Transform, Point, Box, ColorTransform, Vector3D, Rectangle} from "@awayjs/core";
+import {Transform, Point, Box, ColorTransform, Vector3D, Rectangle, AbstractMethodError} from "@awayjs/core";
 import {EventDispatcher} from "../events/EventDispatcher";
 import {Event} from "../events/Event";
 import {DisplayObject as AwayDisplayObject, IDisplayObjectAdapter} from "@awayjs/scene";
@@ -96,10 +96,9 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 
 		this._blockedByScript=false;
 		this._ctBlockedByScript=false;
-        this._visibilityByScript=false;
-		this._adaptee = adaptee || new AwayDisplayObject();
-		this._adaptee.partition = new SceneGraphPartition(this._adaptee);
-		this._adaptee.adapter = this;
+		this._visibilityByScript=false;
+		
+		this.adaptee = adaptee || new AwayDisplayObject();
 
 		// needed, because `this.stage` must already be available when constructor of extending classes are executed
 		this._stage=DisplayObject.activeStage;
@@ -157,26 +156,52 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 
 	public get adaptee():AwayDisplayObject
 	{
-		return (<AwayDisplayObject>this._adaptee);
+		return this._adaptee;
 	}
 
-	public doInitEvents():void{
+	public set adaptee(value:AwayDisplayObject)
+	{
+		if (this._adaptee == value)
+			return;
+
+		if (this._adaptee) {
+			this._adaptee.partition = null;
+			this._adaptee.adapter = null;
+		}
+
+		this._adaptee = value;
+
+		if (this._adaptee) {
+			this._adaptee.partition = new SceneGraphPartition(this._adaptee);
+			this._adaptee.adapter = this;
+		}
+		
 	}
-	public isBlockedByScript():boolean{
+
+	public doInitEvents():void
+	{
+
+	}
+
+	public isBlockedByScript():boolean
+	{
 		//console.log("isBlockedByScript not implemented yet in flash/DisplayObject");
 		return this._blockedByScript;
 	}
 
-	public isVisibilityByScript():boolean{
+	public isVisibilityByScript():boolean
+	{
 		//console.log("isVisibilityByScript not implemented yet in flash/DisplayObject");
 		return this._visibilityByScript;
 	}
-	public isColorTransformByScript():boolean{
+	public isColorTransformByScript():boolean
+	{
 		//console.log("isVisibilityByScript not implemented yet in flash/DisplayObject");
 		return this._ctBlockedByScript;
 	}
 
-	public freeFromScript(){
+	public freeFromScript():void
+	{
 		//console.log("freeFromScript not implemented yet in flash/DisplayObject");
 		this._blockedByScript=false;
 		this._ctBlockedByScript=false;
@@ -188,8 +213,17 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 		return new DisplayObject(this._adaptee.clone());
 	}
 
-	public dispose(){
-		console.log("dispose not implemented yet in flash/DisplayObject");
+	public dispose():void
+	{
+		throw new AbstractMethodError();
+	}
+	
+	/**
+	 * @inheritDoc
+	 */
+	public disposeValues():void
+	{
+		this.adaptee = null;
 	}
 
 	//---------------------------original as3 properties / methods:

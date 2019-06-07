@@ -3,8 +3,21 @@ import {DisplayObjectContainer} from "./DisplayObjectContainer";
 import {DisplayObject} from "./DisplayObject";
 import {Rectangle} from "@awayjs/core";
 import {Graphics} from "./Graphics";
-export class Sprite extends DisplayObjectContainer{
+export class Sprite extends DisplayObjectContainer
+{
 
+	private static _sprites:Array<Sprite> = new Array<Sprite>();
+
+	public static getNewSprite(adaptee:AwaySprite = null):Sprite
+	{
+		if (Sprite._sprites.length) {
+			var sprite:Sprite = Sprite._sprites.pop();
+			sprite.adaptee = adaptee || AwaySprite.getNewSprite()
+			return sprite;
+		}
+
+		return new Sprite(adaptee);
+	}
 
 	/**
 	 * The Sprite class is a basic display list building block: a display list node that can display
@@ -22,7 +35,7 @@ export class Sprite extends DisplayObjectContainer{
 	 */
 	constructor(adaptee:AwaySprite = null)
 	{
-		super(adaptee || new AwaySprite());
+		super(adaptee || AwaySprite.getNewSprite());
 	}
 
 	//---------------------------stuff added to make it work:
@@ -30,11 +43,21 @@ export class Sprite extends DisplayObjectContainer{
 
 	public clone():Sprite
 	{
-		var clone:Sprite = new Sprite(AwaySprite.getNewSprite(null, this.adaptee.material));
+		var clone:Sprite = Sprite.getNewSprite(AwaySprite.getNewSprite(null, this.adaptee.material));
 
 		this.adaptee.copyTo(clone.adaptee);
 
 		return clone;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public dispose():void
+	{
+		this.disposeValues();
+
+		Sprite._sprites.push(this);
 	}
 
 	//---------------------------original as3 properties / methods:

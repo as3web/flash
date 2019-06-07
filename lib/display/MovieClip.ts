@@ -26,6 +26,19 @@ declare var __framescript__;
  * define FEATURE_BITMAPCACHE in your project.</p>*/
 export class MovieClip extends Sprite implements IMovieClipAdapter
 {
+	private static _movieClips:Array<MovieClip> = new Array<MovieClip>();
+
+	public static getNewMovieClip(adaptee:AwayMovieClip = null):MovieClip
+	{
+		if (MovieClip._movieClips.length) {
+			var movieClip:MovieClip = MovieClip._movieClips.pop();
+			movieClip.adaptee = adaptee || AwayMovieClip.getNewSprite()
+			return movieClip;
+		}
+
+		return new MovieClip(adaptee);
+	}
+	
 
 	//forAVM1:
 	public _getAbsFrameNumber(param1:any, param2:any):number{
@@ -52,8 +65,9 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 	 * addChild() or addChildAt() method of a
 	 * display object container that is onstage.
 	 */
-	constructor(adaptee:AwayMovieClip = null){
-		super(adaptee || new AwayMovieClip());
+	constructor(adaptee:AwayMovieClip = null)
+	{
+		super(adaptee || AwayMovieClip.getNewMovieClip());
 	}
 	
 	// --------------------- stuff needed because of implementing the existing IMovieClipAdapter
@@ -92,11 +106,21 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 	}
 	public clone():MovieClip
 	{
-		var clone:MovieClip = new MovieClip(AwayMovieClip.getNewMovieClip());
+		var clone:MovieClip = MovieClip.getNewMovieClip(AwayMovieClip.getNewMovieClip((<AwayMovieClip> this.adaptee).timeline));
 
 		this.adaptee.copyTo(clone.adaptee);
 
 		return clone;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public dispose():void
+	{
+		this.disposeValues();
+
+		MovieClip._movieClips.push(this);
 	}
 
 	//---------------------------original as3 properties / methods:
