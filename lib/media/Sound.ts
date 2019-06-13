@@ -343,6 +343,20 @@ export class Sound extends EventDispatcher
 		console.log("loadPCMFromByteArray not implemented yet in flash/Sound");
 	}
 
+	private _onCompleteCallback:Function;
+	private loopsToPlay:number=0;
+	private soundCompleteInternal(){
+		this.loopsToPlay--;
+		if(this.loopsToPlay>0){
+			this.stop();
+			this.adaptee.play(0, false);
+		}
+		else{
+			if(this._onCompleteCallback){
+				this._onCompleteCallback();
+			}
+		}
+	}
 	/**
 	 * Generates a new SoundChannel object to play back the sound. This method
 	 * returns a SoundChannel object, which you access to stop the sound and to monitor volume.
@@ -370,6 +384,10 @@ export class Sound extends EventDispatcher
 			this.adaptee.volume=sndTransform.volume;
 			this.adaptee.pan=sndTransform.pan;
 		}
+		
+		loops = isNaN(loops) || loops < 1 ? 1 : Math.floor(loops);
+		this.loopsToPlay=loops;
+		this._adaptee.onSoundComplete=()=>this.soundCompleteInternal();
 		this._adaptee.play(startTime, false);
 		var newSoundChannel:SoundChannel=new SoundChannel();
 		newSoundChannel.soundTransform=sndTransform;
