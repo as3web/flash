@@ -190,12 +190,12 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 	 */
 	public get enabled () : boolean{
 		//todo
-		console.log("enabled not implemented yet in flash/MovieClip");
+		//console.log("enabled not implemented yet in flash/MovieClip");
 		return false;
 	}
 	public set enabled (value:boolean) {
 		//todo
-		console.log("enabled not implemented yet in flash/MovieClip");
+		//console.log("enabled not implemented yet in flash/MovieClip");
 	}
 
 	/**

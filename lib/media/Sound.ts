@@ -378,7 +378,7 @@ export class Sound extends EventDispatcher
 	 */
 	public play (startTime:number=0, loops:number=0, sndTransform:SoundTransform=null) : any{
 		if(loops>1){
-			console.log("TODO: as3web/flash: loop property")
+			//console.log("TODO: as3web/flash: loop property")
 		}
 		if(sndTransform){
 			this.adaptee.volume=sndTransform.volume;

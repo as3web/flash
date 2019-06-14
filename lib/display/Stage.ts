@@ -949,13 +949,13 @@ export class Stage extends Sprite{
 	 */
 	public get quality () : string{
 		//todo
-		console.log("quality not implemented yet in flash/Stage");
+		//console.log("quality not implemented yet in flash/Stage");
 		return "";
 
 	}
 	public set quality (value:string){
 		//todo
-		console.log("quality not implemented yet in flash/Stage");
+		//console.log("quality not implemented yet in flash/Stage");
 	}
 
 
