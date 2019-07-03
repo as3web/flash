@@ -1,7 +1,7 @@
 
 import {Loader as AwayLoader, Point, IAsset} from "@awayjs/core";
 import {LoaderContainer as AwayLoaderContainer} from "@awayjs/scene";
-import {AWDParser} from "@awayjs/parsers";
+import {SWFParser} from "@awayjs/swf-viewer";
 import {LoaderInfo} from "./LoaderInfo";
 import {Bitmap} from "./Bitmap";
 import {BitmapData} from "./BitmapData";
@@ -120,7 +120,7 @@ export class Loader extends DisplayObjectContainer
 		this._loader.addEventListener(URLLoaderEvent.LOAD_PROGRESS, this._onLoaderProgressDelegate);
 		this._loader.addEventListener(LoaderEvent.LOAD_COMPLETE, this._onLoaderCompleteDelegate);
 		this._loader.addEventListener(AssetEvent.ASSET_COMPLETE, this._onAssetCompleteDelegate);
-		this._loader.load(url, null, null, (this._isImage)? new Image2DParser(this._factory) : new AWDParser(this._factory));
+		this._loader.load(url, null, null, (this._isImage)? new Image2DParser(this._factory) : new SWFParser(this._factory));
 	}
 
 	public get contentLoaderInfo():LoaderInfo
