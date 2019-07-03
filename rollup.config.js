@@ -13,7 +13,7 @@ module.exports = {
 		'@awayjs/scene',
 		'@awayjs/stage',
 		'@awayjs/view',
-		'@awayjs/parsers',
+		'@awayjs/swf-viewer',
 		'@awayjs/player',
 
 	],
@@ -24,7 +24,7 @@ module.exports = {
 		'@awayjs/renderer': 'AwayjsRenderer',
 		'@awayjs/scene': 'AwayjsScene',
 		'@awayjs/stage': 'AwayjsStage',
-		'@awayjs/parsers': 'AwayjsParsers',
+		'@awayjs/swf-viewer': 'AwayjsSWFViewer',
 		'@awayjs/player': 'AwayjsPlayer',
 		'@awayjs/view': 'AwayjsView'
 	},
