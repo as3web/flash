@@ -390,8 +390,8 @@ export class Sound extends EventDispatcher
 		this._adaptee.onSoundComplete=()=>this.soundCompleteInternal();
 		this._adaptee.play(startTime, false);
 		var newSoundChannel:SoundChannel=new SoundChannel();
-		newSoundChannel.soundTransform=sndTransform;
 		newSoundChannel._sound=this;
+		newSoundChannel.soundTransform=sndTransform;
 		//console.log("play not implemented yet in flash/Sound");
 
 		// todo: should return a flash soundchannel

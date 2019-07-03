@@ -79,6 +79,11 @@ export class SoundChannel extends EventDispatcher
 		return this._sndtranform;
 	}
 	public set soundTransform (value:SoundTransform){
+		if(this._sound){
+			this._sound.adaptee.volume=value.volume;
+			this._sound.adaptee.pan=value.pan;
+
+		}
 		this._sndtranform=value;
 	}
 
