@@ -164,15 +164,14 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 		if (this._adaptee == value)
 			return;
 
-		if (this._adaptee) {
-			this._adaptee.partition = null;
+		if (this._adaptee)
 			this._adaptee.adapter = null;
-		}
 
 		this._adaptee = value;
 
 		if (this._adaptee) {
-			this._adaptee.partition = new SceneGraphPartition(this._adaptee);
+			if (!this._adaptee.partition)
+				this._adaptee.partition = new SceneGraphPartition(this._adaptee);
 			this._adaptee.adapter = this;
 		}
 		

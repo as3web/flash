@@ -8,11 +8,11 @@ export class Sprite extends DisplayObjectContainer
 
 	private static _sprites:Array<Sprite> = new Array<Sprite>();
 
-	public static getNewSprite(adaptee:AwaySprite = null):Sprite
+	public static getNewSprite(adaptee:AwaySprite):Sprite
 	{
 		if (Sprite._sprites.length) {
 			var sprite:Sprite = Sprite._sprites.pop();
-			sprite.adaptee = adaptee || AwaySprite.getNewSprite()
+			sprite.adaptee = adaptee;
 			return sprite;
 		}
 

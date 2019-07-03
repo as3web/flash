@@ -52,6 +52,19 @@ import {TextField as AwayTextField, TextFieldAutoSize, TextFormatAlign} from "@a
  */
 export class TextField extends InteractiveObject
 {
+	private static _textFields:Array<TextField> = new Array<TextField>();
+
+	public static getNewTextField(adaptee:AwayTextField = null):TextField
+	{
+		if (TextField._textFields.length) {
+			var textField:TextField = TextField._textFields.pop();
+			textField.adaptee = adaptee || AwayTextField.getNewTextField();
+			return textField;
+		}
+
+		return new TextField(adaptee);
+	}
+
 	/**
 	 * Creates a new TextField instance. After you create the TextField instance, call the
 	 * addChild() or addChildAt() method of the parent
@@ -59,7 +72,7 @@ export class TextField extends InteractiveObject
 	 * The default size for a text field is 100 x 100 pixels.
 	 */
 	constructor (adaptee:AwayTextField = null){
-		super(adaptee || new AwayTextField());
+		super(adaptee || AwayTextField.getNewTextField());
 		(<AwayTextField>this.adaptee).autoSize=TextFieldAutoSize.NONE;
 		(<AwayTextField>this.adaptee).textFormat.align=TextFormatAlign.CENTER;
 		//(<AwayTextField> this._adaptee).width=100;//80pro!
@@ -83,11 +96,21 @@ export class TextField extends InteractiveObject
 	}
 	public clone():TextField
 	{
-		var clone:TextField = new TextField(AwayTextField.getNewTextField());
+		var clone:TextField = TextField.getNewTextField(AwayTextField.getNewTextField());
 
 		this.adaptee.copyTo(clone.adaptee);
 
 		return clone;
+	}
+	
+	/**
+	 * @inheritDoc
+	 */
+	public dispose():void
+	{
+		this.disposeValues();
+
+		TextField._textFields.push(this);
 	}
 
 	/**
@@ -95,10 +118,13 @@ export class TextField extends InteractiveObject
 	 * selection in the text field in gray. When set to false and the text field is not in
 	 * focus, Flash Player does not highlight the selection in the text field.
 	 */
-	public get alwaysShowSelection () : boolean{
+	public get alwaysShowSelection () : boolean
+	{
 		return (<AwayTextField> this._adaptee).alwaysShowSelection;
 	}
-	public set alwaysShowSelection (value:boolean){
+
+	public set alwaysShowSelection (value:boolean)
+	{
 		(<AwayTextField> this._adaptee).alwaysShowSelection=value;
 	}
 

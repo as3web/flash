@@ -32,6 +32,23 @@ export class Bitmap extends DisplayObject implements IBitmapDataOwner
 {
 	private _texture:ImageTexture2D;
 	private _bitmapData:BitmapData;
+	private static _bitmaps:Array<Bitmap> = new Array<Bitmap>();
+
+	public static getNewBitmap(bitmapData:BitmapData = null, pixelSnapping:string="auto", smoothing:boolean=false):Bitmap
+	{
+		if (Bitmap._bitmaps.length) {
+			var newMaterial:MethodMaterial = bitmapData? new MethodMaterial(bitmapData.adaptee) : new MethodMaterial(0x0);
+			newMaterial.alphaBlending = true;
+			newMaterial.useColorTransform = true;
+			
+			var bitmap:Bitmap = Bitmap._bitmaps.pop();
+			bitmap.adaptee = Billboard.getNewBillboard(newMaterial, pixelSnapping, smoothing);
+			return bitmap;
+		}
+
+		return new Bitmap(bitmapData, pixelSnapping, smoothing);
+	}
+
 	/**
 	 * Initializes a Bitmap object to refer to the specified BitmapData object.
 	 * @param	bitmapData	The BitmapData object being referenced.
@@ -40,14 +57,13 @@ export class Bitmap extends DisplayObject implements IBitmapDataOwner
 	 *   following examples show the same bitmap scaled by a factor of 3, with
 	 *   smoothing set to false (left) and true (right):
 	 */
-	constructor (bitmapData:BitmapData = null, pixelSnapping:string="auto", smoothing:boolean=false)
+	constructor(bitmapData:BitmapData = null, pixelSnapping:string="auto", smoothing:boolean=false)
 	{
-
 		var newMaterial:MethodMaterial = bitmapData? new MethodMaterial(bitmapData.adaptee) : new MethodMaterial(0x0);
 		newMaterial.alphaBlending = true;
 		newMaterial.useColorTransform = true;
 
-		super(new Billboard(newMaterial, pixelSnapping, smoothing));
+		super(Billboard.getNewBillboard(newMaterial, pixelSnapping, smoothing));
 
 		this._bitmapData = bitmapData;
 
@@ -57,11 +73,28 @@ export class Bitmap extends DisplayObject implements IBitmapDataOwner
 
 	public clone():Bitmap
 	{
-		var newInstance:Bitmap = new Bitmap(this._bitmapData);
+		var newInstance:Bitmap = Bitmap.getNewBitmap(this._bitmapData);
 
 		this._adaptee.copyTo(newInstance.adaptee);
 
 		return newInstance;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public dispose():void
+	{
+		this.disposeValues();
+
+		Bitmap._bitmaps.push(this);
+	}
+
+	public disposeValues():void
+	{
+		this.bitmapData = null;
+
+		super.disposeValues();
 	}
 
 	/**

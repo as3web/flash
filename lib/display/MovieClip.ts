@@ -1,4 +1,4 @@
-import {IDisplayObjectAdapter, MovieClip as AwayMovieClip, DisplayObject as AwayDisplayObject, IMovieClipAdapter} from "@awayjs/scene";
+import {IDisplayObjectAdapter, MovieClip as AwayMovieClip, DisplayObject as AwayDisplayObject, IMovieClipAdapter, SceneGraphPartition} from "@awayjs/scene";
 import {Sprite} from "./Sprite";
 
 var includeString:string= '';//TODO
@@ -28,11 +28,11 @@ export class MovieClip extends Sprite implements IMovieClipAdapter
 {
 	private static _movieClips:Array<MovieClip> = new Array<MovieClip>();
 
-	public static getNewMovieClip(adaptee:AwayMovieClip = null):MovieClip
+	public static getNewMovieClip(adaptee:AwayMovieClip):MovieClip
 	{
 		if (MovieClip._movieClips.length) {
 			var movieClip:MovieClip = MovieClip._movieClips.pop();
-			movieClip.adaptee = adaptee || AwayMovieClip.getNewSprite()
+			movieClip.adaptee = adaptee;
 			return movieClip;
 		}
 
