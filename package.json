@@ -36,19 +36,25 @@
     "url": "https://github.com/as3web/flash/issues"
   },
   "homepage": "https://github.com/as3web/flash#readme",
-  "dependencies": {
-    "@awayjs/core": "^0.6.0",
-    "@awayjs/graphics": "^0.1.0",
-    "@awayjs/materials": "^0.3.0",
-    "@awayjs/parsers": "^0.5.31",
-    "@awayjs/player": "^0.5.16",
-    "@awayjs/renderer": "^0.8.0",
-    "@awayjs/scene": "^0.8.0",
-    "@awayjs/stage": "^0.8.0",
-    "@awayjs/view": "^0.2.0",
-    "tslib": "github:microsoft/tslib"
+  "peerDependencies": {
+    "@awayjs/core": "^0.8.0",
+    "@awayjs/stage": "^0.10.0",
+    "@awayjs/graphics": "^0.4.0",
+    "@awayjs/scene": "^0.12.0",
+    "@awayjs/renderer": "^0.10.0",
+    "@awayjs/materials": "^0.5.0",
+    "@awayjs/view": "^0.5.0",
+    "tslib": "^1.9.0"
   },
   "devDependencies": {
+    "@awayjs/core": "^0.8.0",
+    "@awayjs/stage": "^0.10.0",
+    "@awayjs/graphics": "^0.4.0",
+    "@awayjs/scene": "^0.12.0",
+    "@awayjs/renderer": "^0.10.0",
+    "@awayjs/materials": "^0.5.0",
+    "@awayjs/view": "^0.5.0",
+    "tslib": "^1.9.0",
     "rimraf": "^2.5.2",
     "rollup": "^0.36.4",
     "rollup-plugin-includepaths": "^0.2.1",
