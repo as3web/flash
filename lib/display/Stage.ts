@@ -132,7 +132,6 @@ export class Stage extends Sprite{
 	private _frameRate:number = 30;
 	private _currentFps:number = 0;
 	private _rendererStage:AwayStage;
-	private _renderer: DefaultRenderer;
 	private _timer: RequestAnimationFrame;
 	private _time: number = 0;
 	private _projection: PerspectiveProjection;
@@ -483,15 +482,10 @@ export class Stage extends Sprite{
 	private initEninge(){
 
 		//create the view
-		//this._rendererStage = StageManager.getInstance().getStageAt(0);
-		//this._rendererStage.color = 0xFFFFFFFF;
-		this._renderer = new DefaultRenderer(new BasicPartition(new AwayDisplayObjectContainer()));
-		this._rendererStage = this._renderer.stage;
-		//this._rendererStage.color = 0xFFFFFFFF;
+		this._scene = new Scene((new BasicPartition(new AwayDisplayObjectContainer())));
+		this._rendererStage = this._scene.view.stage;
 		this._rendererStage.container.style.visibility="hidden";
-
-		this._scene = new Scene(this._renderer);
-		this._renderer.antiAlias=0;
+		this._rendererStage.antiAlias=0;
 		this._scene.renderer.renderableSorter = null;//new RenderableSort2D();
 
 		this._projection = new PerspectiveProjection();
@@ -514,11 +508,11 @@ export class Stage extends Sprite{
 		this._scene.view.x         = x;
 		this._scene.view.y         = y;
 
-		this._renderer.stage.x     = x;
-		this._renderer.stage.y    = y;
-	//	this._renderer.stage.container.style.zIndex="-100";
-		this._renderer.stage.width     = w;
-		this._renderer.stage.height    = h;
+		this._rendererStage.x     = x;
+		this._rendererStage.y    = y;
+	//	this._rendererStage.container.style.zIndex="-100";
+		this._rendererStage.width     = w;
+		this._rendererStage.height    = h;
 		this._scene.view.width     = w;
 		this._scene.view.height    = h;
 		if(this._fpsTextField)
