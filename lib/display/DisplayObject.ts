@@ -14,6 +14,8 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	public _parent:any;
 	public _depth:number;
 
+
+	protected _loaderInfo:LoaderInfo;
 	public _blockedByScript:boolean;
     public _ctBlockedByScript:boolean;
     //public protoTypeChanged:boolean;
@@ -584,9 +586,9 @@ export class DisplayObject extends EventDispatcher implements IDisplayObjectAdap
 	 * this.root.loaderInfo.addEventListener(Event.COMPLETE, func).
 	 */
 	public get loaderInfo () : LoaderInfo{
-		console.log("loaderInfo not implemented yet in flash/DisplayObject");
+		//console.log("loaderInfo not implemented yet in flash/DisplayObject");
 		//this._adaptee.loaderInfo
-		return this.loaderInfo;
+		return this._loaderInfo;
 	}
 
 	/**

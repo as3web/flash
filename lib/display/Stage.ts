@@ -289,9 +289,9 @@ export class Stage extends Sprite{
 		this._mainSprite.graphics.endFill();*/
 
 		// prevent backspace and other default shortcutz for our document:
-		document.onkeydown = function (event) {
+		/*document.onkeydown = function (event) {
 
-			if (!event) { /* This will happen in IE */
+			if (!event) { // This will happen in IE
 				event = <any>window.event;
 			}
 
@@ -323,8 +323,8 @@ export class Stage extends Sprite{
 					window.location.hash = _hash;
 				}
 			};
-			*/
 		}
+			*/
 		
 
 		if( this.SHOW_FRAME_RATE ) {
@@ -349,8 +349,8 @@ export class Stage extends Sprite{
 			this.addChild(this._mainSprite);
 			this.initListeners();
 			console.log("constructed Stage and create the entranceclass");
-			this._rendererStage.container.style.visibility="visible";
 		}
+		this._rendererStage.container.style.visibility="visible";
 		// inits the resize listener
 
 	}
@@ -569,6 +569,12 @@ export class Stage extends Sprite{
 			*/
 			
 		}
+	}
+	public render()
+	{
+		this._rendererStage.clear();
+		this.advanceFrame(this._events);
+		this._scene.render();
 	}
 
 	public get rendererStage():AwayStage
